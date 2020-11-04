@@ -8,4 +8,9 @@
         Dim myform As New FormExpenses
         myform.Show()
     End Sub
+
+    Private Sub DataGridView1_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellDoubleClick
+        Dim myform As New FormExpenses
+        myform.Show()
+    End Sub
 End Class

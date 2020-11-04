@@ -95,6 +95,7 @@
     <Compile Include="Class\Controller\ProductRequestController.vb" />
     <Compile Include="Class\Controller\UserController.vb" />
     <Compile Include="Class\Controller\VendorController.vb" />
+    <Compile Include="Class\DoBackground.vb" />
     <Compile Include="Class\Email.vb" />
     <Compile Include="Class\ExportToExcelFile.vb" />
     <Compile Include="Class\GenerateReport.vb" />
@@ -107,6 +108,7 @@
     <Compile Include="Class\Model\BPAddressModel.vb" />
     <Compile Include="Class\Model\BPartnerModel.vb" />
     <Compile Include="Class\Model\CMMFModel.vb" />
+    <Compile Include="Class\Model\EmailModel.vb" />
     <Compile Include="Class\Model\ExpensesModel.vb" />
     <Compile Include="Class\Model\GenerateReportModel.vb" />
     <Compile Include="Class\Model\GetEmailModel.vb" />
@@ -143,6 +145,12 @@
     <Compile Include="Class\UserControl\UCProductRequest.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Class\UserControl\UCUser.Designer.vb">
+      <DependentUpon>UCUser.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Class\UserControl\UCUser.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Class\UserInfo.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
@@ -157,10 +165,40 @@
     <Compile Include="FormMenu.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Form\DialogAddUpdCostCenter.Designer.vb">
+      <DependentUpon>DialogAddUpdCostCenter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\DialogAddUpdCostCenter.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\DialogAddUpdUser.Designer.vb">
+      <DependentUpon>DialogAddUpdUser.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\DialogAddUpdUser.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\DialogDelegate.Designer.vb">
+      <DependentUpon>DialogDelegate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\DialogDelegate.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\FormAutoGetEmail.Designer.vb">
+      <DependentUpon>FormAutoGetEmail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\FormAutoGetEmail.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Form\FormCOA.Designer.vb">
       <DependentUpon>FormCOA.vb</DependentUpon>
     </Compile>
     <Compile Include="Form\FormCOA.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\FormCostCenterAssignment.Designer.vb">
+      <DependentUpon>FormCostCenterAssignment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\FormCostCenterAssignment.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form\FormExpenses.Designer.vb">
@@ -173,6 +211,12 @@
       <DependentUpon>FormGetEmail.vb</DependentUpon>
     </Compile>
     <Compile Include="Form\FormGetEmail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\FormHelper.Designer.vb">
+      <DependentUpon>FormHelper.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\FormHelper.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form\FormMyTask.Designer.vb">
@@ -219,20 +263,41 @@
     <EmbeddedResource Include="Class\UserControl\UCProductRequest.resx">
       <DependentUpon>UCProductRequest.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Class\UserControl\UCUser.resx">
+      <DependentUpon>UCUser.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMenu.resx">
       <DependentUpon>FormMenu.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form\DialogAddUpdCostCenter.resx">
+      <DependentUpon>DialogAddUpdCostCenter.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\DialogAddUpdUser.resx">
+      <DependentUpon>DialogAddUpdUser.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\DialogDelegate.resx">
+      <DependentUpon>DialogDelegate.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\FormAutoGetEmail.resx">
+      <DependentUpon>FormAutoGetEmail.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\FormCOA.resx">
       <DependentUpon>FormCOA.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\FormCostCenterAssignment.resx">
+      <DependentUpon>FormCostCenterAssignment.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\FormExpenses.resx">
       <DependentUpon>FormExpenses.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\FormGetEmail.resx">
       <DependentUpon>FormGetEmail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\FormHelper.resx">
+      <DependentUpon>FormHelper.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\FormMyTask.resx">
       <DependentUpon>FormMyTask.vb</DependentUpon>

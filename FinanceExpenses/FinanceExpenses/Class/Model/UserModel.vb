@@ -1,35 +1,45 @@
 ﻿Imports System.Text
 
-'-- Table: sales._user
+'-- Table: ssc."user"
 
-'-- DROP TABLE sales._user;
+'-- DROP TABLE ssc."user";
 
-'CREATE TABLE sales._user
+'CREATE TABLE ssc."user"
 '(
 '  id bigserial NOT NULL,
 '  userid character varying,
+'  parent bigint,
 '  username character varying,
+'  employeenumber character varying,
 '  email character varying,
 '  isadmin boolean NOT NULL DEFAULT false,
 '  isactive boolean NOT NULL DEFAULT true,
+'  company character varying,
+'  titlename character varying,
+'  department character varying,
+'  country character varying,
+'  location character varying,
+'  nlevelapproval integer,
 '  CONSTRAINT userpk PRIMARY KEY (id)
 ')
 'WITH (
 '  OIDS=FALSE
 ');
-'ALTER TABLE sales._user
+'ALTER TABLE ssc."user"
 '  OWNER TO postgres;
-'GRANT ALL ON TABLE sales._user TO postgres;
-'GRANT ALL ON TABLE sales._user TO public;
+'GRANT ALL ON TABLE ssc."user" TO postgres;
+'GRANT ALL ON TABLE ssc."user" TO public;
 
-'-- Index: sales.useridx1
+'-- Index: ssc.useridx1
 
-'-- DROP INDEX sales.useridx1;
+'-- DROP INDEX ssc.useridx1;
 
 'CREATE UNIQUE INDEX useridx1
-'  ON sales._user
+'  ON ssc."user"
 '  USING btree
 '  (userid COLLATE pg_catalog."default");
+
+
 
 
 Public Class UserModel
@@ -43,7 +53,7 @@ Public Class UserModel
 
     Public ReadOnly Property TableName As String Implements IModel.tablename
         Get
-            Return "marketing.user"
+            Return "ssc.user"
         End Get
     End Property
 
@@ -55,16 +65,29 @@ Public Class UserModel
 
     Public Function LoadData(ByRef DS As DataSet) As Boolean Implements IModel.LoadData
         Dim SB As New StringBuilder
-        SB.Append(String.Format("select u.*,av.approvaltype,dv.department as departmentname from {0} u left join marketing.approvalview av on av.id = u.approvalid left join marketing.departmentview dv on dv.deptid = u.deptid order by {1};", TableName, SortField))
-        SB.Append("select 0::integer as id, Null::text as approvaltype,Null::text as approvalname union all (select * from marketing.approvalview);")
-        SB.Append("select 0::integer as id,Null::text as department union all (select * from marketing.departmentview);")
+        SB.Append(String.Format("SELECT u.*,sa.approvercode,u1.username AS approvername FROM ssc.user u" &
+                                " LEFT JOIN ssc.sscapproval sa ON sa.staffcode::text = u.employeenumber::text " &
+                                " LEFT JOIN ssc.user u1 ON u1.employeenumber::text = sa.approvercode::text" &
+                                " WHERE u.isactive"))
         Dim sqlstr = SB.ToString
         DS = DataAccess.GetDataSet(sqlstr, CommandType.Text, Nothing)
         DS.Tables(0).TableName = TableName
         Return True
     End Function
 
-    Public Function save(ByVal obj As Object, ByVal mye As ContentBaseEventArgs) As Boolean Implements IModel.save
+    Public Function GetUserBS() As BindingSource
+        Dim SB As New StringBuilder
+        Dim DS As New DataSet
+        SB.Append(String.Format("SELECT u.*, u.employeenumber || ' - ' || u.username as description FROM ssc.user u WHERE u.isactive"))
+        Dim sqlstr = SB.ToString
+        DS = DataAccess.GetDataSet(sqlstr, CommandType.Text, Nothing)
+        DS.Tables(0).TableName = TableName
+        Dim bs As New BindingSource
+        bs.DataSource = DS.Tables(0)
+        Return bs
+    End Function
+
+    Public Function save1(ByVal obj As Object, ByVal mye As ContentBaseEventArgs) As Boolean
         Dim myret As Boolean = False
         Dim factory = DataAccess.factory
         Dim mytransaction As IDbTransaction
@@ -111,6 +134,56 @@ Public Class UserModel
         End Using
         Return myret
     End Function
+    Public Function save(ByVal obj As Object, ByVal mye As ContentBaseEventArgs) As Boolean Implements IModel.save
+        Dim myret As Boolean = False
+        Dim factory = DataAccess.factory
+        Dim mytransaction As IDbTransaction
+        Using conn As IDbConnection = factory.CreateConnection
+            conn.Open()
+            mytransaction = conn.BeginTransaction
+            Dim dataadapter = factory.CreateAdapter
+            'Update
+            Dim sqlstr = "ssc.sp_update_user"
+            dataadapter.UpdateCommand = factory.CreateCommand(sqlstr, conn)
+            dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "id", DataRowVersion.Original))
+            dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "userid", DataRowVersion.Current))
+            dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "username", DataRowVersion.Current))
+            dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "employeenumber", DataRowVersion.Current))
+            dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "email", DataRowVersion.Current))
+            dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Boolean, 0, "isactive", DataRowVersion.Current))
+            dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Int32, 0, "nlevelapproval", DataRowVersion.Current))
+            dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "approvercode", DataRowVersion.Current))
+            dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "employeenumber", DataRowVersion.Original))
+            dataadapter.UpdateCommand.CommandType = CommandType.StoredProcedure
+
+            sqlstr = "ssc.sp_insert_user"
+            dataadapter.InsertCommand = factory.CreateCommand(sqlstr, conn)
+            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "userid", DataRowVersion.Current))
+            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "username", DataRowVersion.Current))
+            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "employeenumber", DataRowVersion.Current))
+            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "email", DataRowVersion.Current))
+            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Boolean, 0, "isactive", DataRowVersion.Current))
+            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Int32, 0, "nlevelapproval", DataRowVersion.Current))
+            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "approvercode", DataRowVersion.Current))
+            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "id", ParameterDirection.InputOutput))
+            dataadapter.InsertCommand.CommandType = CommandType.StoredProcedure
+
+            sqlstr = "ssc.sp_delete_user"
+            dataadapter.DeleteCommand = factory.CreateCommand(sqlstr, conn)
+            dataadapter.DeleteCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "id"))
+            dataadapter.DeleteCommand.Parameters(0).Direction = ParameterDirection.Input
+            dataadapter.DeleteCommand.CommandType = CommandType.StoredProcedure
+
+            dataadapter.InsertCommand.Transaction = mytransaction
+            dataadapter.UpdateCommand.Transaction = mytransaction
+            dataadapter.DeleteCommand.Transaction = mytransaction
+
+            mye.ra = factory.Update(mye.dataset.Tables(TableName))
+            mytransaction.Commit()
+            myret = True
+        End Using
+        Return myret
+    End Function
 
     Public Function ADDUPDUserManager(ByVal myDATA As List(Of ADPrincipalContext))
         Dim myret As Boolean
@@ -129,7 +202,7 @@ Public Class UserModel
                 params(6) = factory.CreateParameter("idepartment", myDATA(1).Department)
                 params(7) = factory.CreateParameter("icountry", myDATA(1).Country)
                 params(8) = factory.CreateParameter("ilocation", myDATA(1).Location)
-                mgrId = DataAccess.ExecuteScalar("marketing.sp_addupduser", CommandType.StoredProcedure, params)
+                mgrId = DataAccess.ExecuteScalar("ssc.sp_addupduser", CommandType.StoredProcedure, params)
             End If
             'User Part
             params(0) = factory.CreateParameter("iuserid", myDATA(0).Userid)
@@ -141,7 +214,7 @@ Public Class UserModel
             params(6) = factory.CreateParameter("idepartment", myDATA(0).Department)
             params(7) = factory.CreateParameter("icountry", myDATA(0).Country)
             params(8) = factory.CreateParameter("ilocation", myDATA(0).Location)
-            DataAccess.ExecuteScalar("marketing.sp_addupduser", CommandType.StoredProcedure, params)
+            DataAccess.ExecuteScalar("ssc.sp_addupduser", CommandType.StoredProcedure, params)
             myret = True
         Catch ex As Exception
             MessageBox.Show(ex.Message)

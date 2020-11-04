@@ -156,4 +156,9 @@ Public Class FormMenu
         Dim myform As New FormCOA
         myform.Show()
     End Sub
+
+    Private Sub DelegateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DelegateToolStripMenuItem.Click
+        Dim myform As New DialogDelegate
+        myform.ShowDialog()
+    End Sub
 End Class

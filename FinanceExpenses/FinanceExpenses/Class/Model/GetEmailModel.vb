@@ -66,16 +66,21 @@ Public Class GetEmailModel
             Dim dataadapter = factory.CreateAdapter
             Dim sqlstr As String = String.Empty
 
-            sqlstr = "sp_insertdocemailhd"
+            sqlstr = "sp_insertsscemailhd"
             dataadapter.InsertCommand = factory.CreateCommand(sqlstr, conn)            
-            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "docemailname", DataRowVersion.Current))
-            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Int32, 0, "docemailtype", DataRowVersion.Current))
-            'dataadapter.InsertCommand.Parameters.Add("", NpgsqlTypes.NpgsqlDbType.Varchar, 0, "sender").SourceVersion = DataRowVersion.Current
-            'dataadapter.InsertCommand.Parameters.Add("", NpgsqlTypes.NpgsqlDbType.Varchar, 0, "sendername").SourceVersion = DataRowVersion.Current
-            'dataadapter.InsertCommand.Parameters.Add("", NpgsqlTypes.NpgsqlDbType.Varchar, 0, "foldername").SourceVersion = DataRowVersion.Current
-            'dataadapter.InsertCommand.Parameters.Add("", NpgsqlTypes.NpgsqlDbType.Timestamp, 0, "receiveddate").SourceVersion = DataRowVersion.Current
+            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "emailsubject", DataRowVersion.Current))
+            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "emailbody", DataRowVersion.Current))
+            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "sender", DataRowVersion.Current))
+            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "sendername", DataRowVersion.Current))
+            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "emailto", DataRowVersion.Current))
+            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.DateTime, 0, "receiveddate", DataRowVersion.Current))
+            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "attn", DataRowVersion.Current))
+            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Int32, 0, "status", DataRowVersion.Current))
+            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "sapaccount", DataRowVersion.Current))
+            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "sapcostcenter", DataRowVersion.Current))
+            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "financenumber", DataRowVersion.Current))
             'dataadapter.InsertCommand.Parameters.Add("", NpgsqlTypes.NpgsqlDbType.Bigint, 0, "docemailhdid").Direction = ParameterDirection.InputOutput
-            'dataadapter.InsertCommand.CommandType = CommandType.StoredProcedure
+            dataadapter.InsertCommand.CommandType = CommandType.StoredProcedure
 
 
             'sqlstr = "sp_updatedocemailhd"

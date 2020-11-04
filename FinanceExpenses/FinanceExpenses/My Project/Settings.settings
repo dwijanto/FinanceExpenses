@@ -24,5 +24,8 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">host=localhost;port=5433;database=LogisticDb20200406;CommandTimeout=10000;TimeOut=1024;Userid=admin;Password=admin;</Value>
     </Setting>
+    <Setting Name="HOST" Type="System.String" Scope="User">
+      <Value Profile="(Default)">HON14NT</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -74,6 +74,16 @@
         Return myret
     End Function
 
+    Public Overloads Sub Delete(dgv As DataGridView)
+        If Not IsNothing(GetCurrentRecord) Then
+            If MessageBox.Show("Delete this record?", "Delete Record", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
+                For Each drv As DataGridViewRow In dgv.SelectedRows
+                    RemoveAt(drv.Index)
+                Next
+            End If
+        End If
+    End Sub
+
     Public Function save() As Boolean Implements IController.save
         Dim myret As Boolean = False
         BS.EndEdit()
