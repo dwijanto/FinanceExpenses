@@ -16,7 +16,7 @@ Public Class DbManager
     'auth_rule 
 
     'Private As IDbDataParameter As PostgreSQLDBAdapter
-    Private Schemaname As String = "marketing"
+    Private Schemaname As String = "ssc"
 
     Public Property itemTable = String.Format("{0}.auth_item", Schemaname)
     Public Property itemChildTable = String.Format("{0}.auth_item_child", Schemaname)

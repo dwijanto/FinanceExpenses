@@ -33,17 +33,17 @@ Public Class ProductRequestModel
 
     Private Function GetSqlstr(ByVal criteria) As String
         Dim sb As New StringBuilder
-        'sb.Append(String.Format("select *,bp.name as bpartnername,bp.address as bpartneraddress,bp.bpartner,bp.bpartner || ' - ' || bp.name as bpartnerfullname  from marketing.prhd hd " &
-        '                        "left join marketing.bpartner bp on bp.id = hd.bpartnerid {0};", criteria))
-        sb.Append(String.Format("select *,bp.bpname as bpartnername,coalesce(bpa.line1,'') || coalesce(bpa.line2,'') || coalesce(bpa.line3,'') as bpartneraddress,bp.bpcode,bp.bpcode || ' - ' || bp.bpname || ' (' || bpa.addressid || ')' as bpartnerfullname,bpa.region,bpa.country ,us.email as applicantemail,up.username as approvalname,marketing.getapprovaldate(hd.id) as approvaldate " &
-                                " from marketing.prhd hd left join marketing.bpaddress bpa on bpa.id = hd.bpartnerid left join marketing.bpartner bp on bp.id = bpa.bpid left join marketing.user us on us.userid = hd.createdby left join marketing.user up on up.userid = hd.deptapproval {0};", criteria))
-        sb.Append(String.Format("select dt.*,c.commercialcode,c.localdescription,e.expensesname,e.expensesacc,coalesce(dt.price * dt.qty,0) as total from marketing.prdt dt" &
-                                " inner join marketing.prhd hd on hd.id = dt.prhdid" &
-                                " left join marketing.cmmf c on c.cmmf = dt.cmmf " &
-                                " left join marketing.expensestype e on e.id = dt.expensestypeid " &
+        'sb.Append(String.Format("select *,bp.name as bpartnername,bp.address as bpartneraddress,bp.bpartner,bp.bpartner || ' - ' || bp.name as bpartnerfullname  from ssc.prhd hd " &
+        '                        "left join ssc.bpartner bp on bp.id = hd.bpartnerid {0};", criteria))
+        sb.Append(String.Format("select *,bp.bpname as bpartnername,coalesce(bpa.line1,'') || coalesce(bpa.line2,'') || coalesce(bpa.line3,'') as bpartneraddress,bp.bpcode,bp.bpcode || ' - ' || bp.bpname || ' (' || bpa.addressid || ')' as bpartnerfullname,bpa.region,bpa.country ,us.email as applicantemail,up.username as approvalname,ssc.getapprovaldate(hd.id) as approvaldate " &
+                                " from ssc.prhd hd left join ssc.bpaddress bpa on bpa.id = hd.bpartnerid left join ssc.bpartner bp on bp.id = bpa.bpid left join ssc.user us on us.userid = hd.createdby left join ssc.user up on up.userid = hd.deptapproval {0};", criteria))
+        sb.Append(String.Format("select dt.*,c.commercialcode,c.localdescription,e.expensesname,e.expensesacc,coalesce(dt.price * dt.qty,0) as total from ssc.prdt dt" &
+                                " inner join ssc.prhd hd on hd.id = dt.prhdid" &
+                                " left join ssc.cmmf c on c.cmmf = dt.cmmf " &
+                                " left join ssc.expensestype e on e.id = dt.expensestypeid " &
                                 " {0} order by dt.id;", criteria))
-        sb.Append(String.Format("select pa.*,marketing.getstatusname(pa.status) as statusname from marketing.praction pa" &
-                                " inner join marketing.prhd hd on hd.id = pa.prhdid {0};", criteria))
+        sb.Append(String.Format("select pa.*,ssc.getstatusname(pa.status) as statusname from ssc.praction pa" &
+                                " inner join ssc.prhd hd on hd.id = pa.prhdid {0};", criteria))
         Return sb.ToString
     End Function
 
@@ -103,7 +103,7 @@ Public Class ProductRequestModel
             Dim dataadapter = factory.CreateAdapter
             Dim sqlstr As String = String.Empty
 
-            sqlstr = "marketing.sp_insertprhd"
+            sqlstr = "ssc.sp_insertprhd"
             dataadapter.InsertCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "applicantname", DataRowVersion.Current))
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Date, 0, "applicantdate", DataRowVersion.Current))
@@ -123,7 +123,7 @@ Public Class ProductRequestModel
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "id", ParameterDirection.InputOutput))
             dataadapter.InsertCommand.CommandType = CommandType.StoredProcedure
 
-            sqlstr = "marketing.sp_updateprhd"
+            sqlstr = "ssc.sp_updateprhd"
             dataadapter.UpdateCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "id", DataRowVersion.Original))
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "applicantname", DataRowVersion.Current))
@@ -142,7 +142,7 @@ Public Class ProductRequestModel
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Int32, 0, "bpartnerid", DataRowVersion.Current))
             dataadapter.UpdateCommand.CommandType = CommandType.StoredProcedure
 
-            sqlstr = "marketing.sp_deleteprhd"
+            sqlstr = "ssc.sp_deleteprhd"
             dataadapter.DeleteCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.DeleteCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "id", DataRowVersion.Original))
             dataadapter.DeleteCommand.CommandType = CommandType.StoredProcedure
@@ -153,7 +153,7 @@ Public Class ProductRequestModel
 
             mye.ra = factory.Update(mye.dataset.Tables(TableName))
 
-            sqlstr = "marketing.sp_insertprdt"
+            sqlstr = "ssc.sp_insertprdt"
             dataadapter.InsertCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "prhdid", DataRowVersion.Current))
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "cmmf", DataRowVersion.Current))
@@ -167,7 +167,7 @@ Public Class ProductRequestModel
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "id", ParameterDirection.InputOutput))
             dataadapter.InsertCommand.CommandType = CommandType.StoredProcedure
 
-            sqlstr = "marketing.sp_updateprdt"
+            sqlstr = "ssc.sp_updateprdt"
             dataadapter.UpdateCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "id", DataRowVersion.Original))
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "prhdid", DataRowVersion.Current))
@@ -181,7 +181,7 @@ Public Class ProductRequestModel
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.DateTime, 0, "createddate", DataRowVersion.Current))
             dataadapter.UpdateCommand.CommandType = CommandType.StoredProcedure
 
-            sqlstr = "marketing.sp_deleteprdt"
+            sqlstr = "ssc.sp_deleteprdt"
             dataadapter.DeleteCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.DeleteCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "id", DataRowVersion.Original))
             dataadapter.DeleteCommand.CommandType = CommandType.StoredProcedure
@@ -192,7 +192,7 @@ Public Class ProductRequestModel
 
             mye.ra = factory.Update(mye.dataset.Tables(1))
 
-            sqlstr = "marketing.sp_insertpraction"
+            sqlstr = "ssc.sp_insertpraction"
             dataadapter.InsertCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "prhdid", DataRowVersion.Current))
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Int32, 0, "status", DataRowVersion.Current))
@@ -217,7 +217,7 @@ Public Class ProductRequestModel
         Dim myret As Boolean = True
         Try
             Dim sb As New StringBuilder
-            sb.Append(String.Format("select marketing.getstatusname(status) as statusname,hd.* from marketing.prhd hd {0};", Criteria))
+            sb.Append(String.Format("select ssc.getstatusname(status) as statusname,hd.* from ssc.prhd hd {0};", Criteria))
             DS = DataAccess.GetDataSet(sb.ToString, CommandType.Text, Nothing)
             DS.Tables(0).TableName = TableName
         Catch ex As Exception
@@ -230,8 +230,8 @@ Public Class ProductRequestModel
         Dim myret As Boolean = True
         Try
             Dim sb As New StringBuilder
-            sb.Append(String.Format("select marketing.getstatusname(status) as statusname,hd.* from marketing.prhd hd {0};", MyTaskcriteria))
-            sb.Append(String.Format("select marketing.getstatusname(status) as statusname,hd.* from marketing.prhd hd {0};", Historycriteria))
+            sb.Append(String.Format("select ssc.getstatusname(status) as statusname,hd.*,ap.stapprover,ap.ndapprover,ap.delegatestapprover,ap.delegatendapprover from ssc.sscemailhd hd left join ssc.sscapprovaltx ap on ap.sscemailhdid = hd.id {0};", MyTaskcriteria))
+            sb.Append(String.Format("select ssc.getstatusname(status) as statusname,hd.*,ap.stapprover,ap.ndapprover,ap.delegatestapprover,ap.delegatendapprover from ssc.sscemailhd hd left join ssc.sscapprovaltx ap on ap.sscemailhdid = hd.id {0};", Historycriteria))
             DS = DataAccess.GetDataSet(sb.ToString, CommandType.Text, Nothing)
 
         Catch ex As Exception

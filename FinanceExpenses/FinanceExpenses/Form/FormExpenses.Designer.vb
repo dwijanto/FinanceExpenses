@@ -22,42 +22,175 @@ Partial Class FormExpenses
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormExpenses))
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripButtonCommit = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButtonSubmit = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButtonReSubmit = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButtonValidate = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButtonStsCancelled = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButtonReject = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButtonComplete = New System.Windows.Forms.ToolStripButton()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormExpenses))
+        Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel2 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripProgressBar1 = New System.Windows.Forms.ToolStripProgressBar()
-        Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
-        Me.UcFinanceExpenses1 = New FinanceExpenses.UCFinanceExpenses()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripButtonCommit = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButtonSubmit = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButtonReSubmit = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButtonForward = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStrip1.SuspendLayout()
-        Me.StatusStrip1.SuspendLayout()
+        Me.ToolStripButtonValidate = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButtonStsCancelled = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButtonReject = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButtonComplete = New System.Windows.Forms.ToolStripButton()
+        Me.UcFinanceExpenses1 = New FinanceExpenses.UCFinanceExpenses()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
+        Me.StatusStrip1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ToolStrip1.SuspendLayout()
         Me.SuspendLayout()
+        '
+        'ToolStripContainer1
+        '
+        '
+        'ToolStripContainer1.BottomToolStripPanel
+        '
+        Me.ToolStripContainer1.BottomToolStripPanel.Controls.Add(Me.StatusStrip1)
+        '
+        'ToolStripContainer1.ContentPanel
+        '
+        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.TabControl1)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(755, 584)
+        Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.ToolStripContainer1.Name = "ToolStripContainer1"
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(755, 631)
+        Me.ToolStripContainer1.TabIndex = 1
+        Me.ToolStripContainer1.Text = "ToolStripContainer1"
+        '
+        'ToolStripContainer1.TopToolStripPanel
+        '
+        Me.ToolStripContainer1.TopToolStripPanel.BackColor = System.Drawing.SystemColors.Control
+        Me.ToolStripContainer1.TopToolStripPanel.Controls.Add(Me.ToolStrip1)
+        '
+        'StatusStrip1
+        '
+        Me.StatusStrip1.Dock = System.Windows.Forms.DockStyle.None
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel2, Me.ToolStripProgressBar1})
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 0)
+        Me.StatusStrip1.Name = "StatusStrip1"
+        Me.StatusStrip1.Size = New System.Drawing.Size(755, 22)
+        Me.StatusStrip1.TabIndex = 3
+        '
+        'ToolStripStatusLabel1
+        '
+        Me.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1"
+        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(0, 17)
+        Me.ToolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'ToolStripStatusLabel2
+        '
+        Me.ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
+        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(638, 17)
+        Me.ToolStripStatusLabel2.Spring = True
+        Me.ToolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'ToolStripProgressBar1
+        '
+        Me.ToolStripProgressBar1.Name = "ToolStripProgressBar1"
+        Me.ToolStripProgressBar1.Size = New System.Drawing.Size(100, 16)
+        '
+        'TabControl1
+        '
+        Me.TabControl1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TabControl1.Controls.Add(Me.TabPage1)
+        Me.TabControl1.Controls.Add(Me.TabPage2)
+        Me.TabControl1.Location = New System.Drawing.Point(0, 3)
+        Me.TabControl1.Name = "TabControl1"
+        Me.TabControl1.SelectedIndex = 0
+        Me.TabControl1.Size = New System.Drawing.Size(755, 578)
+        Me.TabControl1.TabIndex = 0
+        '
+        'TabPage1
+        '
+        Me.TabPage1.Controls.Add(Me.UcFinanceExpenses1)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage1.Name = "TabPage1"
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage1.Size = New System.Drawing.Size(747, 552)
+        Me.TabPage1.TabIndex = 0
+        Me.TabPage1.Text = "Expenses Request"
+        Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'TabPage2
+        '
+        Me.TabPage2.Controls.Add(Me.DataGridView1)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage2.Name = "TabPage2"
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage2.Size = New System.Drawing.Size(712, 552)
+        Me.TabPage2.TabIndex = 1
+        Me.TabPage2.Text = "Approval Status"
+        Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'DataGridView1
+        '
+        Me.DataGridView1.AllowUserToAddRows = False
+        Me.DataGridView1.AllowUserToDeleteRows = False
+        Me.DataGridView1.AllowUserToOrderColumns = True
+        Me.DataGridView1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.DataGridView1.ColumnHeadersHeight = 35
+        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column4})
+        Me.DataGridView1.Location = New System.Drawing.Point(25, 20)
+        Me.DataGridView1.Name = "DataGridView1"
+        Me.DataGridView1.ReadOnly = True
+        Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.DataGridView1.Size = New System.Drawing.Size(688, 270)
+        Me.DataGridView1.TabIndex = 0
+        '
+        'Column1
+        '
+        Me.Column1.DataPropertyName = "statusname"
+        Me.Column1.HeaderText = "Status"
+        Me.Column1.Name = "Column1"
+        Me.Column1.ReadOnly = True
+        Me.Column1.Width = 150
+        '
+        'Column2
+        '
+        Me.Column2.DataPropertyName = "modifiedby"
+        Me.Column2.HeaderText = "Modified by"
+        Me.Column2.Name = "Column2"
+        Me.Column2.ReadOnly = True
+        Me.Column2.Width = 150
+        '
+        'Column3
+        '
+        Me.Column3.DataPropertyName = "latestupdate"
+        DataGridViewCellStyle1.Format = "dd-MMM-yyyy"
+        Me.Column3.DefaultCellStyle = DataGridViewCellStyle1
+        Me.Column3.HeaderText = "Latest Update"
+        Me.Column3.Name = "Column3"
+        Me.Column3.ReadOnly = True
+        '
+        'Column4
+        '
+        Me.Column4.DataPropertyName = "remark"
+        Me.Column4.HeaderText = "Remarks"
+        Me.Column4.Name = "Column4"
+        Me.Column4.ReadOnly = True
+        Me.Column4.Width = 200
         '
         'ToolStrip1
         '
@@ -74,8 +207,8 @@ Partial Class FormExpenses
         Me.ToolStripButtonCommit.Image = CType(resources.GetObject("ToolStripButtonCommit.Image"), System.Drawing.Image)
         Me.ToolStripButtonCommit.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButtonCommit.Name = "ToolStripButtonCommit"
-        Me.ToolStripButtonCommit.Size = New System.Drawing.Size(55, 22)
-        Me.ToolStripButtonCommit.Text = "Commit"
+        Me.ToolStripButtonCommit.Size = New System.Drawing.Size(37, 22)
+        Me.ToolStripButtonCommit.Text = "Draft"
         Me.ToolStripButtonCommit.Visible = False
         '
         'ToolStripButtonSubmit
@@ -97,6 +230,15 @@ Partial Class FormExpenses
         Me.ToolStripButtonReSubmit.Size = New System.Drawing.Size(66, 22)
         Me.ToolStripButtonReSubmit.Text = "Re-submit"
         Me.ToolStripButtonReSubmit.Visible = False
+        '
+        'ToolStripButtonForward
+        '
+        Me.ToolStripButtonForward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButtonForward.Image = CType(resources.GetObject("ToolStripButtonForward.Image"), System.Drawing.Image)
+        Me.ToolStripButtonForward.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButtonForward.Name = "ToolStripButtonForward"
+        Me.ToolStripButtonForward.Size = New System.Drawing.Size(54, 22)
+        Me.ToolStripButtonForward.Text = "Forward"
         '
         'ToolStripButtonValidate
         '
@@ -135,167 +277,21 @@ Partial Class FormExpenses
         Me.ToolStripButtonComplete.Size = New System.Drawing.Size(63, 22)
         Me.ToolStripButtonComplete.Text = "Complete"
         '
-        'StatusStrip1
-        '
-        Me.StatusStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel2, Me.ToolStripProgressBar1})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 0)
-        Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(1098, 22)
-        Me.StatusStrip1.TabIndex = 3
-        '
-        'ToolStripStatusLabel1
-        '
-        Me.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1"
-        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(0, 17)
-        Me.ToolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'ToolStripStatusLabel2
-        '
-        Me.ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
-        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(981, 17)
-        Me.ToolStripStatusLabel2.Spring = True
-        Me.ToolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'ToolStripProgressBar1
-        '
-        Me.ToolStripProgressBar1.Name = "ToolStripProgressBar1"
-        Me.ToolStripProgressBar1.Size = New System.Drawing.Size(100, 16)
-        '
-        'ToolStripContainer1
-        '
-        '
-        'ToolStripContainer1.BottomToolStripPanel
-        '
-        Me.ToolStripContainer1.BottomToolStripPanel.Controls.Add(Me.StatusStrip1)
-        '
-        'ToolStripContainer1.ContentPanel
-        '
-        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.TabControl1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(1098, 508)
-        Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
-        Me.ToolStripContainer1.Name = "ToolStripContainer1"
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(1098, 555)
-        Me.ToolStripContainer1.TabIndex = 1
-        Me.ToolStripContainer1.Text = "ToolStripContainer1"
-        '
-        'ToolStripContainer1.TopToolStripPanel
-        '
-        Me.ToolStripContainer1.TopToolStripPanel.BackColor = System.Drawing.SystemColors.Control
-        Me.ToolStripContainer1.TopToolStripPanel.Controls.Add(Me.ToolStrip1)
-        '
-        'TabControl1
-        '
-        Me.TabControl1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TabControl1.Controls.Add(Me.TabPage1)
-        Me.TabControl1.Controls.Add(Me.TabPage2)
-        Me.TabControl1.Location = New System.Drawing.Point(0, 3)
-        Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1098, 502)
-        Me.TabControl1.TabIndex = 0
-        '
-        'TabPage1
-        '
-        Me.TabPage1.Controls.Add(Me.UcFinanceExpenses1)
-        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(1090, 476)
-        Me.TabPage1.TabIndex = 0
-        Me.TabPage1.Text = "Expenses Request"
-        Me.TabPage1.UseVisualStyleBackColor = True
-        '
         'UcFinanceExpenses1
         '
         Me.UcFinanceExpenses1.Location = New System.Drawing.Point(8, 27)
         Me.UcFinanceExpenses1.Name = "UcFinanceExpenses1"
-        Me.UcFinanceExpenses1.Size = New System.Drawing.Size(679, 305)
+        Me.UcFinanceExpenses1.Size = New System.Drawing.Size(735, 514)
         Me.UcFinanceExpenses1.TabIndex = 0
-        '
-        'TabPage2
-        '
-        Me.TabPage2.Controls.Add(Me.DataGridView1)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(1090, 476)
-        Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "Approval Status"
-        Me.TabPage2.UseVisualStyleBackColor = True
-        '
-        'DataGridView1
-        '
-        Me.DataGridView1.AllowUserToAddRows = False
-        Me.DataGridView1.AllowUserToDeleteRows = False
-        Me.DataGridView1.AllowUserToOrderColumns = True
-        Me.DataGridView1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.DataGridView1.ColumnHeadersHeight = 35
-        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column4})
-        Me.DataGridView1.Location = New System.Drawing.Point(25, 20)
-        Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.ReadOnly = True
-        Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(996, 270)
-        Me.DataGridView1.TabIndex = 0
-        '
-        'Column1
-        '
-        Me.Column1.DataPropertyName = "statusname"
-        Me.Column1.HeaderText = "Status"
-        Me.Column1.Name = "Column1"
-        Me.Column1.ReadOnly = True
-        Me.Column1.Width = 150
-        '
-        'Column2
-        '
-        Me.Column2.DataPropertyName = "modifiedby"
-        Me.Column2.HeaderText = "Modified by"
-        Me.Column2.Name = "Column2"
-        Me.Column2.ReadOnly = True
-        Me.Column2.Width = 150
-        '
-        'Column3
-        '
-        Me.Column3.DataPropertyName = "latestupdate"
-        DataGridViewCellStyle1.Format = "dd-MMM-yyyy"
-        Me.Column3.DefaultCellStyle = DataGridViewCellStyle1
-        Me.Column3.HeaderText = "Latest Update"
-        Me.Column3.Name = "Column3"
-        Me.Column3.ReadOnly = True
-        '
-        'Column4
-        '
-        Me.Column4.DataPropertyName = "remarks"
-        Me.Column4.HeaderText = "Remarks"
-        Me.Column4.Name = "Column4"
-        Me.Column4.ReadOnly = True
-        Me.Column4.Width = 200
-        '
-        'ToolStripButtonForward
-        '
-        Me.ToolStripButtonForward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButtonForward.Image = CType(resources.GetObject("ToolStripButtonForward.Image"), System.Drawing.Image)
-        Me.ToolStripButtonForward.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButtonForward.Name = "ToolStripButtonForward"
-        Me.ToolStripButtonForward.Size = New System.Drawing.Size(54, 22)
-        Me.ToolStripButtonForward.Text = "Forward"
         '
         'FormExpenses
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1098, 555)
+        Me.ClientSize = New System.Drawing.Size(755, 631)
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Name = "FormExpenses"
         Me.Text = "FormExpenses"
-        Me.ToolStrip1.ResumeLayout(False)
-        Me.ToolStrip1.PerformLayout()
-        Me.StatusStrip1.ResumeLayout(False)
-        Me.StatusStrip1.PerformLayout()
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
         Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout()
         Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
@@ -303,10 +299,14 @@ Partial Class FormExpenses
         Me.ToolStripContainer1.TopToolStripPanel.PerformLayout()
         Me.ToolStripContainer1.ResumeLayout(False)
         Me.ToolStripContainer1.PerformLayout()
+        Me.StatusStrip1.ResumeLayout(False)
+        Me.StatusStrip1.PerformLayout()
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage2.ResumeLayout(False)
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ToolStrip1.ResumeLayout(False)
+        Me.ToolStrip1.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -327,10 +327,10 @@ Partial Class FormExpenses
     Friend WithEvents TabPage1 As System.Windows.Forms.TabPage
     Friend WithEvents TabPage2 As System.Windows.Forms.TabPage
     Friend WithEvents DataGridView1 As System.Windows.Forms.DataGridView
+    Friend WithEvents UcFinanceExpenses1 As FinanceExpenses.UCFinanceExpenses
+    Friend WithEvents ToolStripButtonForward As System.Windows.Forms.ToolStripButton
     Friend WithEvents Column1 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column2 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column3 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column4 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents UcFinanceExpenses1 As FinanceExpenses.UCFinanceExpenses
-    Friend WithEvents ToolStripButtonForward As System.Windows.Forms.ToolStripButton
 End Class

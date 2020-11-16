@@ -30,4 +30,8 @@
         End If
         bs.Filter = myfilter
     End Sub
+
+    Private Sub DataGridView1_CellContentDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentDoubleClick
+        Button1.PerformClick()
+    End Sub
 End Class

@@ -18,7 +18,7 @@ Public Class GetEmailModel
 
     Public ReadOnly Property TableName As String Implements IModel.tablename
         Get
-            Return "marketing.cmmf"
+            Return "ssc.cmmf"
         End Get
     End Property
 
@@ -31,7 +31,7 @@ Public Class GetEmailModel
 
     Private Function GetSqlstr(ByVal criteria) As String
         Dim sb As New StringBuilder
-        sb.Append(String.Format("select u.*,u.cmmf::character varying as cmmfstring,coalesce(cp.pricehkd,0) as price,coalesce(cp.priceusd,0) as priceusd from {0} {1} u left join marketing.cmmfprice cp on cp.cmmf = u.cmmf ", TableName, criteria))
+        sb.Append(String.Format("select u.*,u.cmmf::character varying as cmmfstring,coalesce(cp.pricehkd,0) as price,coalesce(cp.priceusd,0) as priceusd from {0} {1} u left join ssc.cmmfprice cp on cp.cmmf = u.cmmf ", TableName, criteria))
         Return sb.ToString
     End Function
 
@@ -120,7 +120,7 @@ Public Class GetEmailModel
             Dim dataadapter = factory.CreateAdapter
             Dim sqlstr As String = String.Empty
 
-            sqlstr = "marketing.sp_insertcmmf"
+            sqlstr = "ssc.sp_insertcmmf"
 
             dataadapter.InsertCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "cmmf", DataRowVersion.Current))
@@ -132,7 +132,7 @@ Public Class GetEmailModel
 
             dataadapter.InsertCommand.CommandType = CommandType.StoredProcedure
 
-            sqlstr = "marketing.sp_updatecmmf"
+            sqlstr = "ssc.sp_updatecmmf"
             dataadapter.UpdateCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "cmmf", DataRowVersion.Original))
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "cmmf", DataRowVersion.Current))
@@ -143,7 +143,7 @@ Public Class GetEmailModel
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Decimal, 0, "priceusd", DataRowVersion.Current))
             dataadapter.UpdateCommand.CommandType = CommandType.StoredProcedure
 
-            sqlstr = "marketing.sp_deletecmmf"
+            sqlstr = "ssc.sp_deletecmmf"
             dataadapter.DeleteCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.DeleteCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "cmmf", DataRowVersion.Original))
             dataadapter.DeleteCommand.CommandType = CommandType.StoredProcedure

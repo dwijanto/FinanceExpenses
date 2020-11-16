@@ -47,16 +47,16 @@ Partial Class FormMyTask
         Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column10 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column11 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column9 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DataGridViewTextBoxColumn5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DataGridViewTextBoxColumn6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column12 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column13 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.DataGridViewTextBoxColumn7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ToolStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -112,7 +112,7 @@ Partial Class FormMyTask
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel2, Me.ToolStripProgressBar1})
         Me.StatusStrip1.Location = New System.Drawing.Point(0, 0)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(955, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(1105, 22)
         Me.StatusStrip1.TabIndex = 2
         '
         'ToolStripStatusLabel1
@@ -124,7 +124,7 @@ Partial Class FormMyTask
         'ToolStripStatusLabel2
         '
         Me.ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
-        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(838, 17)
+        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(988, 17)
         Me.ToolStripStatusLabel2.Spring = True
         Me.ToolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -143,11 +143,11 @@ Partial Class FormMyTask
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SplitContainer1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(955, 525)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(1105, 525)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(955, 572)
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(1105, 572)
         Me.ToolStripContainer1.TabIndex = 1
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
@@ -171,7 +171,7 @@ Partial Class FormMyTask
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.DataGridView2)
         Me.SplitContainer1.Panel2.Controls.Add(Me.Label2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(955, 525)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1105, 525)
         Me.SplitContainer1.SplitterDistance = 185
         Me.SplitContainer1.TabIndex = 0
         '
@@ -195,12 +195,12 @@ Partial Class FormMyTask
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column8, Me.Column7, Me.Column3, Me.Column5, Me.Column2, Me.Column1, Me.Column4, Me.Column6})
+        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column8, Me.Column7, Me.Column3, Me.Column5, Me.Column2, Me.Column10, Me.Column11, Me.Column6})
         Me.DataGridView1.Location = New System.Drawing.Point(3, 40)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.ReadOnly = True
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(949, 142)
+        Me.DataGridView1.Size = New System.Drawing.Size(1102, 142)
         Me.DataGridView1.TabIndex = 1
         '
         'DataGridView2
@@ -213,12 +213,12 @@ Partial Class FormMyTask
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView2.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight
         Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView2.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column9, Me.DataGridViewTextBoxColumn1, Me.DataGridViewTextBoxColumn2, Me.DataGridViewTextBoxColumn3, Me.DataGridViewTextBoxColumn4, Me.DataGridViewTextBoxColumn5, Me.DataGridViewTextBoxColumn6, Me.DataGridViewTextBoxColumn7})
+        Me.DataGridView2.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column9, Me.DataGridViewTextBoxColumn1, Me.DataGridViewTextBoxColumn2, Me.DataGridViewTextBoxColumn3, Me.DataGridViewTextBoxColumn4, Me.Column12, Me.Column13, Me.DataGridViewTextBoxColumn7})
         Me.DataGridView2.Location = New System.Drawing.Point(3, 34)
         Me.DataGridView2.Name = "DataGridView2"
         Me.DataGridView2.ReadOnly = True
         Me.DataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView2.Size = New System.Drawing.Size(949, 299)
+        Me.DataGridView2.Size = New System.Drawing.Size(1102, 299)
         Me.DataGridView2.TabIndex = 4
         '
         'Label2
@@ -233,6 +233,7 @@ Partial Class FormMyTask
         '
         'Column8
         '
+        Me.Column8.DataPropertyName = "id"
         Me.Column8.HeaderText = "ID"
         Me.Column8.Name = "Column8"
         Me.Column8.ReadOnly = True
@@ -247,14 +248,17 @@ Partial Class FormMyTask
         '
         'Column3
         '
-        DataGridViewCellStyle1.Format = "dd-MMM-yyyy"
+        Me.Column3.DataPropertyName = "receiveddate"
+        DataGridViewCellStyle1.Format = "dd-MMM-yyyy hh:mm:ss tt"
         Me.Column3.DefaultCellStyle = DataGridViewCellStyle1
         Me.Column3.HeaderText = "Received Date"
         Me.Column3.Name = "Column3"
         Me.Column3.ReadOnly = True
+        Me.Column3.Width = 150
         '
         'Column5
         '
+        Me.Column5.DataPropertyName = "emailsubject"
         DataGridViewCellStyle2.Format = "dd-MMM-yyyy"
         Me.Column5.DefaultCellStyle = DataGridViewCellStyle2
         Me.Column5.HeaderText = "Subject"
@@ -264,31 +268,35 @@ Partial Class FormMyTask
         '
         'Column2
         '
-        Me.Column2.DataPropertyName = "applicantname"
-        Me.Column2.HeaderText = "Sender Name"
+        Me.Column2.DataPropertyName = "sender"
+        Me.Column2.HeaderText = "From"
         Me.Column2.Name = "Column2"
         Me.Column2.ReadOnly = True
         '
-        'Column1
+        'Column10
         '
-        Me.Column1.HeaderText = "SAP Account"
-        Me.Column1.Name = "Column1"
-        Me.Column1.ReadOnly = True
+        Me.Column10.DataPropertyName = "stapprovername"
+        Me.Column10.HeaderText = "1st Approver"
+        Me.Column10.Name = "Column10"
+        Me.Column10.ReadOnly = True
         '
-        'Column4
+        'Column11
         '
-        Me.Column4.HeaderText = "SAP Cost Center"
-        Me.Column4.Name = "Column4"
-        Me.Column4.ReadOnly = True
+        Me.Column11.DataPropertyName = "ndapprovername"
+        Me.Column11.HeaderText = "2nd Approver"
+        Me.Column11.Name = "Column11"
+        Me.Column11.ReadOnly = True
         '
         'Column6
         '
+        Me.Column6.DataPropertyName = "financenumber"
         Me.Column6.HeaderText = "Finance Number"
         Me.Column6.Name = "Column6"
         Me.Column6.ReadOnly = True
         '
         'Column9
         '
+        Me.Column9.DataPropertyName = "id"
         Me.Column9.HeaderText = "ID"
         Me.Column9.Name = "Column9"
         Me.Column9.ReadOnly = True
@@ -303,14 +311,17 @@ Partial Class FormMyTask
         '
         'DataGridViewTextBoxColumn2
         '
-        DataGridViewCellStyle3.Format = "dd-MMM-yyyy"
+        Me.DataGridViewTextBoxColumn2.DataPropertyName = "receiveddate"
+        DataGridViewCellStyle3.Format = "dd-MMM-yyyy hh:mm:ss tt"
         Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle3
         Me.DataGridViewTextBoxColumn2.HeaderText = "Received Date"
         Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
         Me.DataGridViewTextBoxColumn2.ReadOnly = True
+        Me.DataGridViewTextBoxColumn2.Width = 150
         '
         'DataGridViewTextBoxColumn3
         '
+        Me.DataGridViewTextBoxColumn3.DataPropertyName = "emailsubject"
         DataGridViewCellStyle4.Format = "dd-MMM-yyyy"
         Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle4
         Me.DataGridViewTextBoxColumn3.HeaderText = "Subject"
@@ -320,25 +331,28 @@ Partial Class FormMyTask
         '
         'DataGridViewTextBoxColumn4
         '
-        Me.DataGridViewTextBoxColumn4.DataPropertyName = "applicantname"
-        Me.DataGridViewTextBoxColumn4.HeaderText = "Sender Name"
+        Me.DataGridViewTextBoxColumn4.DataPropertyName = "sender"
+        Me.DataGridViewTextBoxColumn4.HeaderText = "From"
         Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
         Me.DataGridViewTextBoxColumn4.ReadOnly = True
         '
-        'DataGridViewTextBoxColumn5
+        'Column12
         '
-        Me.DataGridViewTextBoxColumn5.HeaderText = "SAP Account"
-        Me.DataGridViewTextBoxColumn5.Name = "DataGridViewTextBoxColumn5"
-        Me.DataGridViewTextBoxColumn5.ReadOnly = True
+        Me.Column12.DataPropertyName = "stapprovername"
+        Me.Column12.HeaderText = "1st Approver"
+        Me.Column12.Name = "Column12"
+        Me.Column12.ReadOnly = True
         '
-        'DataGridViewTextBoxColumn6
+        'Column13
         '
-        Me.DataGridViewTextBoxColumn6.HeaderText = "SAP Cost Center"
-        Me.DataGridViewTextBoxColumn6.Name = "DataGridViewTextBoxColumn6"
-        Me.DataGridViewTextBoxColumn6.ReadOnly = True
+        Me.Column13.DataPropertyName = "ndapprovername"
+        Me.Column13.HeaderText = "2nd Approver"
+        Me.Column13.Name = "Column13"
+        Me.Column13.ReadOnly = True
         '
         'DataGridViewTextBoxColumn7
         '
+        Me.DataGridViewTextBoxColumn7.DataPropertyName = "financenumber"
         Me.DataGridViewTextBoxColumn7.HeaderText = "Finance Number"
         Me.DataGridViewTextBoxColumn7.Name = "DataGridViewTextBoxColumn7"
         Me.DataGridViewTextBoxColumn7.ReadOnly = True
@@ -347,7 +361,7 @@ Partial Class FormMyTask
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(955, 572)
+        Me.ClientSize = New System.Drawing.Size(1105, 572)
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Name = "FormMyTask"
         Me.Text = "FormMyTask"
@@ -393,15 +407,15 @@ Partial Class FormMyTask
     Friend WithEvents Column3 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column5 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column2 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Column1 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Column4 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column10 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column11 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column6 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column9 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn1 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn2 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn3 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn4 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn5 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn6 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column12 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column13 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn7 As System.Windows.Forms.DataGridViewTextBoxColumn
 End Class

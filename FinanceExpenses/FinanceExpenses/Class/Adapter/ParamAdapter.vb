@@ -17,6 +17,8 @@ Public Class ParamAdapter
         End Get
     End Property
 
+
+
     Public Shared Function getInstance() As ParamAdapter
         If myInstance Is Nothing Then
             myInstance = New ParamAdapter
@@ -25,7 +27,7 @@ Public Class ParamAdapter
     End Function
 
     Public Function GetParentid(ByVal paramName As String) As String
-        Dim sqlstr = String.Format("select paramhdid from marketing.paramhd where paramname =:paramname", paramName)
+        Dim sqlstr = String.Format("select paramhdid from ssc.paramhd where paramname =:paramname", paramName)
         Dim myresult As String = String.Empty
         Dim myparam(0) As System.Data.IDbDataParameter
         myparam(0) = factory.CreateParameter("paramname", paramName)
@@ -33,7 +35,7 @@ Public Class ParamAdapter
         Return myresult
     End Function
     Function getLimit(ByVal paramName) As Decimal
-        Dim sqlstr = String.Format("select dt.nvalue,ph.* from marketing.paramdt dt left join marketing.paramhd ph on ph.paramhdid = dt.paramhdid where dt.paramname =:paramname and ph.paramname = 'DirectorLimit'", paramName)
+        Dim sqlstr = String.Format("select dt.nvalue,ph.* from ssc.paramdt dt left join ssc.paramhd ph on ph.paramhdid = dt.paramhdid where dt.paramname =:paramname and ph.paramname = 'DirectorLimit'", paramName)
         Dim myresult As String = String.Empty
         Dim myparam(0) As System.Data.IDbDataParameter
         myparam(0) = factory.CreateParameter("paramname", paramName)
@@ -43,8 +45,8 @@ Public Class ParamAdapter
     Public Function GetApprovalName(ByVal paramdtId As Integer) As ApprovalInfo
         Dim myApprovalInfo As ApprovalInfo = Nothing
         Try
-            Dim sqlstr = String.Format("select u.* from marketing.paramdt pd " &
-                                   " left join marketing.user u on u.userid = pd.cvalue where pd.paramdtid =:id;", paramdtId)
+            Dim sqlstr = String.Format("select u.* from ssc.paramdt pd " &
+                                   " left join ssc.user u on u.userid = pd.cvalue where pd.paramdtid =:id;", paramdtId)
             Dim myresult As String = String.Empty
             Dim myparam(0) As System.Data.IDbDataParameter
             myparam(0) = factory.CreateParameter("id", paramdtId)
@@ -63,12 +65,20 @@ Public Class ParamAdapter
         Return myApprovalInfo
     End Function
 
+    Public Function GetParamDetailCValue(ByVal paramname As String) As String
+        Dim sqlstr = "select dt.cvalue from ssc.paramdt dt where dt.paramname =:paramname"
+        Dim myresult As String = String.Empty
+        Dim myparam(0) As System.Data.IDbDataParameter
+        myparam(0) = factory.CreateParameter("paramname", paramname)
+        myresult = DataAccess.ExecuteScalar(sqlstr, CommandType.Text, myparam)
+        Return myresult
+    End Function
     Public Function GetEmail(ByVal paramname As String) As String
 
         Dim sb As New StringBuilder
         Try
-            Dim sqlstr = String.Format("select dt.cvalue from marketing.paramdt dt" &
-                                       " left join marketing.paramhd ph on ph.paramhdid = dt.paramhdid " &
+            Dim sqlstr = String.Format("select dt.cvalue from ssc.paramdt dt" &
+                                       " left join ssc.paramhd ph on ph.paramhdid = dt.paramhdid " &
                                        " where ph.paramname = 'SupplyChainEmail' and dt.paramname =:paramname ", paramname)
             Dim myresult As String = String.Empty
             Dim myparam(0) As System.Data.IDbDataParameter
@@ -94,9 +104,9 @@ Public Class ParamAdapter
     Public Function LoadData()
         Dim sb As New StringBuilder
         Dim myret As Boolean = False
-        sb.Append(String.Format("select pd.* from marketing.paramdt pd left join marketing.paramhd ph on ph.paramhdid = pd.paramhdid where ph.paramname = :approvalparam order by paramdtid;"))
-        sb.Append(String.Format("select pd.* from marketing.paramdt pd left join marketing.paramhd ph on ph.paramhdid = pd.paramhdid where ph.paramname = :exrate order by cvalue;"))
-        sb.Append(String.Format("select pd.* from marketing.paramdt pd left join marketing.paramhd ph on ph.paramhdid = pd.paramhdid where ph.paramname = :supplychainemail order by paramname desc;"))
+        sb.Append(String.Format("select pd.* from ssc.paramdt pd left join ssc.paramhd ph on ph.paramhdid = pd.paramhdid where ph.paramname = :approvalparam order by paramdtid;"))
+        sb.Append(String.Format("select pd.* from ssc.paramdt pd left join ssc.paramhd ph on ph.paramhdid = pd.paramhdid where ph.paramname = :exrate order by cvalue;"))
+        sb.Append(String.Format("select pd.* from ssc.paramdt pd left join ssc.paramhd ph on ph.paramhdid = pd.paramhdid where ph.paramname = :supplychainemail order by paramname desc;"))
         Dim sqlstr = sb.ToString
         DS = New DataSet
         BS = New BindingSource
@@ -176,12 +186,12 @@ Public Class ParamAdapter
             Dim dataadapter = factory.CreateAdapter
             Dim sqlstr As String
 
-            sqlstr = "marketing.sp_deleteparameter"
+            sqlstr = "ssc.sp_deleteparameter"
             dataadapter.DeleteCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.DeleteCommand.Parameters.Add(factory.CreateParameter("", NpgsqlTypes.NpgsqlDbType.Bigint, 0, "paramdtid"))
             dataadapter.DeleteCommand.CommandType = CommandType.StoredProcedure
 
-            sqlstr = "marketing.sp_insertparameter"
+            sqlstr = "ssc.sp_insertparameter"
 
             dataadapter.InsertCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "paramhdid", DataRowVersion.Current))
@@ -194,7 +204,7 @@ Public Class ParamAdapter
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "paramdtid", ParameterDirection.InputOutput))
             dataadapter.InsertCommand.CommandType = CommandType.StoredProcedure
 
-            sqlstr = "marketing.sp_updateparameter"
+            sqlstr = "ssc.sp_updateparameter"
             dataadapter.UpdateCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "paramdtid", DataRowVersion.Original))
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "paramhdid", DataRowVersion.Original))

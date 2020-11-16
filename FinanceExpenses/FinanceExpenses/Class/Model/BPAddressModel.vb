@@ -12,7 +12,7 @@ Public Class BPAddressModel
 
     Public ReadOnly Property TableName As String Implements IModel.tablename
         Get
-            Return "marketing.bpaddress"
+            Return "ssc.bpaddress"
         End Get
     End Property
 
@@ -25,7 +25,7 @@ Public Class BPAddressModel
 
     Private Function GetSqlstr(ByVal criteria) As String
         Dim sb As New StringBuilder
-        sb.Append(String.Format("select u.*,bp.bpcode || ' - ' || bp.bpname  as bpartnerfullname  from {0} u left join marketing.bpartner bp on bp.id = u.bpid {1} ", TableName, criteria))
+        sb.Append(String.Format("select u.*,bp.bpcode || ' - ' || bp.bpname  as bpartnerfullname  from {0} u left join ssc.bpartner bp on bp.id = u.bpid {1} ", TableName, criteria))
         Return sb.ToString
     End Function
 
@@ -37,7 +37,7 @@ Public Class BPAddressModel
         'Dim ds As New DataSet
         'Dim ExpensesTypeBS As New BindingSource
         'Dim sqlstr = "select bpa.id as id,bpa.bpid,bpa.line1,'') || coalesce(bpa.line2,'') || coalesce(bpa.line3,'') as bpartneraddress,bp.bpcode,bp.bpcode || ' - ' || bp.bpname  as bpartnerfullname ,bpa.region,bpa.country  " &
-        '             " from marketing.bpartner bp left join marketing.bpaddress bpa on bpa.bpid = bp.id and bpa.addresstype = 'S' where not bpa.id isnull order by bpcode,bpartneraddress"
+        '             " from ssc.bpartner bp left join ssc.bpaddress bpa on bpa.bpid = bp.id and bpa.addresstype = 'S' where not bpa.id isnull order by bpcode,bpartneraddress"
         'ds = DataAccess.GetDataSet(sqlstr, CommandType.Text, Nothing)
         'ds.Tables(0).TableName = TableName
         'ExpensesTypeBS.DataSource = ds.Tables(0)
@@ -62,7 +62,7 @@ Public Class BPAddressModel
             Dim dataadapter = factory.CreateAdapter
             Dim sqlstr As String = String.Empty
 
-            sqlstr = "marketing.sp_insertbpaddress"
+            sqlstr = "ssc.sp_insertbpaddress"
             dataadapter.InsertCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Int32, 0, "bpid", DataRowVersion.Current))
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "addresstype", DataRowVersion.Current))
@@ -77,7 +77,7 @@ Public Class BPAddressModel
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Int32, 0, "id", ParameterDirection.InputOutput))
             dataadapter.InsertCommand.CommandType = CommandType.StoredProcedure
 
-            sqlstr = "marketing.sp_updatebpaddress"
+            sqlstr = "ssc.sp_updatebpaddress"
             dataadapter.UpdateCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Int32, 0, "id", DataRowVersion.Original))
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Int32, 0, "bpid", DataRowVersion.Current))
@@ -92,7 +92,7 @@ Public Class BPAddressModel
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "addressid", DataRowVersion.Current))
             dataadapter.UpdateCommand.CommandType = CommandType.StoredProcedure
 
-            sqlstr = "marketing.sp_deletebpaddress"
+            sqlstr = "ssc.sp_deletebpaddress"
             dataadapter.DeleteCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.DeleteCommand.Parameters.Add(factory.CreateParameter("", DbType.Int32, 0, "id", DataRowVersion.Original))
             dataadapter.DeleteCommand.CommandType = CommandType.StoredProcedure

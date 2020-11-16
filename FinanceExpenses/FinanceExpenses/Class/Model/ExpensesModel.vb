@@ -12,7 +12,7 @@ Public Class ExpensesModel
 
     Public ReadOnly Property TableName As String Implements IModel.tablename
         Get
-            Return "marketing.expensestype"
+            Return "ssc.expensestype"
         End Get
     End Property
 
@@ -60,7 +60,7 @@ Public Class ExpensesModel
             Dim dataadapter = factory.CreateAdapter
             Dim sqlstr As String = String.Empty
 
-            sqlstr = "marketing.sp_insertexpensestype"
+            sqlstr = "ssc.sp_insertexpensestype"
             dataadapter.InsertCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Int32, 0, "deptid", DataRowVersion.Current))
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "expensesacc", DataRowVersion.Current))
@@ -68,7 +68,7 @@ Public Class ExpensesModel
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "id", ParameterDirection.InputOutput))
             dataadapter.InsertCommand.CommandType = CommandType.StoredProcedure
 
-            sqlstr = "marketing.sp_updateexpensestype"
+            sqlstr = "ssc.sp_updateexpensestype"
             dataadapter.UpdateCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "id", DataRowVersion.Original))
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Int32, 0, "deptid", DataRowVersion.Current))
@@ -76,7 +76,7 @@ Public Class ExpensesModel
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "expensesname", DataRowVersion.Current))
             dataadapter.UpdateCommand.CommandType = CommandType.StoredProcedure
 
-            sqlstr = "marketing.sp_deleteexpensestype"
+            sqlstr = "ssc.sp_deleteexpensestype"
             dataadapter.DeleteCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.DeleteCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "id", DataRowVersion.Original))
             dataadapter.DeleteCommand.CommandType = CommandType.StoredProcedure

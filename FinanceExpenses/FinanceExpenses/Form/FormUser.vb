@@ -105,4 +105,8 @@ Public Class FormUser
     Private Sub DeleteToolStripButton_Click(sender As Object, e As EventArgs) Handles DeleteToolStripButton.Click
         myController.delete(DataGridView1)       
     End Sub
+
+    Private Sub ToolStripTextBox1_Click(sender As Object, e As EventArgs) Handles ToolStripTextBox1.Click
+
+    End Sub
 End Class

@@ -221,14 +221,14 @@ Public Class CMMFController
 
                     Next
                     If CMMFSB.Length > 0 Then
-                        Dim sqlstr As String = String.Format("copy marketing.cmmf(cmmf,localdescription,commercialcode,brand) from stdin with null as 'Null';", CMMFSB.ToString)
+                        Dim sqlstr As String = String.Format("copy ssc.cmmf(cmmf,localdescription,commercialcode,brand) from stdin with null as 'Null';", CMMFSB.ToString)
                         ErrorMessage = DataAccess.Copy(sqlstr, CMMFSB.ToString, myret)
                     End If
                     If CMMFPriceSB.Length > 0 Then
-                        Dim sqlstr1 = String.Format("delete from marketing.cmmfprice;")
+                        Dim sqlstr1 = String.Format("delete from ssc.cmmfprice;")
                         'PostgresqlDBAdapter1.ExecuteNonQuery(sqlstr1)
                         'copy
-                        Dim sqlstr As String = String.Format("{0}copy marketing.cmmfprice(cmmf,pricehkd,priceusd) from stdin with null as 'Null';", sqlstr1)
+                        Dim sqlstr As String = String.Format("{0}copy ssc.cmmfprice(cmmf,pricehkd,priceusd) from stdin with null as 'Null';", sqlstr1)
 
                         ErrorMessage = ErrorMessage & DataAccess.Copy(sqlstr, CMMFPriceSB.ToString, myret)
                         sw.Stop()

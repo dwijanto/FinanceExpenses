@@ -240,10 +240,11 @@ Public Class FormGetEmail
                                     ds.Tables(1).Rows.Add(dr)
 
                                 Else
-                                    myid = result.Item("id")
+                                    myid = result.Item("id")                                    
                                     'Move BS Position so added new record in bs2 will follow BS id.
                                     Dim pos = bs.Find("id", myid)
                                     bs.Position = pos
+
                                 End If
 
                                 For Each Attach As Attachment In Item.Attachments
@@ -799,7 +800,7 @@ Public Class FormGetEmail
                                             myresult.Item("receiveddate") = Item.DateTimeReceived
                                             myresult.Item("sender") = message.From.Address
                                             myresult.Item("sendername") = message.From.Name
-                                            myresult.Item("foldername") = folder.DisplayName
+                                            myresult.Item("foldername") = folder.DisplayName                                            
                                         End If
 
                                         'Dim savingfolder As String = myfolder

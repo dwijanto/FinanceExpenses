@@ -31,8 +31,8 @@ Public Class FormMenu
             UserInfo1.ApplicationName = "Finance Expenses Apps"
             UserInfo1.Username = Environment.UserDomainName & "\" & Environment.UserName
             UserInfo1.isAuthenticate = False
-            Dim tmp = DataAccess.GetDeptId(UserInfo1.Userid)
-            UserInfo1.Deptid = IIf(IsDBNull(tmp), Nothing, tmp)
+            'Dim tmp = DataAccess.GetDeptId(UserInfo1.Userid)
+            'UserInfo1.Deptid = IIf(IsDBNull(tmp), Nothing, tmp)
             UserInfo1.isAdmin = DataAccess.isAdmin(UserInfo1.Userid)
             HasError = False
         Catch ex As Exception
@@ -86,7 +86,7 @@ Public Class FormMenu
     End Function
 
     Private Sub MenuHandles()
-        'AddHandler RBACToolStripMenuItem.Click, AddressOf ToolStripMenuItem_Click
+        AddHandler RBACToolStripMenuItem.Click, AddressOf ToolStripMenuItem_Click
         'AddHandler UserToolStripMenuItem.Click, AddressOf ToolStripMenuItem_Click
         'AddHandler ParameterToolStripMenuItem.Click, AddressOf ToolStripMenuItem_Click
         'AddHandler CMMFToolStripMenuItem.Click, AddressOf ToolStripMenuItem_Click
@@ -98,8 +98,8 @@ Public Class FormMenu
         'CreateProductRequestToolStripMenuItem.Visible = User.can("Create Product Request") And (DirectCast(User.identity, UserController).deptid = DeptEnum.MarketingHK Or DirectCast(User.identity, UserController).deptid = DeptEnum.SalesHK) 'User with deptid in Sales HK and Marketing HK
         'ProductRequestApprovalToolStripMenuItem.Visible = User.can("View Product Request Approval")
         'ParameterToolStripMenuItem.Visible = User.can("View Master")
-        'MasterToolStripMenuItem.Visible = User.can("View Master")
-        'AdminToolStripMenuItem.Visible = User.can("View Admin")
+        MasterToolStripMenuItem.Visible = User.can("View Master")
+        AdminToolStripMenuItem.Visible = User.can("View Admin")
     End Sub
 
     Private Sub ToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -143,7 +143,10 @@ Public Class FormMenu
     End Sub
 
     Private Sub GetEmailFromServerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GetEmailFromServerToolStripMenuItem.Click
-        Dim myform As New FormGetEmail
+        'Dim myform As New FormGetEmail
+        'myform.Show()
+        Dim myform As New FormAutoGetEmail
+        myform.AutoGenerate = AutoGenerateEnum.Not_Auto
         myform.Show()
     End Sub
 
@@ -160,5 +163,9 @@ Public Class FormMenu
     Private Sub DelegateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DelegateToolStripMenuItem.Click
         Dim myform As New DialogDelegate
         myform.ShowDialog()
+    End Sub
+
+    Private Sub RBACToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RBACToolStripMenuItem.Click
+        
     End Sub
 End Class

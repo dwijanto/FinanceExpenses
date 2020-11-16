@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class DialogDelegate
+Partial Class DialogForwardTo
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -26,22 +26,19 @@ Partial Class DialogDelegate
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.OK_Button = New System.Windows.Forms.Button()
         Me.Cancel_Button = New System.Windows.Forms.Button()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Button1 = New System.Windows.Forms.Button()
-        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.DateTimePicker2 = New System.Windows.Forms.DateTimePicker()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel2 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripProgressBar1 = New System.Windows.Forms.ToolStripProgressBar()
-        Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+        Me.TextBox2 = New System.Windows.Forms.TextBox()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.TableLayoutPanel1.SuspendLayout()
-        Me.StatusStrip1.SuspendLayout()
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'TableLayoutPanel1
@@ -52,7 +49,7 @@ Partial Class DialogDelegate
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel1.Controls.Add(Me.OK_Button, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.Cancel_Button, 1, 0)
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(323, 150)
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(351, 172)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
@@ -78,89 +75,42 @@ Partial Class DialogDelegate
         Me.Cancel_Button.TabIndex = 1
         Me.Cancel_Button.Text = "Cancel"
         '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(99, 31)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(66, 13)
-        Me.Label1.TabIndex = 1
-        Me.Label1.Text = "Delegate To"
-        '
-        'TextBox1
-        '
-        Me.TextBox1.Location = New System.Drawing.Point(171, 28)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(156, 20)
-        Me.TextBox1.TabIndex = 2
-        '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(333, 26)
+        Me.Button1.Location = New System.Drawing.Point(278, 39)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(29, 23)
-        Me.Button1.TabIndex = 3
+        Me.Button1.TabIndex = 6
         Me.Button1.Text = "..."
         Me.Button1.UseVisualStyleBackColor = True
         '
-        'DateTimePicker1
+        'TextBox1
         '
-        Me.DateTimePicker1.CustomFormat = "dd-MMM-yyyy"
-        Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DateTimePicker1.Location = New System.Drawing.Point(171, 55)
-        Me.DateTimePicker1.Name = "DateTimePicker1"
-        Me.DateTimePicker1.ShowCheckBox = True
-        Me.DateTimePicker1.Size = New System.Drawing.Size(156, 20)
-        Me.DateTimePicker1.TabIndex = 4
+        Me.TextBox1.Location = New System.Drawing.Point(116, 41)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(156, 20)
+        Me.TextBox1.TabIndex = 5
         '
-        'Label2
+        'Label1
         '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(110, 61)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(55, 13)
-        Me.Label2.TabIndex = 5
-        Me.Label2.Text = "Start Date"
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(49, 44)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(61, 13)
+        Me.Label1.TabIndex = 4
+        Me.Label1.Text = "Forward To"
         '
-        'Label3
+        'ErrorProvider1
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(113, 87)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(52, 13)
-        Me.Label3.TabIndex = 7
-        Me.Label3.Text = "End Date"
-        '
-        'DateTimePicker2
-        '
-        Me.DateTimePicker2.CustomFormat = "dd-MMM-yyyy"
-        Me.DateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DateTimePicker2.Location = New System.Drawing.Point(171, 81)
-        Me.DateTimePicker2.Name = "DateTimePicker2"
-        Me.DateTimePicker2.ShowCheckBox = True
-        Me.DateTimePicker2.Size = New System.Drawing.Size(156, 20)
-        Me.DateTimePicker2.TabIndex = 6
-        '
-        'CheckBox1
-        '
-        Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Checked = True
-        Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox1.Location = New System.Drawing.Point(171, 107)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.CheckBox1.Size = New System.Drawing.Size(65, 17)
-        Me.CheckBox1.TabIndex = 8
-        Me.CheckBox1.Text = "Enabled"
-        Me.CheckBox1.UseVisualStyleBackColor = True
+        Me.ErrorProvider1.ContainerControl = Me
         '
         'StatusStrip1
         '
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel2, Me.ToolStripProgressBar1})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 201)
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 214)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(481, 22)
-        Me.StatusStrip1.TabIndex = 9
+        Me.StatusStrip1.Size = New System.Drawing.Size(509, 22)
+        Me.StatusStrip1.TabIndex = 10
         '
         'ToolStripStatusLabel1
         '
@@ -171,7 +121,7 @@ Partial Class DialogDelegate
         'ToolStripStatusLabel2
         '
         Me.ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
-        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(364, 17)
+        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(338, 17)
         Me.ToolStripStatusLabel2.Spring = True
         Me.ToolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -180,23 +130,33 @@ Partial Class DialogDelegate
         Me.ToolStripProgressBar1.Name = "ToolStripProgressBar1"
         Me.ToolStripProgressBar1.Size = New System.Drawing.Size(100, 16)
         '
-        'ErrorProvider1
+        'TextBox2
         '
-        Me.ErrorProvider1.ContainerControl = Me
+        Me.TextBox2.Location = New System.Drawing.Point(116, 67)
+        Me.TextBox2.Multiline = True
+        Me.TextBox2.Name = "TextBox2"
+        Me.TextBox2.Size = New System.Drawing.Size(323, 54)
+        Me.TextBox2.TabIndex = 12
         '
-        'DialogDelegate
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(59, 70)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(51, 13)
+        Me.Label2.TabIndex = 11
+        Me.Label2.Text = "Comment"
+        '
+        'DialogForwardTo
         '
         Me.AcceptButton = Me.OK_Button
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.Cancel_Button
-        Me.ClientSize = New System.Drawing.Size(481, 223)
-        Me.Controls.Add(Me.StatusStrip1)
-        Me.Controls.Add(Me.CheckBox1)
-        Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.DateTimePicker2)
+        Me.ClientSize = New System.Drawing.Size(509, 236)
+        Me.Controls.Add(Me.TextBox2)
         Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.DateTimePicker1)
+        Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Label1)
@@ -204,14 +164,14 @@ Partial Class DialogDelegate
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "DialogDelegate"
+        Me.Name = "DialogForwardTo"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "DialogDelegate"
+        Me.Text = "DialogForwardTo"
         Me.TableLayoutPanel1.ResumeLayout(False)
+        CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.StatusStrip1.ResumeLayout(False)
         Me.StatusStrip1.PerformLayout()
-        CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -219,18 +179,15 @@ Partial Class DialogDelegate
     Friend WithEvents TableLayoutPanel1 As System.Windows.Forms.TableLayoutPanel
     Friend WithEvents OK_Button As System.Windows.Forms.Button
     Friend WithEvents Cancel_Button As System.Windows.Forms.Button
-    Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
     Friend WithEvents Button1 As System.Windows.Forms.Button
-    Friend WithEvents DateTimePicker1 As System.Windows.Forms.DateTimePicker
-    Friend WithEvents Label2 As System.Windows.Forms.Label
-    Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents DateTimePicker2 As System.Windows.Forms.DateTimePicker
-    Friend WithEvents CheckBox1 As System.Windows.Forms.CheckBox
+    Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
     Friend WithEvents StatusStrip1 As System.Windows.Forms.StatusStrip
     Public WithEvents ToolStripStatusLabel1 As System.Windows.Forms.ToolStripStatusLabel
     Public WithEvents ToolStripStatusLabel2 As System.Windows.Forms.ToolStripStatusLabel
     Public WithEvents ToolStripProgressBar1 As System.Windows.Forms.ToolStripProgressBar
-    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+    Friend WithEvents TextBox2 As System.Windows.Forms.TextBox
+    Friend WithEvents Label2 As System.Windows.Forms.Label
 
 End Class

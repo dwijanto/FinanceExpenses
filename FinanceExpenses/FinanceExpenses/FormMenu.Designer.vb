@@ -28,6 +28,7 @@ Partial Class FormMenu
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.ActionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ProductRequestApprovalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DelegateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MasterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ParameterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ChartOfAccountToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -39,7 +40,6 @@ Partial Class FormMenu
         Me.ProductRequestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UserManualToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DelegateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -98,6 +98,12 @@ Partial Class FormMenu
         Me.ProductRequestApprovalToolStripMenuItem.Name = "ProductRequestApprovalToolStripMenuItem"
         Me.ProductRequestApprovalToolStripMenuItem.Size = New System.Drawing.Size(218, 22)
         Me.ProductRequestApprovalToolStripMenuItem.Text = "Expenses Request Approval"
+        '
+        'DelegateToolStripMenuItem
+        '
+        Me.DelegateToolStripMenuItem.Name = "DelegateToolStripMenuItem"
+        Me.DelegateToolStripMenuItem.Size = New System.Drawing.Size(218, 22)
+        Me.DelegateToolStripMenuItem.Text = "Delegate"
         '
         'MasterToolStripMenuItem
         '
@@ -171,12 +177,6 @@ Partial Class FormMenu
         Me.UserManualToolStripMenuItem.Name = "UserManualToolStripMenuItem"
         Me.UserManualToolStripMenuItem.Size = New System.Drawing.Size(140, 22)
         Me.UserManualToolStripMenuItem.Text = "User Manual"
-        '
-        'DelegateToolStripMenuItem
-        '
-        Me.DelegateToolStripMenuItem.Name = "DelegateToolStripMenuItem"
-        Me.DelegateToolStripMenuItem.Size = New System.Drawing.Size(218, 22)
-        Me.DelegateToolStripMenuItem.Text = "Delegate"
         '
         'FormMenu
         '

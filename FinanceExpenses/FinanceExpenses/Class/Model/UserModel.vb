@@ -47,7 +47,7 @@ Public Class UserModel
 
     Public ReadOnly Property FilterField
         Get
-            Return "[userid] like '%{0}%' or [username] like '%{0}%' or [email] like '%{0}%'"
+            Return "[userid] like '%{0}%' or [username] like '%{0}%' or [email] like '%{0}%' or [employeenumber] like '%{0}%' or [approvername] like '%{0}%'"
         End Get
     End Property
 
@@ -96,7 +96,7 @@ Public Class UserModel
             mytransaction = conn.BeginTransaction
             Dim dataadapter = factory.CreateAdapter
             'Update
-            Dim sqlstr = "marketing.sp_update_user"
+            Dim sqlstr = "ssc.sp_update_user"
             dataadapter.UpdateCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "id", DataRowVersion.Original))
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "userid", DataRowVersion.Current))
@@ -107,7 +107,7 @@ Public Class UserModel
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Int32, 0, "deptid", DataRowVersion.Current))
             dataadapter.UpdateCommand.CommandType = CommandType.StoredProcedure
 
-            sqlstr = "marketing.sp_insert_user"
+            sqlstr = "ssc.sp_insert_user"
             dataadapter.InsertCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "userid", DataRowVersion.Current))
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "username", DataRowVersion.Current))
@@ -118,7 +118,7 @@ Public Class UserModel
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "id", ParameterDirection.InputOutput))
             dataadapter.InsertCommand.CommandType = CommandType.StoredProcedure
 
-            sqlstr = "marketing.sp_delete_user"
+            sqlstr = "ssc.sp_delete_user"
             dataadapter.DeleteCommand = factory.CreateCommand(sqlstr, conn)
             dataadapter.DeleteCommand.Parameters.Add(factory.CreateParameter("", NpgsqlTypes.NpgsqlDbType.Bigint, 0, "id"))
             dataadapter.DeleteCommand.Parameters(0).Direction = ParameterDirection.Input

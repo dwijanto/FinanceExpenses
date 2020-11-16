@@ -7,9 +7,10 @@ End Enum
 
 Public Class FormAutoGetEmail
     Delegate Sub ProgressReportDelegate(ByVal id As Integer, ByRef message As String)
-    Private AutoGenerate As AutoGenerateEnum
+    Public Property AutoGenerate As AutoGenerateEnum
     Dim myThread As New System.Threading.Thread(AddressOf doWork)
     Private Sub FormAutoGetEmail_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Label1.Text = String.Format("Server = {0};", My.Settings.HOST)
         If AutoGenerate = AutoGenerateEnum.Auto Then
             Me.WindowState = FormWindowState.Minimized
             LoadMe()
@@ -17,7 +18,7 @@ Public Class FormAutoGetEmail
     End Sub
 
     Private Sub LoadMe()
-        Label1.Text = String.Format("Server = {0};", My.Settings.HOST)
+        'Label1.Text = String.Format("Server = {0};", My.Settings.HOST)
         If Not myThread.IsAlive Then
             Try
                 ToolStripStatusLabel1.Text = ""
@@ -37,6 +38,15 @@ Public Class FormAutoGetEmail
         Logger.log("----Check Email ---")
         Dim myform As New FormGetEmail
         myform.DoWork()
+        Logger.log("----Validate Email ---")
+        Dim myValidTask As New SSCEmailTask
+        myValidTask.ValidateEmail()
+        Logger.log("----Send Valid Email ---")
+        Dim ValidTask As New SSCEmailTask(SSCEmailTask.EmailTypeEnum.Valid)
+        ValidTask.SendEmail()
+        Logger.log("----Send inValid Email ---")
+        Dim InValidTask As New SSCEmailTask(SSCEmailTask.EmailTypeEnum.Invalid)
+        InValidTask.SendEmail()
         ProgressReport(4, "Close")
         Logger.log("----End ---")
     End Sub
@@ -69,4 +79,7 @@ Public Class FormAutoGetEmail
 
     End Sub
 
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        LoadMe()
+    End Sub
 End Class

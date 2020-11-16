@@ -137,7 +137,7 @@ Partial Class UCUser
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(21, 136)
+        Me.Label6.Location = New System.Drawing.Point(24, 136)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(78, 13)
         Me.Label6.TabIndex = 10
@@ -156,11 +156,11 @@ Partial Class UCUser
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(25, 162)
+        Me.Label7.Location = New System.Drawing.Point(21, 162)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(80, 13)
+        Me.Label7.Size = New System.Drawing.Size(81, 13)
         Me.Label7.TabIndex = 12
-        Me.Label7.Text = "Approval Name"
+        Me.Label7.Text = "Approver Name"
         '
         'CheckBox1
         '

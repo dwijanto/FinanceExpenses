@@ -91,8 +91,11 @@
     <Compile Include="Class\Controller\BPAddressController.vb" />
     <Compile Include="Class\Controller\BPartnerController.vb" />
     <Compile Include="Class\Controller\CMMFController.vb" />
+    <Compile Include="Class\Controller\DelegateController.vb" />
+    <Compile Include="Class\Controller\EmailController.vb" />
     <Compile Include="Class\Controller\ExpensesTypeController.vb" />
     <Compile Include="Class\Controller\ProductRequestController.vb" />
+    <Compile Include="Class\Controller\TaskController.vb" />
     <Compile Include="Class\Controller\UserController.vb" />
     <Compile Include="Class\Controller\VendorController.vb" />
     <Compile Include="Class\DoBackground.vb" />
@@ -105,9 +108,11 @@
     <Compile Include="Class\Interface\IToolbarAction.vb" />
     <Compile Include="Class\ItemCreation.vb" />
     <Compile Include="Class\Logger.vb" />
+    <Compile Include="Class\Model\ApprovalModel.vb" />
     <Compile Include="Class\Model\BPAddressModel.vb" />
     <Compile Include="Class\Model\BPartnerModel.vb" />
     <Compile Include="Class\Model\CMMFModel.vb" />
+    <Compile Include="Class\Model\DelegateModel.vb" />
     <Compile Include="Class\Model\EmailModel.vb" />
     <Compile Include="Class\Model\ExpensesModel.vb" />
     <Compile Include="Class\Model\GenerateReportModel.vb" />
@@ -127,6 +132,7 @@
     <Compile Include="Class\RBAC\Role.vb" />
     <Compile Include="Class\RBAC\Rule.vb" />
     <Compile Include="Class\RBAC\User.vb" />
+    <Compile Include="Class\SSCEmailTask.vb" />
     <Compile Include="Class\UserControl\UCDGVParams.Designer.vb">
       <DependentUpon>UCDGVParams.vb</DependentUpon>
     </Compile>
@@ -183,6 +189,18 @@
     <Compile Include="Form\DialogDelegate.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Form\DialogForwardTo.Designer.vb">
+      <DependentUpon>DialogForwardTo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\DialogForwardTo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\DialogInputText.Designer.vb">
+      <DependentUpon>DialogInputText.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\DialogInputText.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Form\FormAutoGetEmail.Designer.vb">
       <DependentUpon>FormAutoGetEmail.vb</DependentUpon>
     </Compile>
@@ -229,6 +247,12 @@
       <DependentUpon>FormParameter.vb</DependentUpon>
     </Compile>
     <Compile Include="Form\FormParameter.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\FormRBAC.designer.vb">
+      <DependentUpon>FormRBAC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\FormRBAC.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form\FormUser.Designer.vb">
@@ -281,6 +305,12 @@
     <EmbeddedResource Include="Form\DialogDelegate.resx">
       <DependentUpon>DialogDelegate.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form\DialogForwardTo.resx">
+      <DependentUpon>DialogForwardTo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\DialogInputText.resx">
+      <DependentUpon>DialogInputText.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\FormAutoGetEmail.resx">
       <DependentUpon>FormAutoGetEmail.vb</DependentUpon>
     </EmbeddedResource>
@@ -304,6 +334,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form\FormParameter.resx">
       <DependentUpon>FormParameter.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\FormRBAC.resx">
+      <DependentUpon>FormRBAC.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\FormUser.resx">
       <DependentUpon>FormUser.vb</DependentUpon>

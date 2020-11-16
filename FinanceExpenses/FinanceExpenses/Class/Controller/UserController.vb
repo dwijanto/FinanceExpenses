@@ -13,8 +13,10 @@
     Public Property email As String
     Public Property isActive As Boolean
     Public Property password_hash As String
-    Public Property deptid As Integer
-    Public Property ApprovalId As Integer
+    Public Property employeenumber As String
+    Public Property nlevelapproval As String
+    'Public Property deptid As Integer
+    'Public Property ApprovalId As Integer
    
     Public Model As New UserModel    
     Dim DS As DataSet
@@ -23,7 +25,7 @@
 
     Public Sub New()
         MyBase.New()
-        tableName = "marketing.user" 'tablename
+        tableName = "ssc.user" 'tablename
         primarykey = "id" 'primarykey
     End Sub
 
@@ -153,9 +155,9 @@
                                                 .isActive = dr.Item("isactive"),
                                                 .userid = "" & dr.Item("userid"),
                                                 .email = "" & dr.Item("email"),
-                                                .password_hash = "",
-                                                .deptid = IIf(IsDBNull(dr.Item("deptid")), Nothing, dr.Item("deptid")),
-                                                .ApprovalId = IIf(IsDBNull(dr.Item("approvalid")), Nothing, dr.Item("approvalid"))
+                                                .employeenumber = "" & dr.Item("employeenumber"),
+                                                .nlevelapproval = "" & dr.Item("nlevelapproval"),
+                                                .password_hash = ""
                                                }
         Return Identity
     End Function
@@ -188,7 +190,9 @@
         Return findOne(myCondition)
     End Function
 
-
+    Public Function getApprover(ByVal employeenumber As String) As Boolean
+        Return False
+    End Function
 
 
 End Class
