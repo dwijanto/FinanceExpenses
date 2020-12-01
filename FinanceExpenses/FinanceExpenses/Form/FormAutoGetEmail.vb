@@ -21,7 +21,7 @@ Public Class FormAutoGetEmail
         'Label1.Text = String.Format("Server = {0};", My.Settings.HOST)
         If Not myThread.IsAlive Then
             Try
-                ToolStripStatusLabel1.Text = ""
+                'ToolStripStatusLabel1.Text = ""
                 myThread = New System.Threading.Thread(AddressOf doWork)
                 myThread.TrySetApartmentState(ApartmentState.MTA)
                 myThread.Start()
@@ -80,6 +80,13 @@ Public Class FormAutoGetEmail
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        LoadMe()
+        If Not myThread.IsAlive Then
+            Me.ToolStripStatusLabel1.Text = ("Processing..Please wait.")
+            Me.ToolStripProgressBar1.Style = ProgressBarStyle.Marquee
+            LoadMe()
+        Else
+            Me.ToolStripStatusLabel1.Text = ("Please wait until the current process is finished.")
+        End If
+
     End Sub
 End Class

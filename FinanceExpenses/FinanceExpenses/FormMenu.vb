@@ -24,15 +24,13 @@ Public Class FormMenu
             UserInfo1.Userid = Environment.UserDomainName & "\" & Environment.UserName
             'UserInfo1.Userid = "AS\cchan"
             'UserInfo1.Userid = "AS\btam"
-            'UserInfo1.Userid = "AS\jshum"
-            'UserInfo1.Userid = "AS\rleung"
-            'UserInfo1.Userid = "AS\dwoo"
-            userinfo1.computerName = My.Computer.Name
+            'UserInfo1.Userid = "AS\mto"
+            'UserInfo1.Userid = "AS\pbarnes"
+            'UserInfo1.Userid = "AS\kliang"
+            UserInfo1.computerName = My.Computer.Name
             UserInfo1.ApplicationName = "Finance Expenses Apps"
             UserInfo1.Username = Environment.UserDomainName & "\" & Environment.UserName
             UserInfo1.isAuthenticate = False
-            'Dim tmp = DataAccess.GetDeptId(UserInfo1.Userid)
-            'UserInfo1.Deptid = IIf(IsDBNull(tmp), Nothing, tmp)
             UserInfo1.isAdmin = DataAccess.isAdmin(UserInfo1.Userid)
             HasError = False
         Catch ex As Exception
@@ -58,8 +56,6 @@ Public Class FormMenu
                 Me.Close()
                 Exit Sub
             End If
-
-
             Dim mydata As DataSet = myuser.findByUserid(userid.ToLower)
             If mydata.tables(0).rows.count > 0 Then
                 Dim identity = myuser.findIdentity(mydata.Tables(0).rows(0).item("id"))

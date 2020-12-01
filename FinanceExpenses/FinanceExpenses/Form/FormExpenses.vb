@@ -1,9 +1,15 @@
 ﻿Imports System.Threading
 
+Public Enum ApproverType
+    RegularUser = 0
+    FinalApprover = 1
+End Enum
 Public Class FormExpenses
+
     Dim ProgressReportCallback1 As ProgressReportCallback = AddressOf myCallBack
     Dim DoBackground1 As DoBackground = New DoBackground(Me, ProgressReportCallback1)
-
+    Dim FirstApproverUser As List(Of UserController)
+    Dim SecondApproverUser As List(Of UserController)
     Dim _isModified As Boolean = False
 
     Private myController As New EmailController
@@ -13,7 +19,7 @@ Public Class FormExpenses
     Dim myParam = ParamAdapter.getInstance
 
     Dim Identity As UserController = User.getIdentity
-    Dim userid = DirectCast(User.identity, UserController).userid
+
 
     Private DRV As DataRowView      'HeaderRow
     Dim ApprovalDRV As DataRowView  'ApprovalRow
@@ -24,11 +30,29 @@ Public Class FormExpenses
     Dim FinanceTxBS As BindingSource
     Dim ApprovalTXBS As BindingSource
 
-    Dim FirstApprover As String = String.Empty
-    Dim SecondApprover As String = String.Empty
+
+
+    'Dim FirstApprover As String = String.Empty
+    'Dim SecondApprover As String = String.Empty
+
+    Dim FinanceEmailList As String
+    Dim FinanceUserNameList As String
+
+    'Dim FirstApproverEmail As String = String.Empty
+    'Dim SecondApproverEmail As String = String.Empty
     Dim nLevelApproval As Long
 
     Public Shared Event myFormClosed(isModified As Boolean)
+    Dim userid = DirectCast(User.identity, UserController).userid
+    Dim _HasApprover As Boolean
+    Public Property HasApprover As Boolean
+        Get
+            Return _HasApprover
+        End Get
+        Set(value As Boolean)
+            _HasApprover = value
+        End Set
+    End Property
 
     Sub myCallBack()
 
@@ -78,7 +102,10 @@ Public Class FormExpenses
                         ToolStripButtonReject.Visible = True 'Reject
                 End Select
             Case FinanceExpenses.TxEnum.HistoryRecord
-
+                UcFinanceExpenses1.DisabledContextMenu()
+                If User.can("Validate For Finance") Then
+                    ToolStripButtonCommit.Visible = True 'Commit
+                End If
         End Select
 
         'Check Add or Update
@@ -171,8 +198,7 @@ Public Class FormExpenses
             Return _isModified
         End Get
     End Property
-    'New Record HDID = 0
-    'Update Record HDID <> 0
+
     Public Sub New(ByVal hdid As Long, ByVal txEnum As TxEnum)
 
         ' This call is required by the designer.
@@ -185,19 +211,60 @@ Public Class FormExpenses
         Me.TxEnum = txEnum
         'Check User ApprovalLevel
         Dim myApproval As New ApprovalModel
-        Dim nLevelApproval = DirectCast(User.identity, UserController).nlevelapproval
-        If nLevelApproval = "" Then
-            'NO Level Approval
-        Else
-            If DirectCast(User.identity, UserController).nlevelapproval > 0 Then
-                FirstApprover = myApproval.getApprover(DirectCast(User.identity, UserController).employeenumber)
-                If nLevelApproval = 2 Then
-                    SecondApprover = myApproval.getApprover(FirstApprover)
-                End If
-            Else
+        FinanceEmailList = myApproval.FinanceEmailList
+        FinanceUserNameList = myApproval.FinanceUserNameList
+        'Dim nLevelApproval = DirectCast(User.identity, UserController).nlevelapproval
+        'If nLevelApproval = "" Then
+        '    'NO Level Approval
+        'Else
+        '    If DirectCast(User.identity, UserController).nlevelapproval > 0 Then
+        '        'FirstApprover based on UserLogin
+        '        'FirstApprover = myApproval.getApprover(DirectCast(User.identity, UserController).employeenumber)
+        '        'All Employee must have at least 1 approver, the approver can be First Approver or Final Approver.
+        '        'First Approver has value nothing in nlevelapprover field
+        '        'Final Approver has value 1 in nlevelapprover field
+        '        FirstApproverUser = myApproval.getApprover(DirectCast(User.identity, UserController).employeenumber)
+        '        'If nLevelApproval = 2 Then
+        '        If FirstApproverUser(0).nlevelapproval = 1 Then
+        '            'Final Approver, no need to find the second approver.
+        '        ElseIf IsDBNull(FirstApproverUser(0).nlevelapproval) Then
+        '            'First Approver. Find the Final Approver again.
+        '            'SecondApprover = myApproval.getApprover(FirstApprover)
+        '            'Get SecondApprover
+        '            SecondApproverUser = myApproval.getApprover(FirstApproverUser(0).employeenumber)
+        '        End If
 
+        '    Else
+
+        '    End If
+        'End If
+
+        'FirstApprover based on UserLogin
+        'FirstApprover = myApproval.getApprover(DirectCast(User.identity, UserController).employeenumber)
+        'All Employee must have at least 1 approver, the approver can be First Approver or Final Approver.
+        'First Approver has value nothing in nlevelapprover field
+        'Final Approver has value 1 in nlevelapprover field
+        FirstApproverUser = myApproval.getApprover(DirectCast(User.identity, UserController).employeenumber)
+        'If nLevelApproval = 2 Then
+        HasApprover = True
+        If FirstApproverUser.Count = 0 Then
+            'Cannot Find Approver For this user
+            'Show message
+            MessageBox.Show("Sorry, you don't have any approver. Please contact Administrator!")
+            HasApprover = False
+        Else
+
+            If FirstApproverUser(0).nlevelapproval = ApproverType.FinalApprover Then
+                'Final Approver, no need to find the second approver.
+            ElseIf IsNothing(FirstApproverUser(0).nlevelapproval) Then
+                'First Approver. Find the Final Approver again.
+                'SecondApprover = myApproval.getApprover(FirstApprover)
+                'Get SecondApprover
+                SecondApproverUser = myApproval.getApprover(FirstApproverUser(0).employeenumber)
             End If
+
         End If
+
 
 
 
@@ -345,6 +412,7 @@ Public Class FormExpenses
         'If myController.save() Then
         '    UcProductRequest1.TextBox1.Text = DRV.Row.Item("refnumber")
         'End If
+        myController.saveExpenses()
     End Sub
 
     Private Sub setIsModified()
@@ -378,13 +446,14 @@ Public Class FormExpenses
                 If myform.ShowDialog = Windows.Forms.DialogResult.OK Then
                     DRV.Row.Item("status") = TaskStatusEnum.STATUS_FORWARD
                     DRV.Row.Item("forwardto") = myform.getForwardTo
+                    DRV.Row.Item("forwardtoname") = myform.getForwardToName
                     Dim remarks As String = myform.getRemark
                     Dim StatusName As String = String.Empty
                     StatusName = "Forward task"
                     setApproval(DRV.Item("status"), StatusName, remarks)
                 End If
             End If
-           
+
         Else
             MessageBox.Show("Nothing todo.")
         End If
@@ -394,12 +463,12 @@ Public Class FormExpenses
 
     Private Sub ToolStripButtonValidate_Click(sender As Object, e As EventArgs) Handles ToolStripButtonValidate.Click
         If IsNothing(ApprovalDRV) Then
-            If UcFinanceExpenses1.Validate() Then
+            If UcFinanceExpenses1.validate() Then
                 If MessageBox.Show("Do you want to validate this record?", "Validate", System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
                     Dim remarks As String = String.Empty 'InputBox("Please input some comment.")
                     Dim mydialog = New DialogInputText
                     If mydialog.ShowDialog = Windows.Forms.DialogResult.OK Then
-
+                        remarks = mydialog.GetRemark
                         Dim StatusName As String = String.Empty
                         Select Case DRV.Row.Item("status")
                             Case TaskStatusEnum.STATUS_NEW, TaskStatusEnum.STATUS_FORWARD
@@ -407,11 +476,23 @@ Public Class FormExpenses
                                 StatusName = "Validated by Requester"
                                 'Create Approver
                                 Dim appdrv As DataRowView = myController.GetApprovalTxBS.AddNew
-                                appdrv.Row.Item("stapprover") = FirstApprover
-                                If DirectCast(User.identity, UserController).nlevelapproval = 2 Then
-                                    appdrv.Row.Item("ndapprover") = SecondApprover
+                                appdrv.Row.Item("stapprover") = FirstApproverUser(0).employeenumber
+                                DRV.Row.Item("stemail") = FirstApproverUser(0).email
+                                DRV.Row.Item("stapprovername") = FirstApproverUser(0).username
+                                'If DirectCast(User.identity, UserController).nlevelapproval = 2 Then
+                                '    appdrv.Row.Item("ndapprover") = SecondApproverUser(0).employeenumber
+                                '    DRV.Row.Item("ndemail") = SecondApproverUser(0).email
+                                '    DRV.Row.Item("ndapprovername") = SecondApproverUser(0).username
+                                'End If
+                                If Not IsNothing(SecondApproverUser) Then
+                                    appdrv.Row.Item("ndapprover") = SecondApproverUser(0).employeenumber
+                                    DRV.Row.Item("ndemail") = SecondApproverUser(0).email
+                                    DRV.Row.Item("ndapprovername") = SecondApproverUser(0).username
                                 End If
                                 appdrv.EndEdit()
+                            Case TaskStatusEnum.STATUS_REJECTEDBYM1, TaskStatusEnum.STATUS_REJECTEDBYM2, TaskStatusEnum.STATUS_REJECTEDBYFINANCE
+                                DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
+                                StatusName = "Validated by Requester"
                             Case TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
                                 DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYM1
                                 StatusName = "Validated by M+1"
@@ -441,11 +522,7 @@ Public Class FormExpenses
                                 StatusName = "Validated by Finance"
                         End Select
                         setApproval(DRV.Item("status"), StatusName, remarks)
-
                     End If
-
-
-
                 End If
             End If
         Else
@@ -454,20 +531,20 @@ Public Class FormExpenses
     End Sub
 
     Private Sub ToolStripButtonStsCancelled_Click(sender As Object, e As EventArgs) Handles ToolStripButtonStsCancelled.Click
-        'If IsNothing(ApprovalDRV) Then
-        '    If MessageBox.Show("Do you want to cancel this record?", "Cancel", System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
-        '        Dim remarks As String = InputBox("Please input some comment.")
-        '        If DRV.Row.Item("status") = ProductRequestStatusEnum.StatusDraft Then
-        '            DRV.Row.Item("status") = ProductRequestStatusEnum.StatusCancelled
-        '            setApproval(DRV.Item("status"), "Cancelled", remarks, False)
-        '        Else
-        '            DRV.Row.Item("status") = ProductRequestStatusEnum.StatusCancelled
-        '            setApproval(DRV.Item("status"), "Cancelled", remarks)
-        '        End If
-        '    End If
-        'Else
-        '    MessageBox.Show("Nothing todo.")
-        'End If
+        If IsNothing(ApprovalDRV) Then
+            If MessageBox.Show("Do you want to cancel this record?", "Cancel", System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
+                Dim mydialog As New DialogInputText
+                If mydialog.ShowDialog = Windows.Forms.DialogResult.OK Then
+                    Dim remarks As String = mydialog.GetRemark
+                    If DRV.Row.Item("status") = TaskStatusEnum.STATUS_NEW Then
+                        DRV.Row.Item("status") = TaskStatusEnum.STATUS_CANCELLED
+                        setApproval(DRV.Item("status"), "Cancelled", remarks, False)
+                    End If
+                End If
+            End If
+        Else
+            MessageBox.Show("Nothing todo.")
+        End If
 
     End Sub
 
@@ -512,7 +589,6 @@ Public Class FormExpenses
         If IsNothing(ApprovalDRV) Then
             If UcFinanceExpenses1.validate() Then
                 If MessageBox.Show("Do you want to complete this record?", "Cancel", System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
-                    'Dim remarks As String = InputBox("Please input some comment.")
                     Dim remarks As String = String.Empty
                     Dim mydialog = New DialogInputText
                     If mydialog.ShowDialog = Windows.Forms.DialogResult.OK Then
@@ -527,7 +603,23 @@ Public Class FormExpenses
             MessageBox.Show("Nothing todo.")
         End If
     End Sub
+    Private Sub setApproval(status As Integer, statusname As String, remarks As String, Optional send As Boolean = True)
+        ApprovalDRV = myController.GetActionBS.AddNew
+        ApprovalDRV.Row.Item("status") = status
+        ApprovalDRV.Row.Item("statusname") = statusname
+        ApprovalDRV.Row.Item("modifiedby") = userid
+        ApprovalDRV.Row.Item("latestupdate") = Now
+        ApprovalDRV.Row.Item("remark") = remarks
+        'ApprovalDRV.Row.Item("sscemailhdid") = DRV.Item("id")
 
+        ApprovalDRV.EndEdit()
+        Logger.log(String.Format("** Submit {0}**", userid))
+        If myController.saveExpenses() Then
+            If send Then
+                SendEmail()
+            End If
+        End If
+    End Sub
     Public Overloads Function validate() As Boolean
         'Dim myret As Boolean = True
         'If myController.GetDTLBS.Count = 0 Then
@@ -541,87 +633,94 @@ Public Class FormExpenses
     End Function
 
     Private Sub SendEmail()
-        'Dim myEmail As New PREmail
-        'Dim SendTo As String = ""
-        'Dim sendToName As String = ""
-        'Dim StatusName As String = ""
-        'Dim CC As String = String.Empty
+        Dim myEmail As New SSCEmailTask
+        Dim SendTo As String = ""
+        Dim sendToName As String = ""
+        Dim StatusName As String = ""
+        Dim CC As String = String.Empty
 
-        'Select Case DRV.Item("status")
-        '    Case ProductRequestStatusEnum.StatusNew
-        '        'Send to Dept Approval
-        '        SendTo = DeptApproval.Email
-        '        sendToName = DeptApproval.Name
-        '        StatusName = "New"
-        '    Case ProductRequestStatusEnum.StatusResubmit
-        '        'Send to Dept Approval
-        '        SendTo = DeptApproval.Email
-        '        sendToName = DeptApproval.Name
-        '        StatusName = "Resubmit"
-        '    Case ProductRequestStatusEnum.StatusValidatedbyDirector
-        '        StatusName = "Validated by Dept"
-        '        If Not IsDBNull(DRV.Item("mdapproval")) Then
-        '            SendTo = MDApproval.Email
-        '            sendToName = MDApproval.Name
-        '        Else
-        '            SendTo = SupplyChainTo
-        '            CC = SupplyChainCC
-        '            sendToName = "Supply Chain"
-        '        End If
-        '    Case ProductRequestStatusEnum.StatusValidatedbyMDirector
-        '        StatusName = "Validated by Managing Director"
-        '        SendTo = SupplyChainTo
-        '        CC = SupplyChainCC
-        '        sendToName = "Supply Chain"
-        '    Case ProductRequestStatusEnum.StatusRejectedbyDirector
-        '        'sendto creator
-        '        StatusName = "Rejected by Director"
-        '        SendTo = DRV.Row.Item("applicantemail")
-        '        sendToName = DRV.Row.Item("applicantname")
-        '    Case ProductRequestStatusEnum.StatusRejectedbyMDirector
-        '        'Send to Creator
-        '        StatusName = "Rejected by Managing Director"
-        '        SendTo = DRV.Row.Item("applicantemail")
-        '        sendToName = DRV.Row.Item("applicantname")
-        '    Case ProductRequestStatusEnum.StatusCompleted
-        '        'send to Creator
-        '        StatusName = "Completed"
-        '        SendTo = DRV.Row.Item("applicantemail") 'DirectCast(User.identity, UserController).email
-        '        sendToName = DRV.Row.Item("applicantname") 'DirectCast(User.identity, UserController).username
-        '    Case ProductRequestStatusEnum.StatusCancelled
-        '        'send to validator
-        '        SendTo = DeptApproval.Email
-        '        sendToName = DeptApproval.Name
-        '        StatusName = "Cancelled"
-        'End Select
+        Select Case DRV.Item("status")
+            Case TaskStatusEnum.STATUS_FORWARD
+                'Check for Forwardto Email
+                SendTo = DRV.Row.Item("forwardto")
+                sendToName = DRV.Row.Item("forwardtoname")
+                StatusName = "Forward"
+            Case TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
+                'SendTo = FirstApproverUser(0).email 'DRV.Row.Item("stemail")
+                'sendToName = FirstApproverUser(0).username 'DRV.Row.Item("")
+                SendTo = DRV.Row.Item("stemail")
+                sendToName = DRV.Row.Item("stapprovername")
+                StatusName = "Validated by Requester"
+            Case TaskStatusEnum.STATUS_VALIDATEDBYM1
+                'Two Conditions, send to M+2 or Finance. If M+2 is blank, Send To Finance.
+                If Not IsDBNull(DRV.Row.Item("ndemail")) Then
+                    'M+2
+                    SendTo = DRV.Item("ndemail")
+                    sendToName = DRV.Item("ndapprovername")
+                Else
+                    'Finance
+                    SendTo = FinanceEmailList
+                    sendToName = FinanceUserNameList
+                End If
+
+                StatusName = "Validated by M+1"
+            Case TaskStatusEnum.STATUS_VALIDATEDBYM2
+                SendTo = FinanceEmailList
+                sendToName = FinanceUserNameList
+                StatusName = "Validated by M+2"
+                'Case ProductRequestStatusEnum.StatusResubmit
+                '    'Send to Dept Approval
+                '    SendTo = DeptApproval.Email
+                '    sendToName = DeptApproval.Name
+                '    StatusName = "Resubmit"
+                'Case ProductRequestStatusEnum.StatusValidatedbyDirector
+                '    StatusName = "Validated by Dept"
+                '    If Not IsDBNull(DRV.Item("mdapproval")) Then
+                '        SendTo = MDApproval.Email
+                '        sendToName = MDApproval.Name
+                '    Else
+                '        SendTo = SupplyChainTo
+                '        CC = SupplyChainCC
+                '        sendToName = "Supply Chain"
+                '    End If
+                'Case ProductRequestStatusEnum.StatusValidatedbyMDirector
+                '    StatusName = "Validated by Managing Director"
+                '    SendTo = SupplyChainTo
+                '    CC = SupplyChainCC
+                '    sendToName = "Supply Chain"
+                'Case ProductRequestStatusEnum.StatusRejectedbyDirector
+                '    'sendto creator
+                '    StatusName = "Rejected by Director"
+                '    SendTo = DRV.Row.Item("applicantemail")
+                '    sendToName = DRV.Row.Item("applicantname")
+                'Case ProductRequestStatusEnum.StatusRejectedbyMDirector
+                '    'Send to Creator
+                '    StatusName = "Rejected by Managing Director"
+                '    SendTo = DRV.Row.Item("applicantemail")
+                '    sendToName = DRV.Row.Item("applicantname")
+                'Case ProductRequestStatusEnum.StatusCompleted
+                '    'send to Creator
+                '    StatusName = "Completed"
+                '    SendTo = DRV.Row.Item("applicantemail") 'DirectCast(User.identity, UserController).email
+                '    sendToName = DRV.Row.Item("applicantname") 'DirectCast(User.identity, UserController).username
+                'Case ProductRequestStatusEnum.StatusCancelled
+                '    'send to validator
+                '    SendTo = DeptApproval.Email
+                '    sendToName = DeptApproval.Name
+                '    StatusName = "Cancelled"
+        End Select
 
 
 
-        'Logger.log(String.Format("SendTo: {0}, SendTo Name: {1}, StatusName: {2}", SendTo, sendToName, StatusName))
-        'If Not myEmail.Execute(SendTo, sendToName, StatusName, DRV, DTLBS, CC) Then
-        '    Logger.log(String.Format("Error Message: {0}", myEmail.ErrorMessage))
-        'Else
-        '    Logger.log("Email Sent")
-        'End If
-    End Sub
-
-    Private Sub setApproval(status As Integer, statusname As String, remarks As String, Optional send As Boolean = True)
-        ApprovalDRV = myController.GetActionBS.AddNew
-        ApprovalDRV.Row.Item("status") = status
-        ApprovalDRV.Row.Item("statusname") = statusname
-        ApprovalDRV.Row.Item("modifiedby") = userid
-        ApprovalDRV.Row.Item("latestupdate") = Now
-        ApprovalDRV.Row.Item("remark") = remarks
-        'ApprovalDRV.Row.Item("sscemailhdid") = DRV.Item("id")
-
-        ApprovalDRV.EndEdit()
-        Logger.log(String.Format("** Submit {0}**", userid))
-        If myController.saveExpenses() Then
-            'If send Then
-            '    SendEmail()
-            'End If
+        Logger.log(String.Format("SendTo: {0}, SendTo Name: {1}, StatusName: {2}", SendTo, sendToName, StatusName))
+        If Not myEmail.Execute(SendTo, sendToName, StatusName, DRV, CC) Then
+            Logger.log(String.Format("Error Message: {0}", myEmail.errormessage))
+        Else
+            Logger.log("Email Sent")
         End If
     End Sub
+
+
 
     Private Function ValidConfirmedQty() As Boolean
         Dim myret As Boolean = True
@@ -727,5 +826,5 @@ Public Class FormExpenses
 
 
 
-   
+
 End Class

@@ -23,6 +23,36 @@ Public Class DialogAddUpdCostCenter
         
     End Sub
 
+    Public Overloads Function validate() As Boolean
+        Dim myret As Boolean = True
+        ErrorProvider1.SetError(TextBox1, "")
+        If TextBox1.TextLength = 0 Then
+            ErrorProvider1.SetError(TextBox1, "Value cannot be blank.")
+            myret = False
+        End If
+        ErrorProvider1.SetError(TextBox2, "")
+        If TextBox2.TextLength = 0 Then
+            ErrorProvider1.SetError(TextBox2, "Value cannot be blank.")
+            myret = False
+        End If
+        ErrorProvider1.SetError(TextBox3, "")
+        If TextBox3.TextLength = 0 Then
+            ErrorProvider1.SetError(TextBox3, "Value cannot be blank.")
+            myret = False
+        End If
+        ErrorProvider1.SetError(TextBox4, "")
+        If TextBox4.TextLength = 0 Then
+            ErrorProvider1.SetError(TextBox4, "Value cannot be blank.")
+            myret = False
+        End If
+        ErrorProvider1.SetError(TextBox5, "")
+        If TextBox5.TextLength = 0 Then
+            ErrorProvider1.SetError(TextBox5, "Value cannot be blank.")
+            myret = False
+        End If
+        Return myret
+    End Function
+
     Private Sub Cancel_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Cancel_Button.Click
         drv.CancelEdit()
         Me.DialogResult = System.Windows.Forms.DialogResult.Cancel
@@ -43,11 +73,13 @@ Public Class DialogAddUpdCostCenter
         TextBox2.DataBindings.Clear()
         TextBox3.DataBindings.Clear()
         TextBox4.DataBindings.Clear()
+        TextBox5.DataBindings.Clear()
 
         TextBox1.DataBindings.Add(New Binding("Text", drv, "glaccount", False, DataSourceUpdateMode.OnPropertyChanged))
         TextBox2.DataBindings.Add(New Binding("Text", drv, "costcenter", False, DataSourceUpdateMode.OnPropertyChanged))
         TextBox3.DataBindings.Add(New Binding("Text", drv, "amount", True, DataSourceUpdateMode.OnPropertyChanged, "", "#,##0.00"))
         TextBox4.DataBindings.Add(New Binding("Text", drv, "remark", False, DataSourceUpdateMode.OnPropertyChanged))
+        TextBox5.DataBindings.Add(New Binding("Text", drv, "crcy", False, DataSourceUpdateMode.OnPropertyChanged))
     End Sub
 
 

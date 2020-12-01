@@ -31,6 +31,7 @@ Public Class SSCEmailTask
         Invalid = 1
     End Enum
 
+
     Public Sub New()
 
     End Sub
@@ -39,11 +40,63 @@ Public Class SSCEmailTask
         Me.EmailType = EmailType
     End Sub
 
+    Private Property statusname As String
+    Private Property sendtoname As String
+    Private Property drv As DataRowView
+
     Private Sub Logg(ByVal mymessage As String)
         If AutoTask Then
             Logger.log(mymessage)
         End If
     End Sub
+
+    Public Function Execute(ByVal sendto As String, ByVal sendtoname As String, ByVal statusname As String, ByVal drv As DataRowView, Optional ByVal cc As String = "") As Boolean
+        Dim myret As Boolean = False
+        Try
+            'Prepare Email
+            Me.statusname = statusname
+            Me.sendtoname = sendtoname
+            Me.drv = drv
+            Me.sendto = Trim(sendto)
+            Me.subject = String.Format("Indirect Purchase Invoice Approval Task. (Date : {0:dd-MMM-yyyy}) ", Today.Date)
+
+            If Not IsNothing(Me.sendto) Then
+                Dim mycontent = getBodyMessage()
+                Dim htmlView As AlternateView = AlternateView.CreateAlternateViewFromString(String.Format("{0} <br>Or click the Indirect Purchase Invoice Approval icon on your desktop: <br><p> <a href=""https://sw07e601/RDWeb""><img src=cid:myLogo> </a><br></p><p>Indirect Purchase Invoice Approval System Administrator</p></body></html>", mycontent), Nothing, MediaTypeNames.Text.Html)
+                Dim logo As New LinkedResource(Application.StartupPath & "\SSC.png")
+                logo.ContentId = "myLogo"
+                htmlView.LinkedResources.Add(logo)
+
+                Me.htmlView = htmlView
+                Me.isBodyHtml = True
+                Me.sender = "no-reply@groupeseb.com"
+                Me.body = mycontent                
+                If Not Me.send(errormessage) Then
+                    Logger.log(errormessage)
+                Else                    
+                    myret = True
+                End If
+                'myret = Me.send(errormessage)
+
+            End If
+        Catch ex As Exception
+            Logger.log(ex.Message)
+            MessageBox.Show(ex.Message)
+        End Try
+
+        Return myret
+    End Function
+
+    Private Function getBodyMessage() As String
+        Dim sb As New StringBuilder
+        sb.Append("<!DOCTYPE html><html><head><meta name=""description"" content=""[IndirectPurchaseInvoiceApproval]"" /><meta http-equiv=""Content-Type"" content=""text/html; charset=us-ascii""></head><style>  td,th {padding-left:5px;         padding-right:10px;         text-align:left;  }  th {background-color:red;    color:white}  .defaultfont{    font-size:11.0pt; font-family:""Calibri"",""sans-serif"";    }</style><body class=""defaultfont"">")
+        sb.Append(String.Format("<p>Dear {0} </p><p>Please be informed that you have tasks that need to follow up.<br>Date: {1:dd-MMM-yyyy}<br><br><br>", sendtoname, Today.Date))
+        sb.Append("    List of Tasks:</p>  <table border=1 cellspacing=0>    <tr><th>Status</th><th>Subject</th><th>From</th><th>Received Date</th></tr>")
+        sb.Append(String.Format("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td></tr>", statusname, drv.Item("emailsubject"), drv.Item("sender"), drv.Item("receiveddate")))
+        sb.Append("</table>  <br>  <p>Thank you.<br><br>You can access the system in RD WEB Access by below link:<br>   <a href=""https://sw07e601/RDWeb"">MyTask</a></p><br>")
+        Return sb.ToString
+    End Function
+
     Public Function ValidateEmail() As Boolean
         'Get email with isvalid isnull
         Dim myret = False
@@ -151,7 +204,6 @@ Public Class SSCEmailTask
         DS = New DataSet
         DS = myEmail.LoadData
         Dim InvalidEmail As String = myEmail.InvalidEmail
-
         For Each n In myEmail.GetQuery
             If InvalidEmail.Length > 0 Then
                 Me.sendto = InvalidEmail
@@ -364,3 +416,4 @@ Public Class SendInvalidEmail
 
 
 End Class
+

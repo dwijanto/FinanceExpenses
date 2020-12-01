@@ -68,7 +68,10 @@ Public Class DoBackground
                 Case 2
                     Parent.Toolstripstatuslabel2.text = message
                 Case 4
-                    ProgressReportCallback.Invoke(Me, New System.EventArgs)
+                    Try
+                        ProgressReportCallback.Invoke(Me, New System.EventArgs)
+                    Catch ex As Exception
+                    End Try
                     RaiseEvent CallBack(4, New EventArgs)
                 Case 5
                     Parent.ToolStripProgressBar1.Style = ProgressBarStyle.Marquee

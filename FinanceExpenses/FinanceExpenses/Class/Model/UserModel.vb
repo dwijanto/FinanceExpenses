@@ -67,8 +67,8 @@ Public Class UserModel
         Dim SB As New StringBuilder
         SB.Append(String.Format("SELECT u.*,sa.approvercode,u1.username AS approvername FROM ssc.user u" &
                                 " LEFT JOIN ssc.sscapproval sa ON sa.staffcode::text = u.employeenumber::text " &
-                                " LEFT JOIN ssc.user u1 ON u1.employeenumber::text = sa.approvercode::text" &
-                                " WHERE u.isactive"))
+                                " LEFT JOIN ssc.user u1 ON u1.employeenumber::text = sa.approvercode::text"))
+        ' " WHERE u.isactive"))
         Dim sqlstr = SB.ToString
         DS = DataAccess.GetDataSet(sqlstr, CommandType.Text, Nothing)
         DS.Tables(0).TableName = TableName
@@ -78,7 +78,7 @@ Public Class UserModel
     Public Function GetUserBS() As BindingSource
         Dim SB As New StringBuilder
         Dim DS As New DataSet
-        SB.Append(String.Format("SELECT u.*, u.employeenumber || ' - ' || u.username as description FROM ssc.user u WHERE u.isactive"))
+        SB.Append(String.Format("SELECT u.*, u.employeenumber || ' - ' || u.username  ||  ' - ' || u.email  as description FROM ssc.user u WHERE u.isactive"))
         Dim sqlstr = SB.ToString
         DS = DataAccess.GetDataSet(sqlstr, CommandType.Text, Nothing)
         DS.Tables(0).TableName = TableName

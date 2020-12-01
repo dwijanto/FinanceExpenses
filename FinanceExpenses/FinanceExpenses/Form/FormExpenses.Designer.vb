@@ -69,11 +69,11 @@ Partial Class FormExpenses
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.TabControl1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(755, 584)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(823, 584)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(755, 631)
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(823, 631)
         Me.ToolStripContainer1.TabIndex = 1
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
@@ -88,7 +88,7 @@ Partial Class FormExpenses
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel2, Me.ToolStripProgressBar1})
         Me.StatusStrip1.Location = New System.Drawing.Point(0, 0)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(755, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(823, 22)
         Me.StatusStrip1.TabIndex = 3
         '
         'ToolStripStatusLabel1
@@ -100,7 +100,7 @@ Partial Class FormExpenses
         'ToolStripStatusLabel2
         '
         Me.ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
-        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(638, 17)
+        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(706, 17)
         Me.ToolStripStatusLabel2.Spring = True
         Me.ToolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -119,7 +119,7 @@ Partial Class FormExpenses
         Me.TabControl1.Location = New System.Drawing.Point(0, 3)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(755, 578)
+        Me.TabControl1.Size = New System.Drawing.Size(823, 578)
         Me.TabControl1.TabIndex = 0
         '
         'TabPage1
@@ -128,7 +128,7 @@ Partial Class FormExpenses
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(747, 552)
+        Me.TabPage1.Size = New System.Drawing.Size(815, 552)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Expenses Request"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -139,7 +139,7 @@ Partial Class FormExpenses
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(712, 552)
+        Me.TabPage2.Size = New System.Drawing.Size(815, 552)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Approval Status"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -156,7 +156,7 @@ Partial Class FormExpenses
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.ReadOnly = True
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(688, 270)
+        Me.DataGridView1.Size = New System.Drawing.Size(768, 270)
         Me.DataGridView1.TabIndex = 0
         '
         'Column1
@@ -178,11 +178,12 @@ Partial Class FormExpenses
         'Column3
         '
         Me.Column3.DataPropertyName = "latestupdate"
-        DataGridViewCellStyle1.Format = "dd-MMM-yyyy"
+        DataGridViewCellStyle1.Format = "dd-MMM-yyyy HH:mm:ss tt"
         Me.Column3.DefaultCellStyle = DataGridViewCellStyle1
         Me.Column3.HeaderText = "Latest Update"
         Me.Column3.Name = "Column3"
         Me.Column3.ReadOnly = True
+        Me.Column3.Width = 200
         '
         'Column4
         '
@@ -207,8 +208,8 @@ Partial Class FormExpenses
         Me.ToolStripButtonCommit.Image = CType(resources.GetObject("ToolStripButtonCommit.Image"), System.Drawing.Image)
         Me.ToolStripButtonCommit.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButtonCommit.Name = "ToolStripButtonCommit"
-        Me.ToolStripButtonCommit.Size = New System.Drawing.Size(37, 22)
-        Me.ToolStripButtonCommit.Text = "Draft"
+        Me.ToolStripButtonCommit.Size = New System.Drawing.Size(55, 22)
+        Me.ToolStripButtonCommit.Text = "Commit"
         Me.ToolStripButtonCommit.Visible = False
         '
         'ToolStripButtonSubmit
@@ -279,16 +280,20 @@ Partial Class FormExpenses
         '
         'UcFinanceExpenses1
         '
+        Me.UcFinanceExpenses1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.UcFinanceExpenses1.DocType = 1
         Me.UcFinanceExpenses1.Location = New System.Drawing.Point(8, 27)
         Me.UcFinanceExpenses1.Name = "UcFinanceExpenses1"
-        Me.UcFinanceExpenses1.Size = New System.Drawing.Size(735, 514)
+        Me.UcFinanceExpenses1.Size = New System.Drawing.Size(799, 514)
         Me.UcFinanceExpenses1.TabIndex = 0
         '
         'FormExpenses
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(755, 631)
+        Me.ClientSize = New System.Drawing.Size(823, 631)
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Name = "FormExpenses"
         Me.Text = "FormExpenses"

@@ -77,7 +77,7 @@ Partial Class DialogForwardTo
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(278, 39)
+        Me.Button1.Location = New System.Drawing.Point(339, 39)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(29, 23)
         Me.Button1.TabIndex = 6
@@ -86,9 +86,11 @@ Partial Class DialogForwardTo
         '
         'TextBox1
         '
+        Me.TextBox1.BackColor = System.Drawing.SystemColors.ButtonHighlight
         Me.TextBox1.Location = New System.Drawing.Point(116, 41)
         Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(156, 20)
+        Me.TextBox1.ReadOnly = True
+        Me.TextBox1.Size = New System.Drawing.Size(217, 20)
         Me.TextBox1.TabIndex = 5
         '
         'Label1
@@ -121,7 +123,7 @@ Partial Class DialogForwardTo
         'ToolStripStatusLabel2
         '
         Me.ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
-        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(338, 17)
+        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(392, 17)
         Me.ToolStripStatusLabel2.Spring = True
         Me.ToolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '

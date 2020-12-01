@@ -44,7 +44,16 @@ Public Class EmailModel
     Public Function LoadData(ByRef DS As DataSet, ByVal Criteria As String)
         Dim myret As Boolean = True
         Dim sb As New StringBuilder
-        sb.Append(String.Format("select hd.* from ssc.sscemailhd hd {0};", Criteria))
+        sb.Append(String.Format("select hd.*, ssc.getstatusname(status) as statusname,date_part('Year',creationdate)::text || '-' || to_char(referencenumber,'FM000000') as refnumber, requester.username as attnname," &
+                                " forwarded.username as forwardtoname,stapp.email as stemail,stapp.username as stapprovername,ndapp.email as ndemail,ndapp.username as ndapprovername," &
+                                " delegatestapp.email as delegatestemail,delegatestapp.username as delegatestapprovername,delegatendapp.email as delegatendemail," &
+                                " delegatendapp.username as delegatendapprovername  from ssc.sscemailhd hd  left join ssc.user requester on requester.email = hd.attn" &
+                                " left join ssc.user forwarded on forwarded.email = hd.forwardto" &
+                                " left join ssc.sscapprovaltx app on app.sscemailhdid = hd.id" &
+                                " left join ssc.user stapp on stapp.employeenumber = app.stapprover" &
+                                " left join ssc.user ndapp on ndapp.employeenumber = app.ndapprover" &
+                                " left join ssc.user delegatestapp on delegatestapp.employeenumber = app.delegatestapprover" &
+                                " left join ssc.user delegatendapp on delegatendapp.employeenumber = app.delegatendapprover {0};", Criteria))
         sb.Append(String.Format("select dt.* from ssc.sscemaildt dt left join ssc.sscemailhd hd on hd.id = dt.hdid  {0};", Criteria))
         sb.Append(String.Format("select ssc.getstatusname(ac.status) as statusname,ac.* from ssc.sscemailaction ac left join ssc.sscemailhd hd on hd.id = ac.sscemailhdid  {0};", Criteria))
         sb.Append(String.Format("select fi.* from ssc.sscfinancetx fi left join ssc.sscemailhd hd on hd.id = fi.sscemailhdid  {0};", Criteria))
@@ -136,8 +145,8 @@ Public Class EmailModel
         Dim myret As Boolean = True
         'Try
         Dim sb As New StringBuilder
-        sb.Append(String.Format("select ssc.getstatusname(status) as statusname,hd.*,ap.stapprover,ap.ndapprover,ap.delegatestapprover,ap.delegatendapprover,u1.username as stapprovername,u1.email as stapproveremail,u2.username as ndapprovername ,u2.email as ndapproveremail from ssc.sscemailhd hd left join ssc.sscapprovaltx ap on ap.sscemailhdid = hd.id left join ssc.user u1 on u1.employeenumber = ap.stapprover left join ssc.user u2 on u2.employeenumber = ap.ndapprover  {0};", MyTaskcriteria))
-        sb.Append(String.Format("select ssc.getstatusname(status) as statusname,hd.*,ap.stapprover,ap.ndapprover,ap.delegatestapprover,ap.delegatendapprover,u1.username as stapprovername,u1.email as stapproveremail,u2.username as ndapprovername,u2.email as ndapproveremail from ssc.sscemailhd hd left join ssc.sscapprovaltx ap on ap.sscemailhdid = hd.id left join ssc.user u1 on u1.employeenumber = ap.stapprover left join ssc.user u2 on u2.employeenumber = ap.ndapprover  {0};", Historycriteria))
+        sb.Append(String.Format("select ssc.getstatusname(status) as statusname,date_part('Year',creationdate)::text || '-' || to_char(referencenumber,'FM000000') as refnumber,hd.*,ap.stapprover,ap.ndapprover,ap.delegatestapprover,ap.delegatendapprover,u1.username as stapprovername,u1.email as stapproveremail,u2.username as ndapprovername ,u2.email as ndapproveremail from ssc.sscemailhd hd left join ssc.sscapprovaltx ap on ap.sscemailhdid = hd.id left join ssc.user u1 on u1.employeenumber = ap.stapprover left join ssc.user u2 on u2.employeenumber = ap.ndapprover  {0};", MyTaskcriteria))
+        sb.Append(String.Format("select ssc.getstatusname(status) as statusname,date_part('Year',creationdate)::text || '-' || to_char(referencenumber,'FM000000') as refnumber,hd.*,ap.stapprover,ap.ndapprover,ap.delegatestapprover,ap.delegatendapprover,u1.username as stapprovername,u1.email as stapproveremail,u2.username as ndapprovername,u2.email as ndapproveremail from ssc.sscemailhd hd left join ssc.sscapprovaltx ap on ap.sscemailhdid = hd.id left join ssc.user u1 on u1.employeenumber = ap.stapprover left join ssc.user u2 on u2.employeenumber = ap.ndapprover  {0};", Historycriteria))
         DS = DataAccess.GetDataSet(sb.ToString, CommandType.Text, Nothing)
 
         'Catch ex As Exception
@@ -192,6 +201,7 @@ Public Class EmailModel
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Boolean, 0, "sendisvalid", DataRowVersion.Current))
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "isvalidremark", DataRowVersion.Current))
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "invoicenumber", DataRowVersion.Current))
+            dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Int32, 0, "doctype", DataRowVersion.Current))
             dataadapter.UpdateCommand.CommandType = CommandType.StoredProcedure
 
             sqlstr = "ssc.sp_deletesscemailhd"
@@ -270,6 +280,7 @@ Public Class EmailModel
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "costcenter", DataRowVersion.Current))
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Decimal, 0, "amount", DataRowVersion.Current))
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "remark", DataRowVersion.Current))
+            dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "crcy", DataRowVersion.Current))
             dataadapter.InsertCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "id", ParameterDirection.InputOutput))
             dataadapter.InsertCommand.CommandType = CommandType.StoredProcedure
 
@@ -280,6 +291,7 @@ Public Class EmailModel
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "glaccount", DataRowVersion.Current))
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "costcenter", DataRowVersion.Current))
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Decimal, 0, "amount", DataRowVersion.Current))
+            dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "crcy", DataRowVersion.Current))
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "remark", DataRowVersion.Current))
             dataadapter.UpdateCommand.CommandType = CommandType.StoredProcedure
 

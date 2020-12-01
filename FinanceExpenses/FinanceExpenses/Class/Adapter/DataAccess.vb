@@ -35,13 +35,13 @@ Public Class DataAccess
         Return ExecuteScalar("ssc.sp_isadmin", CommandType.StoredProcedure, myParams)
     End Function
 
-    Public Shared Function GetDeptId(ByVal userid As String) As Object
-        Dim myret As Boolean = False
-        Dim SQLstr = "select deptid from ssc.user where userid =:userid; "
-        Dim myParams(0) As IDbDataParameter
-        myParams(0) = factory.CreateParameter("userid", userid.ToString)
-        Return ExecuteScalar(SQLstr, CommandType.Text, myParams)
-    End Function
+    'Public Shared Function GetDeptId(ByVal userid As String) As Object
+    '    Dim myret As Boolean = False
+    '    Dim SQLstr = "select deptid from ssc.user where userid =:userid; "
+    '    Dim myParams(0) As IDbDataParameter
+    '    myParams(0) = factory.CreateParameter("userid", userid.ToString)
+    '    Return ExecuteScalar(SQLstr, CommandType.Text, myParams)
+    'End Function
 
     Public Shared Function LogLogin(ByVal UserInfo As UserInfo)
         Dim myret As Boolean = False

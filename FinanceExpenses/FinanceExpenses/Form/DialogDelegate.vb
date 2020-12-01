@@ -123,8 +123,10 @@ Public Class DialogDelegate
         helperbs = myController.Model.GetUserBS
         HelperBS.Filter = ""
         Dim myform = New FormHelper(HelperBS)
-
+        myform.Column1.Width = 400
+        myform.Width = 600
         myform.DataGridView1.Columns(0).DataPropertyName = "description"
+
         myform.Filter = "[description] like '%{0}%'"
         If myform.ShowDialog() = DialogResult.OK Then
             Dim drvcurr As DataRowView = HelperBS.Current

@@ -45,6 +45,9 @@
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>ssc.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Exchange.WebServices, Version=15.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -53,6 +56,7 @@
     <Reference Include="Npgsql, Version=2.1.3.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\Npgsql\v4.0_2.1.3.0__5d8b90d52f46fda7\Npgsql.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -143,6 +147,12 @@
       <DependentUpon>UCFinanceExpenses.vb</DependentUpon>
     </Compile>
     <Compile Include="Class\UserControl\UCFinanceExpenses.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Class\UserControl\UCParams.Designer.vb">
+      <DependentUpon>UCParams.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Class\UserControl\UCParams.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Class\UserControl\UCProductRequest.Designer.vb">
@@ -261,6 +271,12 @@
     <Compile Include="Form\FormUser.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Form\SplashScreen1.Designer.vb">
+      <DependentUpon>SplashScreen1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\SplashScreen1.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -283,6 +299,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Class\UserControl\UCFinanceExpenses.resx">
       <DependentUpon>UCFinanceExpenses.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Class\UserControl\UCParams.resx">
+      <DependentUpon>UCParams.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Class\UserControl\UCProductRequest.resx">
       <DependentUpon>UCProductRequest.vb</DependentUpon>
@@ -341,6 +360,9 @@
     <EmbeddedResource Include="Form\FormUser.resx">
       <DependentUpon>FormUser.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form\SplashScreen1.resx">
+      <DependentUpon>SplashScreen1.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -390,6 +412,9 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ssc.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

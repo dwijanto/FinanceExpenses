@@ -2,6 +2,7 @@
 
 Public Class DialogForwardTo
     Public Property getForwardTo As String
+    Public Property getForwardToName As String
     Public Property getRemark As String
 
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
@@ -29,4 +30,24 @@ Public Class DialogForwardTo
         Return myret
     End Function
 
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Dim helperbs As New BindingSource
+        Dim mycontroller As New UserController
+        helperbs = mycontroller.Model.GetUserBS
+        helperbs.Filter = ""
+        Dim myform = New FormHelper(helperbs)
+        myform.Column1.Width = 400
+        myform.Width = 600
+        myform.DataGridView1.Columns(0).DataPropertyName = "description"
+
+        myform.Filter = "[description] like '%{0}%'"
+        If myform.ShowDialog() = DialogResult.OK Then
+            Dim drvcurr As DataRowView = helperbs.Current
+            TextBox1.Text = drvcurr.Row.Item("email")
+            getForwardToName = drvcurr.Row.Item("username")
+        Else
+
+        End If
+
+    End Sub
 End Class

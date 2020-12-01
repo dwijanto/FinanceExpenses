@@ -9,6 +9,10 @@ Public Class ParamAdapter
     Public BS As BindingSource
     Public BS2 As BindingSource
     Public BS3 As BindingSource
+    Public BS4 As BindingSource
+    Public BS5 As BindingSource
+    Public BS6 As BindingSource
+    Public BS7 As BindingSource
     Private ErrMessage As String = String.Empty
 
     Public ReadOnly Property getErrorMessage As String
@@ -104,46 +108,88 @@ Public Class ParamAdapter
     Public Function LoadData()
         Dim sb As New StringBuilder
         Dim myret As Boolean = False
-        sb.Append(String.Format("select pd.* from ssc.paramdt pd left join ssc.paramhd ph on ph.paramhdid = pd.paramhdid where ph.paramname = :approvalparam order by paramdtid;"))
-        sb.Append(String.Format("select pd.* from ssc.paramdt pd left join ssc.paramhd ph on ph.paramhdid = pd.paramhdid where ph.paramname = :exrate order by cvalue;"))
-        sb.Append(String.Format("select pd.* from ssc.paramdt pd left join ssc.paramhd ph on ph.paramhdid = pd.paramhdid where ph.paramname = :supplychainemail order by paramname desc;"))
+        sb.Append(String.Format("select pd.* from ssc.paramdt pd  where pd.paramname = :emaillastreceived order by paramdtid;"))
+        sb.Append(String.Format("select pd.* from ssc.paramdt pd  where pd.paramname = :url order by paramdtid;"))
+        sb.Append(String.Format("select pd.* from ssc.paramdt pd  where pd.paramname = :username order by paramdtid; "))
+        sb.Append(String.Format("select pd.* from ssc.paramdt pd  where pd.paramname = :password order by paramdtid; "))
+        sb.Append(String.Format("select pd.* from ssc.paramdt pd  where pd.paramname = :basefolder order by paramdtid; "))
+        sb.Append(String.Format("select pd.* from ssc.paramdt pd  where pd.paramname = :mailbox order by paramdtid; "))
+        sb.Append(String.Format("select pd.* from ssc.paramdt pd  where pd.paramname = :notvalidemail order by paramdtid; "))
         Dim sqlstr = sb.ToString
         DS = New DataSet
         BS = New BindingSource
         BS2 = New BindingSource
         BS3 = New BindingSource
+        BS4 = New BindingSource
+        BS5 = New BindingSource
+        BS6 = New BindingSource
+        BS7 = New BindingSource
 
-        Dim myparam(2) As System.Data.IDbDataParameter
-        myparam(0) = factory.CreateParameter("approvalparam", "Approval")
-        myparam(1) = factory.CreateParameter("exrate", "ExRate")
-        myparam(2) = factory.CreateParameter("supplychainemail", "SupplyChainEmail")
+        Dim myparam(6) As System.Data.IDbDataParameter
+        myparam(0) = factory.CreateParameter("emaillastreceived", "emaillastreceived")
+        myparam(1) = factory.CreateParameter("url", "url")
+        myparam(2) = factory.CreateParameter("username", "username")
+        myparam(3) = factory.CreateParameter("password", "password")
+        myparam(4) = factory.CreateParameter("basefolder", "basefolder")
+        myparam(5) = factory.CreateParameter("mailbox", "mailbox")
+        myparam(6) = factory.CreateParameter("notvalidemail", "NotValidEmail")
         Try
             DS = DataAccess.GetDataSet(sqlstr, CommandType.Text, myparam)
-
             Dim pk(0) As DataColumn
             pk(0) = DS.Tables(0).Columns("paramdtid")
             DS.Tables(0).PrimaryKey = pk
             BS.DataSource = DS.Tables(0)
-            DS.Tables(0).Columns("paramdtid").AutoIncrement = True
-            DS.Tables(0).Columns("paramdtid").AutoIncrementSeed = -1
-            DS.Tables(0).Columns("paramdtid").AutoIncrementStep = -1
+            'DS.Tables(0).Columns("paramdtid").AutoIncrement = True
+            'DS.Tables(0).Columns("paramdtid").AutoIncrementSeed = -1
+            'DS.Tables(0).Columns("paramdtid").AutoIncrementStep = -1
 
             Dim pk2(0) As DataColumn
             pk2(0) = DS.Tables(1).Columns("paramdtid")
             DS.Tables(1).PrimaryKey = pk2
             BS2.DataSource = DS.Tables(1)
-            DS.Tables(1).Columns("paramdtid").AutoIncrement = True
-            DS.Tables(1).Columns("paramdtid").AutoIncrementSeed = -1
-            DS.Tables(1).Columns("paramdtid").AutoIncrementStep = -1
-            myret = True
+            'DS.Tables(1).Columns("paramdtid").AutoIncrement = True
+            'DS.Tables(1).Columns("paramdtid").AutoIncrementSeed = -1
+            'DS.Tables(1).Columns("paramdtid").AutoIncrementStep = -1
 
             Dim pk3(0) As DataColumn
             pk3(0) = DS.Tables(2).Columns("paramdtid")
             DS.Tables(2).PrimaryKey = pk3
             BS3.DataSource = DS.Tables(2)
-            DS.Tables(2).Columns("paramdtid").AutoIncrement = True
-            DS.Tables(2).Columns("paramdtid").AutoIncrementSeed = -1
-            DS.Tables(2).Columns("paramdtid").AutoIncrementStep = -1
+            'DS.Tables(2).Columns("paramdtid").AutoIncrement = True
+            'DS.Tables(2).Columns("paramdtid").AutoIncrementSeed = -1
+            'DS.Tables(2).Columns("paramdtid").AutoIncrementStep = -1
+
+            Dim pk4(0) As DataColumn
+            pk4(0) = DS.Tables(3).Columns("paramdtid")
+            DS.Tables(3).PrimaryKey = pk4
+            BS4.DataSource = DS.Tables(3)
+            'DS.Tables(3).Columns("paramdtid").AutoIncrement = True
+            'DS.Tables(3).Columns("paramdtid").AutoIncrementSeed = -1
+            'DS.Tables(3).Columns("paramdtid").AutoIncrementStep = -1
+
+            Dim pk5(0) As DataColumn
+            pk5(0) = DS.Tables(4).Columns("paramdtid")
+            DS.Tables(4).PrimaryKey = pk5
+            BS5.DataSource = DS.Tables(4)
+            'DS.Tables(4).Columns("paramdtid").AutoIncrement = True
+            'DS.Tables(4).Columns("paramdtid").AutoIncrementSeed = -1
+            'DS.Tables(4).Columns("paramdtid").AutoIncrementStep = -1
+            
+            Dim pk6(0) As DataColumn
+            pk6(0) = DS.Tables(5).Columns("paramdtid")
+            DS.Tables(5).PrimaryKey = pk6
+            BS6.DataSource = DS.Tables(5)
+            'DS.Tables(5).Columns("paramdtid").AutoIncrement = True
+            'DS.Tables(5).Columns("paramdtid").AutoIncrementSeed = -1
+            'DS.Tables(5).Columns("paramdtid").AutoIncrementStep = -1
+
+            Dim pk7(0) As DataColumn
+            pk7(0) = DS.Tables(6).Columns("paramdtid")
+            DS.Tables(6).PrimaryKey = pk7
+            BS7.DataSource = DS.Tables(6)
+            'DS.Tables(6).Columns("paramdtid").AutoIncrement = True
+            'DS.Tables(6).Columns("paramdtid").AutoIncrementSeed = -1
+            'DS.Tables(6).Columns("paramdtid").AutoIncrementStep = -1
             myret = True
         Catch ex As Exception
             ErrMessage = ex.Message
@@ -155,6 +201,11 @@ Public Class ParamAdapter
         Dim myret As Boolean = False
         BS.EndEdit()
         BS2.EndEdit()
+        BS3.EndEdit()
+        BS4.EndEdit()
+        BS5.EndEdit()
+        BS6.EndEdit()
+        BS7.EndEdit()
 
         Dim ds2 As DataSet = DS.GetChanges
         If Not IsNothing(ds2) Then
@@ -214,15 +265,19 @@ Public Class ParamAdapter
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Int32, 0, "ivalue", DataRowVersion.Current))
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Decimal, 0, "nvalue", DataRowVersion.Current))
             dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.DateTime, 0, "ts", DataRowVersion.Current))
+            dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Boolean, 0, "bvalue", DataRowVersion.Current))
             dataadapter.UpdateCommand.CommandType = CommandType.StoredProcedure
 
             dataadapter.InsertCommand.Transaction = mytransaction
             dataadapter.UpdateCommand.Transaction = mytransaction
             dataadapter.DeleteCommand.Transaction = mytransaction
 
-            mye.ra = factory.Update(mye.dataset.Tables(0))
-            mye.ra = factory.Update(mye.dataset.Tables(1))
-            mye.ra = factory.Update(mye.dataset.Tables(2))
+            For Each dt In mye.dataset.Tables
+                mye.ra = factory.Update(dt)
+            Next
+            'mye.ra = factory.Update(mye.dataset.Tables(0))
+            'mye.ra = factory.Update(mye.dataset.Tables(1))
+            'mye.ra = factory.Update(mye.dataset.Tables(2))
             mytransaction.Commit()
             myret = True
         End Using

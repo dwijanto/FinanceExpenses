@@ -14,7 +14,7 @@
     Public Property isActive As Boolean
     Public Property password_hash As String
     Public Property employeenumber As String
-    Public Property nlevelapproval As String
+    Public Property nlevelapproval As Integer
     'Public Property deptid As Integer
     'Public Property ApprovalId As Integer
    
@@ -156,7 +156,7 @@
                                                 .userid = "" & dr.Item("userid"),
                                                 .email = "" & dr.Item("email"),
                                                 .employeenumber = "" & dr.Item("employeenumber"),
-                                                .nlevelapproval = "" & dr.Item("nlevelapproval"),
+                                                .nlevelapproval = IIf(IsDBNull(dr.Item("nlevelapproval")), 0, dr.Item("nlevelapproval")),
                                                 .password_hash = ""
                                                }
         Return Identity

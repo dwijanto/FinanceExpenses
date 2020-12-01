@@ -89,14 +89,16 @@ Partial Class DialogDelegate
         '
         'TextBox1
         '
+        Me.TextBox1.BackColor = System.Drawing.SystemColors.ButtonHighlight
         Me.TextBox1.Location = New System.Drawing.Point(171, 28)
         Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(156, 20)
+        Me.TextBox1.ReadOnly = True
+        Me.TextBox1.Size = New System.Drawing.Size(207, 20)
         Me.TextBox1.TabIndex = 2
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(333, 26)
+        Me.Button1.Location = New System.Drawing.Point(384, 26)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(29, 23)
         Me.Button1.TabIndex = 3
