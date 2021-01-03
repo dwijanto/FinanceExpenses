@@ -42,6 +42,7 @@ Public Class SSCEmailTask
 
     Private Property statusname As String
     Private Property sendtoname As String
+    Public Property remark As String
     Private Property drv As DataRowView
 
     Private Sub Logg(ByVal mymessage As String)
@@ -58,10 +59,18 @@ Public Class SSCEmailTask
             Me.sendtoname = sendtoname
             Me.drv = drv
             Me.sendto = Trim(sendto)
+            If cc.Length > 0 Then
+                Me.cc = Trim(cc)
+            End If
             Me.subject = String.Format("Indirect Purchase Invoice Approval Task. (Date : {0:dd-MMM-yyyy}) ", Today.Date)
-
+            Dim mycontent As String
             If Not IsNothing(Me.sendto) Then
-                Dim mycontent = getBodyMessage()
+                If statusname = "Completed" Then
+                    mycontent = getBodyMessageCompleted()
+                Else
+                    mycontent = getBodyMessage()
+                End If
+
                 Dim htmlView As AlternateView = AlternateView.CreateAlternateViewFromString(String.Format("{0} <br>Or click the Indirect Purchase Invoice Approval icon on your desktop: <br><p> <a href=""https://sw07e601/RDWeb""><img src=cid:myLogo> </a><br></p><p>Indirect Purchase Invoice Approval System Administrator</p></body></html>", mycontent), Nothing, MediaTypeNames.Text.Html)
                 Dim logo As New LinkedResource(Application.StartupPath & "\SSC.png")
                 logo.ContentId = "myLogo"
@@ -70,10 +79,10 @@ Public Class SSCEmailTask
                 Me.htmlView = htmlView
                 Me.isBodyHtml = True
                 Me.sender = "no-reply@groupeseb.com"
-                Me.body = mycontent                
+                Me.body = mycontent
                 If Not Me.send(errormessage) Then
                     Logger.log(errormessage)
-                Else                    
+                Else
                     myret = True
                 End If
                 'myret = Me.send(errormessage)
@@ -81,7 +90,8 @@ Public Class SSCEmailTask
             End If
         Catch ex As Exception
             Logger.log(ex.Message)
-            MessageBox.Show(ex.Message)
+            'MessageBox.Show(ex.Message)
+            errormessage = ex.Message
         End Try
 
         Return myret
@@ -91,12 +101,21 @@ Public Class SSCEmailTask
         Dim sb As New StringBuilder
         sb.Append("<!DOCTYPE html><html><head><meta name=""description"" content=""[IndirectPurchaseInvoiceApproval]"" /><meta http-equiv=""Content-Type"" content=""text/html; charset=us-ascii""></head><style>  td,th {padding-left:5px;         padding-right:10px;         text-align:left;  }  th {background-color:red;    color:white}  .defaultfont{    font-size:11.0pt; font-family:""Calibri"",""sans-serif"";    }</style><body class=""defaultfont"">")
         sb.Append(String.Format("<p>Dear {0} </p><p>Please be informed that you have tasks that need to follow up.<br>Date: {1:dd-MMM-yyyy}<br><br><br>", sendtoname, Today.Date))
-        sb.Append("    List of Tasks:</p>  <table border=1 cellspacing=0>    <tr><th>Status</th><th>Subject</th><th>From</th><th>Received Date</th></tr>")
-        sb.Append(String.Format("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td></tr>", statusname, drv.Item("emailsubject"), drv.Item("sender"), drv.Item("receiveddate")))
+        sb.Append("    List of Tasks:</p>  <table border=1 cellspacing=0>    <tr><th>Status</th><th>Reference Number</th><th>Subject</th><th>From</th><th>Received Date</th><th>Remark</th></tr>")
+        sb.Append(String.Format("<tr><td>{0}</td><td>{5}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td></tr>", statusname, drv.Item("emailsubject"), drv.Item("sender"), drv.Item("receiveddate"), remark, drv.Item("refnumber")))
         sb.Append("</table>  <br>  <p>Thank you.<br><br>You can access the system in RD WEB Access by below link:<br>   <a href=""https://sw07e601/RDWeb"">MyTask</a></p><br>")
         Return sb.ToString
     End Function
+    Private Function getBodyMessageCompleted() As Object
+        Dim sb As New StringBuilder
+        sb.Append("<!DOCTYPE html><html><head><meta name=""description"" content=""[IndirectPurchaseInvoiceApproval]"" /><meta http-equiv=""Content-Type"" content=""text/html; charset=us-ascii""></head><style>  td,th {padding-left:5px;         padding-right:10px;         text-align:left;  }  th {background-color:red;    color:white}  .defaultfont{    font-size:11.0pt; font-family:""Calibri"",""sans-serif"";    }</style><body class=""defaultfont"">")
+        sb.Append(String.Format("<p>Dear {0} </p><p>Please be informed that you request has been approved.<br>Date: {1:dd-MMM-yyyy}<br><br><br>", sendtoname, Today.Date))
+        sb.Append("    List of Tasks:</p>  <table border=1 cellspacing=0>    <tr><th>Status</th><th>Reference Number</th><th>Subject</th><th>From</th><th>Received Date</th><th>Remark</th></tr>")
+        sb.Append(String.Format("<tr><td>{0}</td><td>{5}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td></tr>", statusname, drv.Item("emailsubject"), drv.Item("sender"), drv.Item("receiveddate"), remark, drv.Item("refnumber")))
+        sb.Append("</table>  <br>  <p>Thank you.<br><br>You can access the system in RD WEB Access by below link:<br>   <a href=""https://sw07e601/RDWeb"">MyTask</a></p><br>")
+        Return sb.ToString
 
+    End Function
     Public Function ValidateEmail() As Boolean
         'Get email with isvalid isnull
         Dim myret = False
@@ -267,6 +286,8 @@ Public Class SSCEmailTask
         End If
         dr.EndEdit()
     End Sub
+
+
 
 
 End Class

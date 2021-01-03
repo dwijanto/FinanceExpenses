@@ -74,16 +74,22 @@ Public Class DialogAddUpdCostCenter
         TextBox3.DataBindings.Clear()
         TextBox4.DataBindings.Clear()
         TextBox5.DataBindings.Clear()
+        TextBox6.DataBindings.Clear()
 
         TextBox1.DataBindings.Add(New Binding("Text", drv, "glaccount", False, DataSourceUpdateMode.OnPropertyChanged))
         TextBox2.DataBindings.Add(New Binding("Text", drv, "costcenter", False, DataSourceUpdateMode.OnPropertyChanged))
         TextBox3.DataBindings.Add(New Binding("Text", drv, "amount", True, DataSourceUpdateMode.OnPropertyChanged, "", "#,##0.00"))
         TextBox4.DataBindings.Add(New Binding("Text", drv, "remark", False, DataSourceUpdateMode.OnPropertyChanged))
         TextBox5.DataBindings.Add(New Binding("Text", drv, "crcy", False, DataSourceUpdateMode.OnPropertyChanged))
+        TextBox6.DataBindings.Add(New Binding("Text", drv, "family", False, DataSourceUpdateMode.OnPropertyChanged))
     End Sub
 
 
     Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles TextBox1.TextChanged, TextBox2.TextChanged, TextBox3.TextChanged, TextBox4.TextChanged
         RaiseEvent RefreshDataGrid()
+    End Sub
+
+    Private Sub Label6_Click(sender As Object, e As EventArgs) Handles Label6.Click
+
     End Sub
 End Class

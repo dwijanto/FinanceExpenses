@@ -3,6 +3,11 @@
 Public Delegate Sub ProgressReportCallback(ByRef sender As Object, ByRef e As EventArgs)
 
 'Callback can be called by Event or Delegate
+'Parent must have :
+'- Toolstripstatuslabel1,
+'- Toolstripstatuslabel2,
+'- ToolStripProgressBar1
+
 
 Public Class DoBackground
     Private Parent As Object
@@ -71,6 +76,7 @@ Public Class DoBackground
                     Try
                         ProgressReportCallback.Invoke(Me, New System.EventArgs)
                     Catch ex As Exception
+                        MessageBox.Show(ex.Message)
                     End Try
                     RaiseEvent CallBack(4, New EventArgs)
                 Case 5

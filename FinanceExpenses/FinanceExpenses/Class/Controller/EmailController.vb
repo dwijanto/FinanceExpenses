@@ -10,12 +10,58 @@
     Private ActionBS As BindingSource
     Private FinanceTxBS As BindingSource
     Private ApprovalTXBS As BindingSource
+    Private VendorBS As BindingSource
+
+    Private ReferencenumberFilterBS As BindingSource
+    Private InvoiceNumberFilterBS As BindingSource
+    Private StatusFilterBS As BindingSource
+    Private AttnFilterBS As BindingSource
+    Private stApproverFilterBS As BindingSource
+    Private ndApproverFilterBS As BindingSource
+    Private VendorFilterBS As BindingSource
 
     Public Event IsModified()
 
     Public Sub New()
         MyBase.New()
     End Sub
+
+    Public ReadOnly Property GetReferencenumberFilterBS As BindingSource
+        Get
+            Return ReferencenumberFilterBS
+        End Get
+    End Property
+    Public ReadOnly Property GetInvoiceNumberFilterBS As BindingSource
+        Get
+            Return InvoiceNumberFilterBS
+        End Get
+    End Property
+    Public ReadOnly Property GetStatusFilterBS As BindingSource
+        Get
+            Return StatusFilterBS
+        End Get
+    End Property
+    Public ReadOnly Property GetAttnFilterBS As BindingSource
+        Get
+            Return AttnFilterBS
+        End Get
+    End Property
+    Public ReadOnly Property GetstApproverFilterBS As BindingSource
+        Get
+            Return stApproverFilterBS
+        End Get
+    End Property
+    Public ReadOnly Property GetndApproverFilterBS As BindingSource
+        Get
+            Return ndApproverFilterBS
+        End Get
+    End Property
+
+    Public ReadOnly Property GetVendorFilterBS As BindingSource
+        Get
+            Return VendorFilterBS
+        End Get
+    End Property
 
     Public ReadOnly Property GetTable As DataTable Implements IController.GetTable
         Get
@@ -27,7 +73,7 @@
         Get
             Dim BS As New BindingSource
             BS.DataSource = GetTable
-            BS.Sort = Model.SortField
+            BS.Sort = Model.sortField
             Return BS
         End Get
     End Property
@@ -107,9 +153,37 @@
             ApprovalTXBS = New BindingSource
             ApprovalTXBS.DataSource = BS
             ApprovalTXBS.DataMember = "hdrel-approvaltx"
+            VendorBS = New BindingSource
+            VendorBS.DataSource = DS.Tables("VENDOR")
             myret = True
         End If
         Return myret
+    End Function
+
+    Public Function LoadFilter() As Boolean
+        Dim myret As Boolean = False
+        Model = New EmailModel
+        Dim DS = New DataSet
+        If Model.LoadFilter(DS) Then
+            ReferencenumberFilterBS = New BindingSource
+            InvoiceNumberFilterBS = New BindingSource
+            StatusFilterBS = New BindingSource
+            AttnFilterBS = New BindingSource
+            stApproverFilterBS = New BindingSource
+            ndApproverFilterBS = New BindingSource
+            VendorFilterBS = New BindingSource
+
+            ReferencenumberFilterBS.DataSource = DS.Tables(0)
+            InvoiceNumberFilterBS.DataSource = DS.Tables(1)
+            StatusFilterBS.DataSource = DS.Tables(2)
+            AttnFilterBS.DataSource = DS.Tables(3)
+            stApproverFilterBS.DataSource = DS.Tables(4)
+            ndApproverFilterBS.DataSource = DS.Tables(5)
+            VendorFilterBS.DataSource = DS.Tables(6)           
+            myret = True
+        End If
+        Return myret
+
     End Function
 
     Public Function Findloaddata(ByVal criteria As String) As Boolean
@@ -261,6 +335,19 @@
         BS.RemoveAt(value)
     End Sub
 
-    
+    Public Function GetVendorBS() As BindingSource
+        Return VendorBS
+    End Function
+
+    Function GetDelegateTo(staffemail As String) As String
+        Dim factory = DataAccess.factory
+        Dim sqlstr = String.Format("select delegateto from ssc.sscdelegate where staffcode =:paramname and isactive and startdate <= current_date and enddate >= current_date")
+        Dim myresult As String = String.Empty
+        Dim myparam(0) As System.Data.IDbDataParameter
+        myparam(0) = factory.CreateParameter("paramname", staffemail)
+        myresult = DataAccess.ExecuteScalar(sqlstr, CommandType.Text, myparam)
+        Return myresult
+    End Function
+
 
 End Class

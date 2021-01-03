@@ -37,7 +37,7 @@ Partial Class DialogAddUpdUser
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel1.Controls.Add(Me.OK_Button, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.Cancel_Button, 1, 0)
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(222, 274)
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(221, 315)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
@@ -67,7 +67,7 @@ Partial Class DialogAddUpdUser
         '
         Me.UcUser1.Location = New System.Drawing.Point(21, 30)
         Me.UcUser1.Name = "UcUser1"
-        Me.UcUser1.Size = New System.Drawing.Size(341, 211)
+        Me.UcUser1.Size = New System.Drawing.Size(341, 238)
         Me.UcUser1.TabIndex = 1
         '
         'DialogAddUpdUser
@@ -76,7 +76,7 @@ Partial Class DialogAddUpdUser
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.Cancel_Button
-        Me.ClientSize = New System.Drawing.Size(380, 315)
+        Me.ClientSize = New System.Drawing.Size(379, 356)
         Me.Controls.Add(Me.UcUser1)
         Me.Controls.Add(Me.TableLayoutPanel1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog

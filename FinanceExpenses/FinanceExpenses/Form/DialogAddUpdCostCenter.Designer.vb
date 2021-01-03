@@ -39,6 +39,8 @@ Partial Class DialogAddUpdCostCenter
         Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
         Me.TextBox5 = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
+        Me.TextBox6 = New System.Windows.Forms.TextBox()
+        Me.Label6 = New System.Windows.Forms.Label()
         Me.TableLayoutPanel1.SuspendLayout()
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -111,7 +113,7 @@ Partial Class DialogAddUpdCostCenter
         '
         'TextBox3
         '
-        Me.TextBox3.Location = New System.Drawing.Point(103, 80)
+        Me.TextBox3.Location = New System.Drawing.Point(103, 104)
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.Size = New System.Drawing.Size(227, 20)
         Me.TextBox3.TabIndex = 6
@@ -119,7 +121,7 @@ Partial Class DialogAddUpdCostCenter
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(54, 83)
+        Me.Label3.Location = New System.Drawing.Point(54, 107)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(43, 13)
         Me.Label3.TabIndex = 5
@@ -127,7 +129,7 @@ Partial Class DialogAddUpdCostCenter
         '
         'TextBox4
         '
-        Me.TextBox4.Location = New System.Drawing.Point(103, 137)
+        Me.TextBox4.Location = New System.Drawing.Point(103, 156)
         Me.TextBox4.Multiline = True
         Me.TextBox4.Name = "TextBox4"
         Me.TextBox4.Size = New System.Drawing.Size(327, 81)
@@ -136,7 +138,7 @@ Partial Class DialogAddUpdCostCenter
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(53, 140)
+        Me.Label4.Location = New System.Drawing.Point(53, 164)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(44, 13)
         Me.Label4.TabIndex = 7
@@ -167,7 +169,7 @@ Partial Class DialogAddUpdCostCenter
         'TextBox5
         '
         Me.TextBox5.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.TextBox5.Location = New System.Drawing.Point(103, 106)
+        Me.TextBox5.Location = New System.Drawing.Point(103, 130)
         Me.TextBox5.Name = "TextBox5"
         Me.TextBox5.Size = New System.Drawing.Size(81, 20)
         Me.TextBox5.TabIndex = 7
@@ -175,11 +177,27 @@ Partial Class DialogAddUpdCostCenter
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(48, 109)
+        Me.Label5.Location = New System.Drawing.Point(48, 133)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(49, 13)
         Me.Label5.TabIndex = 11
         Me.Label5.Text = "Currency"
+        '
+        'TextBox6
+        '
+        Me.TextBox6.Location = New System.Drawing.Point(103, 80)
+        Me.TextBox6.Name = "TextBox6"
+        Me.TextBox6.Size = New System.Drawing.Size(81, 20)
+        Me.TextBox6.TabIndex = 12
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(61, 83)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(36, 13)
+        Me.Label6.TabIndex = 13
+        Me.Label6.Text = "Family"
         '
         'DialogAddUpdCostCenter
         '
@@ -188,6 +206,8 @@ Partial Class DialogAddUpdCostCenter
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.Cancel_Button
         Me.ClientSize = New System.Drawing.Size(462, 289)
+        Me.Controls.Add(Me.Label6)
+        Me.Controls.Add(Me.TextBox6)
         Me.Controls.Add(Me.TextBox5)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.Button2)
@@ -230,5 +250,7 @@ Partial Class DialogAddUpdCostCenter
     Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
     Friend WithEvents TextBox5 As System.Windows.Forms.TextBox
     Friend WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents TextBox6 As System.Windows.Forms.TextBox
 
 End Class

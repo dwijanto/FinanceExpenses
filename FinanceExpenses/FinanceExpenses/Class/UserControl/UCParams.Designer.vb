@@ -36,6 +36,8 @@ Partial Class UCParams
         Me.Label6 = New System.Windows.Forms.Label()
         Me.TB7NotValidEmail = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
+        Me.TB8FinanceTeam = New System.Windows.Forms.TextBox()
+        Me.Label8 = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'Label1
@@ -151,10 +153,28 @@ Partial Class UCParams
         Me.Label7.TabIndex = 12
         Me.Label7.Text = "Not Valid Email send to"
         '
+        'TB8FinanceTeam
+        '
+        Me.TB8FinanceTeam.Location = New System.Drawing.Point(141, 195)
+        Me.TB8FinanceTeam.Name = "TB8FinanceTeam"
+        Me.TB8FinanceTeam.Size = New System.Drawing.Size(298, 20)
+        Me.TB8FinanceTeam.TabIndex = 15
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(60, 198)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(75, 13)
+        Me.Label8.TabIndex = 14
+        Me.Label8.Text = "Finance Team"
+        '
         'UCParams
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.TB8FinanceTeam)
+        Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.TB7NotValidEmail)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.TB6Mailbox)
@@ -170,7 +190,7 @@ Partial Class UCParams
         Me.Controls.Add(Me.TB1EmailLastReceived)
         Me.Controls.Add(Me.Label1)
         Me.Name = "UCParams"
-        Me.Size = New System.Drawing.Size(481, 209)
+        Me.Size = New System.Drawing.Size(481, 237)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -189,5 +209,7 @@ Partial Class UCParams
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents TB7NotValidEmail As System.Windows.Forms.TextBox
     Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents TB8FinanceTeam As System.Windows.Forms.TextBox
+    Friend WithEvents Label8 As System.Windows.Forms.Label
 
 End Class

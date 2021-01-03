@@ -48,7 +48,7 @@ Public Class GenerateReport
         Dim sw As New Stopwatch
         sw.Start()
         Parent.progressReport(1, "Generating Report...")
-        Parent.progressReport(6, "Marques..")
+        Parent.progressReport(5, "Marques..")
 
         status = GenerateReport()
         sw.Stop()
@@ -60,7 +60,7 @@ Public Class GenerateReport
         Else
             Parent.progressReport(1, ErrorMessage.ToString)
         End If
-        Parent.progressReport(5, "Continuous")
+        Parent.progressReport(6, "Continuous")
     End Sub
 
     Private Function GenerateReport() As Boolean

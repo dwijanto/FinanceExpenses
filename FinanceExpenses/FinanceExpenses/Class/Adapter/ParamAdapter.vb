@@ -13,6 +13,7 @@ Public Class ParamAdapter
     Public BS5 As BindingSource
     Public BS6 As BindingSource
     Public BS7 As BindingSource
+    Public BS8 As BindingSource
     Private ErrMessage As String = String.Empty
 
     Public ReadOnly Property getErrorMessage As String
@@ -115,6 +116,7 @@ Public Class ParamAdapter
         sb.Append(String.Format("select pd.* from ssc.paramdt pd  where pd.paramname = :basefolder order by paramdtid; "))
         sb.Append(String.Format("select pd.* from ssc.paramdt pd  where pd.paramname = :mailbox order by paramdtid; "))
         sb.Append(String.Format("select pd.* from ssc.paramdt pd  where pd.paramname = :notvalidemail order by paramdtid; "))
+        sb.Append(String.Format("select pd.* from ssc.paramdt pd  where pd.paramname = :financeemail order by paramdtid; "))
         Dim sqlstr = sb.ToString
         DS = New DataSet
         BS = New BindingSource
@@ -124,8 +126,9 @@ Public Class ParamAdapter
         BS5 = New BindingSource
         BS6 = New BindingSource
         BS7 = New BindingSource
+        BS8 = New BindingSource
 
-        Dim myparam(6) As System.Data.IDbDataParameter
+        Dim myparam(7) As System.Data.IDbDataParameter
         myparam(0) = factory.CreateParameter("emaillastreceived", "emaillastreceived")
         myparam(1) = factory.CreateParameter("url", "url")
         myparam(2) = factory.CreateParameter("username", "username")
@@ -133,6 +136,8 @@ Public Class ParamAdapter
         myparam(4) = factory.CreateParameter("basefolder", "basefolder")
         myparam(5) = factory.CreateParameter("mailbox", "mailbox")
         myparam(6) = factory.CreateParameter("notvalidemail", "NotValidEmail")
+        myparam(7) = factory.CreateParameter("financeemail", "FinanceEmail")
+
         Try
             DS = DataAccess.GetDataSet(sqlstr, CommandType.Text, myparam)
             Dim pk(0) As DataColumn
@@ -190,6 +195,11 @@ Public Class ParamAdapter
             'DS.Tables(6).Columns("paramdtid").AutoIncrement = True
             'DS.Tables(6).Columns("paramdtid").AutoIncrementSeed = -1
             'DS.Tables(6).Columns("paramdtid").AutoIncrementStep = -1
+
+            Dim pk8(0) As DataColumn
+            pk8(0) = DS.Tables(7).Columns("paramdtid")
+            DS.Tables(7).PrimaryKey = pk8
+            BS8.DataSource = DS.Tables(7)
             myret = True
         Catch ex As Exception
             ErrMessage = ex.Message
@@ -206,6 +216,7 @@ Public Class ParamAdapter
         BS5.EndEdit()
         BS6.EndEdit()
         BS7.EndEdit()
+        BS8.EndEdit()
 
         Dim ds2 As DataSet = DS.GetChanges
         If Not IsNothing(ds2) Then

@@ -29,7 +29,7 @@ Public Class FormExpenses
     Dim ActionBS As BindingSource
     Dim FinanceTxBS As BindingSource
     Dim ApprovalTXBS As BindingSource
-
+    Dim VendorBS As BindingSource
 
 
     'Dim FirstApprover As String = String.Empty
@@ -61,8 +61,9 @@ Public Class FormExpenses
         ActionBS = myController.GetActionBS
         FinanceTxBS = myController.GetFinanceTxBS
         ApprovalTXBS = myController.GetApprovalTxBS
+        VendorBS = myController.GetVendorBS
 
-        UcFinanceExpenses1.BindingControl(DRV, DTLBS, FinanceTxBS, ApprovalTXBS)
+        UcFinanceExpenses1.BindingControl(DRV, DTLBS, FinanceTxBS, ApprovalTXBS, VendorBS)
         DataGridView1.AutoGenerateColumns = False
         DataGridView1.DataSource = ActionBS
 
@@ -82,8 +83,13 @@ Public Class FormExpenses
                         ToolStripButtonForward.Visible = True
                         ToolStripButtonValidate.Visible = True 'Validate
                         ToolStripButtonStsCancelled.Visible = True 'Cancel
-                    Case TaskStatusEnum.STATUS_FORWARD, TaskStatusEnum.STATUS_REJECTEDBYM1, TaskStatusEnum.STATUS_REJECTEDBYM2, TaskStatusEnum.STATUS_REJECTEDBYFINANCE
+                    Case TaskStatusEnum.STATUS_FORWARD
                         ToolStripButtonValidate.Visible = True 'Validate
+                        ToolStripButtonStsCancelled.Visible = True 'Cancel
+                    Case TaskStatusEnum.STATUS_REJECTEDBYM1, TaskStatusEnum.STATUS_REJECTEDBYM2, TaskStatusEnum.STATUS_REJECTEDBYFINANCE
+                        ToolStripButtonValidate.Visible = True 'Validate
+                        ToolStripButtonValidate.Text = "Re-Submit"
+                        'DRV.Row.Item("status") = Int(TaskStatusEnum.STATUS_RE_SUBMIT)
                         ToolStripButtonStsCancelled.Visible = True 'Cancel
                     Case TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
                         ToolStripButtonValidate.Visible = True 'Validate
@@ -99,6 +105,9 @@ Public Class FormExpenses
                         End If
                     Case TaskStatusEnum.STATUS_VALIDATEDBYM2
                         ToolStripButtonComplete.Visible = True
+                        ToolStripButtonReject.Visible = True 'Reject
+                    Case TaskStatusEnum.STATUS_RE_SUBMIT
+                        ToolStripButtonValidate.Visible = True 'Validate
                         ToolStripButtonReject.Visible = True 'Reject
                 End Select
             Case FinanceExpenses.TxEnum.HistoryRecord
@@ -256,7 +265,7 @@ Public Class FormExpenses
 
             If FirstApproverUser(0).nlevelapproval = ApproverType.FinalApprover Then
                 'Final Approver, no need to find the second approver.
-            ElseIf IsNothing(FirstApproverUser(0).nlevelapproval) Then
+            ElseIf FirstApproverUser(0).nlevelapproval = ApproverType.RegularUser Then
                 'First Approver. Find the Final Approver again.
                 'SecondApprover = myApproval.getApprover(FirstApprover)
                 'Get SecondApprover
@@ -464,7 +473,8 @@ Public Class FormExpenses
     Private Sub ToolStripButtonValidate_Click(sender As Object, e As EventArgs) Handles ToolStripButtonValidate.Click
         If IsNothing(ApprovalDRV) Then
             If UcFinanceExpenses1.validate() Then
-                If MessageBox.Show("Do you want to validate this record?", "Validate", System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
+                Dim ButtonText = ToolStripButtonValidate.Text
+                If MessageBox.Show("Do you want to validate this record?", ButtonText, System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
                     Dim remarks As String = String.Empty 'InputBox("Please input some comment.")
                     Dim mydialog = New DialogInputText
                     If mydialog.ShowDialog = Windows.Forms.DialogResult.OK Then
@@ -491,8 +501,15 @@ Public Class FormExpenses
                                 End If
                                 appdrv.EndEdit()
                             Case TaskStatusEnum.STATUS_REJECTEDBYM1, TaskStatusEnum.STATUS_REJECTEDBYM2, TaskStatusEnum.STATUS_REJECTEDBYFINANCE
-                                DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
-                                StatusName = "Validated by Requester"
+                                'DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
+                                'StatusName = "Validated by Requester"
+                                DRV.Row.Item("status") = TaskStatusEnum.STATUS_RE_SUBMIT
+                                StatusName = "Re-Submit"                               
+                            Case TaskStatusEnum.STATUS_RE_SUBMIT
+                                'DRV.Row.Item("status") = TaskStatusEnum.STATUS_RE_SUBMIT
+                                'StatusName = "Re-Submit"
+                                DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYM1
+                                StatusName = "Validated by M+1"
                             Case TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
                                 DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYM1
                                 StatusName = "Validated by M+1"
@@ -550,7 +567,7 @@ Public Class FormExpenses
 
     Private Sub ToolStripButtonReject_Click(sender As Object, e As EventArgs) Handles ToolStripButtonReject.Click
         If IsNothing(ApprovalDRV) Then
-            If MessageBox.Show("Do you want to reject this record?", "Cancel", System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
+            If MessageBox.Show("Do you want to reject this record?", "Reject", System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
                 'Dim remarks As String = InputBox("Please input some comment.")
                 Dim mydialog As New DialogInputText
                 Dim remarks As String = String.Empty
@@ -561,16 +578,21 @@ Public Class FormExpenses
                         Case TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
                             DRV.Row.Item("status") = TaskStatusEnum.STATUS_REJECTEDBYM1
                             StatusName = "Rejected by M+1"
+                        Case TaskStatusEnum.STATUS_RE_SUBMIT
+                            DRV.Row.Item("status") = TaskStatusEnum.STATUS_REJECTEDBYM1
+                            StatusName = "Rejected by M+1"
                         Case TaskStatusEnum.STATUS_VALIDATEDBYM1
                             Dim appdrv = ApprovalTXBS.Current
                             If IsDBNull(appdrv.row.item("ndapprover")) Then
                                 DRV.Row.Item("status") = TaskStatusEnum.STATUS_REJECTEDBYFINANCE
                                 StatusName = "Rejected by Finance"
                             Else
-                                DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYM2
+                                DRV.Row.Item("status") = TaskStatusEnum.STATUS_REJECTEDBYM2
                                 StatusName = "Rejected by M+2"
                             End If
-
+                        Case TaskStatusEnum.STATUS_VALIDATEDBYM2
+                            DRV.Row.Item("status") = TaskStatusEnum.STATUS_REJECTEDBYFINANCE
+                            StatusName = "Rejected by Finance"
                     End Select
                     setApproval(DRV.Item("status"), StatusName, remarks)
                 Else
@@ -588,7 +610,7 @@ Public Class FormExpenses
     Private Sub ToolStripButtonComplete_Click(sender As Object, e As EventArgs) Handles ToolStripButtonComplete.Click
         If IsNothing(ApprovalDRV) Then
             If UcFinanceExpenses1.validate() Then
-                If MessageBox.Show("Do you want to complete this record?", "Cancel", System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
+                If MessageBox.Show("Do you want to complete this record?", "Complete", System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
                     Dim remarks As String = String.Empty
                     Dim mydialog = New DialogInputText
                     If mydialog.ShowDialog = Windows.Forms.DialogResult.OK Then
@@ -613,7 +635,7 @@ Public Class FormExpenses
         'ApprovalDRV.Row.Item("sscemailhdid") = DRV.Item("id")
 
         ApprovalDRV.EndEdit()
-        Logger.log(String.Format("** Submit {0}**", userid))
+        Logger.log(String.Format("** Submit {0} Id: {1}**", userid, DRV.Row.Item("id")))
         If myController.saveExpenses() Then
             If send Then
                 SendEmail()
@@ -646,17 +668,66 @@ Public Class FormExpenses
                 sendToName = DRV.Row.Item("forwardtoname")
                 StatusName = "Forward"
             Case TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
-                'SendTo = FirstApproverUser(0).email 'DRV.Row.Item("stemail")
-                'sendToName = FirstApproverUser(0).username 'DRV.Row.Item("")
+                'Check Delegate
                 SendTo = DRV.Row.Item("stemail")
                 sendToName = DRV.Row.Item("stapprovername")
                 StatusName = "Validated by Requester"
+                'send to Delegate User 
+                'If Not IsDBNull(DRV.Row.Item("delegatestemail")) Then
+                '    CC = DRV.Row.Item("delegatestemail")
+                'End If
+
+                CC = myController.GetDelegateTo(SendTo)
+
+            Case TaskStatusEnum.STATUS_RE_SUBMIT
+                SendTo = DRV.Row.Item("stemail")
+                sendToName = DRV.Row.Item("stapprovername")
+                StatusName = "Re-Submit"
+                'send to Delegate User 
+
+
+                'If Not IsDBNull(DRV.Row.Item("delegatestemail")) Then
+                '    CC = DRV.Row.Item("delegatestemail")
+                'End If
+                CC = myController.GetDelegateTo(SendTo)
+            Case TaskStatusEnum.STATUS_REJECTEDBYFINANCE
+                If IsDBNull(DRV.Row.Item("forwardto")) Then
+                    SendTo = DRV.Row.Item("attn")
+                    sendToName = DRV.Row.Item("attnname")
+                Else
+                    SendTo = DRV.Row.Item("forwardto")
+                    sendToName = DRV.Row.Item("forwardto")                   
+                End If
+                StatusName = "Rejected by Finance"
+            Case TaskStatusEnum.STATUS_REJECTEDBYM1
+                If IsDBNull(DRV.Row.Item("forwardto")) Then
+                    SendTo = DRV.Row.Item("attn")
+                    sendToName = DRV.Row.Item("attnname")
+                Else
+                    SendTo = DRV.Row.Item("forwardto")
+                    sendToName = DRV.Row.Item("forwardtoname")
+                End If
+                StatusName = "Rejected by M+1"
+            Case TaskStatusEnum.STATUS_REJECTEDBYM2
+                If IsDBNull(DRV.Row.Item("forwardto")) Then
+                    SendTo = DRV.Row.Item("attn")
+                    sendToName = DRV.Row.Item("attnname")
+                Else
+                    SendTo = DRV.Row.Item("forwardto")
+                    sendToName = DRV.Row.Item("forwardto")
+                End If
+                StatusName = "Rejected by M+2"
             Case TaskStatusEnum.STATUS_VALIDATEDBYM1
                 'Two Conditions, send to M+2 or Finance. If M+2 is blank, Send To Finance.
                 If Not IsDBNull(DRV.Row.Item("ndemail")) Then
                     'M+2
                     SendTo = DRV.Item("ndemail")
                     sendToName = DRV.Item("ndapprovername")
+                    'send to Delegate User 
+                    'If Not IsDBNull(DRV.Row.Item("delegatendemail")) Then
+                    '    CC = DRV.Row.Item("delegatendemail")
+                    'End If
+                    CC = myController.GetDelegateTo(SendTo)
                 Else
                     'Finance
                     SendTo = FinanceEmailList
@@ -668,6 +739,15 @@ Public Class FormExpenses
                 SendTo = FinanceEmailList
                 sendToName = FinanceUserNameList
                 StatusName = "Validated by M+2"
+            Case TaskStatusEnum.STATUS_COMPLETED
+                If IsDBNull(DRV.Row.Item("forwardto")) Then
+                    SendTo = DRV.Row.Item("attn")
+                    sendToName = DRV.Row.Item("attnname")
+                Else
+                    SendTo = DRV.Row.Item("forwardto")
+                    sendToName = DRV.Row.Item("forwardto")
+                End If
+                StatusName = "Completed"
                 'Case ProductRequestStatusEnum.StatusResubmit
                 '    'Send to Dept Approval
                 '    SendTo = DeptApproval.Email
@@ -712,7 +792,8 @@ Public Class FormExpenses
 
 
 
-        Logger.log(String.Format("SendTo: {0}, SendTo Name: {1}, StatusName: {2}", SendTo, sendToName, StatusName))
+        Logger.log(String.Format("SendTo: {0}, SendTo Name: {1}, StatusName: {2} {3} CC: {4}", SendTo, sendToName, StatusName, DRV.Row.Item("id"), CC))
+        myEmail.remark = ApprovalDRV.Row.Item("remark")
         If Not myEmail.Execute(SendTo, sendToName, StatusName, DRV, CC) Then
             Logger.log(String.Format("Error Message: {0}", myEmail.errormessage))
         Else
@@ -821,6 +902,10 @@ Public Class FormExpenses
     Private Sub BindingControl()
 
     End Sub
+
+    Private Function GetDelegateTo(SendTo As String) As String
+        Return myController.GetDelegateTo(SendTo)
+    End Function
 
 
 

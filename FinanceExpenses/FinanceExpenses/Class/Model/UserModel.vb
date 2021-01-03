@@ -65,7 +65,7 @@ Public Class UserModel
 
     Public Function LoadData(ByRef DS As DataSet) As Boolean Implements IModel.LoadData
         Dim SB As New StringBuilder
-        SB.Append(String.Format("SELECT u.*,sa.approvercode,u1.username AS approvername FROM ssc.user u" &
+        SB.Append(String.Format("SELECT u.*,sa.approvercode,u1.username AS approvername,case when u.nlevelapproval = 0 then 'Regular User' else 'Final Approver' end as nlevelapprovalname FROM ssc.user u" &
                                 " LEFT JOIN ssc.sscapproval sa ON sa.staffcode::text = u.employeenumber::text " &
                                 " LEFT JOIN ssc.user u1 ON u1.employeenumber::text = sa.approvercode::text"))
         ' " WHERE u.isactive"))

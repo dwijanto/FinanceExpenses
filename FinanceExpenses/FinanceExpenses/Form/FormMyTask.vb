@@ -48,10 +48,10 @@ Public Class FormMyTask
                                             Int(TaskStatusEnum.STATUS_COMPLETED))
         End If
         If User.can("ViewAllTx") Then
-            MyTasksCriteria = " where status > 0 and status < 8"
-            HistoryCriteria = " where status >= 9"
+            MyTasksCriteria = " where status > 0 and status <= 10"
+            HistoryCriteria = " where status > 10"
         Else
-            MyTasksCriteria = String.Format("where (status in({1},{2},{3},{6}) and attn = '{0}') or (status = {7} and forwardto = '{0}') or (status = {4} and u1.email = '{0}') or (status = {5} and u2.email = '{0}') or (status = {4} and ssc.getdelegator('{0}') ~u1.email) or (status = {5} and ssc.getdelegator('{0}') ~u2.email) {8}",
+            MyTasksCriteria = String.Format("where (status in({1},{2},{3},{6}) and attn = '{0}' and forwardto isnull) or (status in ({7},{2},{3},{6}) and forwardto = '{0}') or (status in({4},{9}) and u1.email = '{0}') or (status = {5} and u2.email = '{0}') or (status = {4} and ssc.getdelegator('{0}') ~u1.email) or (status = {5} and ssc.getdelegator('{0}') ~u2.email) {8}",
                                             DirectCast(User.identity, UserController).email,
                                             Int(TaskStatusEnum.STATUS_NEW),
                                             Int(TaskStatusEnum.STATUS_REJECTEDBYM1),
@@ -60,8 +60,9 @@ Public Class FormMyTask
                                             Int(TaskStatusEnum.STATUS_VALIDATEDBYM1),
                                             Int(TaskStatusEnum.STATUS_REJECTEDBYFINANCE),
                                             Int(TaskStatusEnum.STATUS_FORWARD),
-                                            FinanceCriteria)
-            HistoryCriteria = String.Format("where ((status in ({4},{5},{6}) and attn = '{0}' ) or (status >= {2} and ssc.getdelegator('{0}') ~u1.email) or " &
+                                            FinanceCriteria,
+                                            Int(TaskStatusEnum.STATUS_RE_SUBMIT))
+            HistoryCriteria = String.Format("where ((status in ({4},{5},{6},{9}) and attn = '{0}' ) or (status >= {2} and ssc.getdelegator('{0}') ~u1.email) or " &
                                             " (status >= {3} and ssc.getdelegator('{0}') ~u2.email) or ((attn = '{0}' or forwardto = '{0}') and status >= {1}) or (u1.email = '{0}' and status >= {2}) or (u2.email ='{0}' and status >= {3}) {7}) {8} ",
                                             DirectCast(User.identity, UserController).email,
                                             Int(TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER),
@@ -71,7 +72,8 @@ Public Class FormMyTask
                                             Int(TaskStatusEnum.STATUS_COMPLETED),
                                             Int(TaskStatusEnum.STATUS_CANCELLED),
                                             FinanceCriteriaHistory,
-                                            DateCriteria)
+                                            DateCriteria,
+                                            Int(TaskStatusEnum.STATUS_RE_SUBMIT))
         End If
         Try
             DS = New DataSet
@@ -147,7 +149,7 @@ Public Class FormMyTask
 
     Private Sub ApplyFilter()
 
-        Dim myfilter = String.Format("refnumber like '*{0}*' or statusname like '*{0}*' or emailsubject like '*{0}*' or sender like '*{0}*' or emailto like '*{0}*' or stapprovername like '*{0}*' or ndapprovername like '*{0}*' or financenumber like '*{0}*' ", ToolStripTextBox1.Text)
+        Dim myfilter = String.Format("refnumber like '*{0}*' or statusname like '*{0}*' or emailsubject like '*{0}*' or sender like '*{0}*' or emailto like '*{0}*' or stapprovername like '*{0}*' or ndapprovername like '*{0}*' or financenumber like '*{0}*' or vendorcodetext like '*{0}*'  or vendorname like '*{0}*' ", ToolStripTextBox1.Text)
         MyTasksBS.Filter = myfilter
         HistoryBS.Filter = myfilter
 

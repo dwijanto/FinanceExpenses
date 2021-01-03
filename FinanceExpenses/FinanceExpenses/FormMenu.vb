@@ -164,4 +164,14 @@ Public Class FormMenu
     Private Sub RBACToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RBACToolStripMenuItem.Click
         
     End Sub
+
+    Private Sub ProductRequestToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ProductRequestToolStripMenuItem.Click
+        Dim myform As New FormGenerateReport
+        myform.ShowDialog()
+    End Sub
+
+    Private Sub MasterVendorToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MasterVendorToolStripMenuItem.Click
+        Dim myform As New FormMasterVendor
+        myform.ShowDialog()
+    End Sub
 End Class

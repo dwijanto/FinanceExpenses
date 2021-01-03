@@ -40,6 +40,7 @@ Partial Class FormMenu
         Me.ProductRequestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UserManualToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MasterVendorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -107,7 +108,7 @@ Partial Class FormMenu
         '
         'MasterToolStripMenuItem
         '
-        Me.MasterToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ParameterToolStripMenuItem, Me.ChartOfAccountToolStripMenuItem, Me.UserToolStripMenuItem})
+        Me.MasterToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ParameterToolStripMenuItem, Me.ChartOfAccountToolStripMenuItem, Me.UserToolStripMenuItem, Me.MasterVendorToolStripMenuItem})
         Me.MasterToolStripMenuItem.Name = "MasterToolStripMenuItem"
         Me.MasterToolStripMenuItem.Size = New System.Drawing.Size(55, 20)
         Me.MasterToolStripMenuItem.Text = "Master"
@@ -178,6 +179,13 @@ Partial Class FormMenu
         Me.UserManualToolStripMenuItem.Size = New System.Drawing.Size(140, 22)
         Me.UserManualToolStripMenuItem.Text = "User Manual"
         '
+        'MasterVendorToolStripMenuItem
+        '
+        Me.MasterVendorToolStripMenuItem.Name = "MasterVendorToolStripMenuItem"
+        Me.MasterVendorToolStripMenuItem.Size = New System.Drawing.Size(167, 22)
+        Me.MasterVendorToolStripMenuItem.Tag = "FormMasterVendor"
+        Me.MasterVendorToolStripMenuItem.Text = "Master Vendor"
+        '
         'FormMenu
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -216,5 +224,6 @@ Partial Class FormMenu
     Friend WithEvents GetEmailFromServerToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ChartOfAccountToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents DelegateToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MasterVendorToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

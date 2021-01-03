@@ -3,7 +3,7 @@
 Public Class ApprovalModel
     Private FinanceEmailSB As New StringBuilder
     Private FinanceUserNameListSB As New StringBuilder
-
+    Dim myParam As ParamAdapter = ParamAdapter.getInstance
     Public ReadOnly Property FinanceEmailList As String
         Get
             Return FinanceEmailSB.ToString
@@ -38,18 +38,29 @@ Public Class ApprovalModel
     End Function
 
     Public Sub InitFinanceApprover()        
-        Dim sqlstr = String.Format("select u.* from ssc.auth_assignment a left join ssc.user u on u.id = a.user_id::bigint where item_name = 'Finance'")
-        Dim FinanceApprover As List(Of UserController) = DataAccess.ExecuteReader(Of List(Of UserController))(sqlstr, CommandType.Text, AddressOf DataAccess.OnReadAnyList(Of UserController), Nothing)
+        'Dim sqlstr = String.Format("select u.* from ssc.auth_assignment a left join ssc.user u on u.id = a.user_id::bigint where item_name = 'Finance'")
+        'Dim FinanceApprover As List(Of UserController) = DataAccess.ExecuteReader(Of List(Of UserController))(sqlstr, CommandType.Text, AddressOf DataAccess.OnReadAnyList(Of UserController), Nothing)
+        'FinanceEmailSB = New StringBuilder
+        'FinanceUserNameListSB = New StringBuilder
+        'For Each Item In FinanceApprover
+        '    If FinanceEmailSB.Length > 0 Then
+        '        FinanceEmailSB.Append(";")
+        '        FinanceUserNameListSB.Append(";")
+        '    End If
+        '    FinanceEmailSB.Append(Item.email)
+        '    FinanceUserNameListSB.Append(Item.username)
+        'Next
+        Dim FinanceEmails As String = myParam.GetParamDetailCValue("FinanceEmail")
+        Dim FinanceEmail = FinanceEmails.Split(";")
         FinanceEmailSB = New StringBuilder
         FinanceUserNameListSB = New StringBuilder
-        For Each Item In FinanceApprover
-            If FinanceEmailSB.Length > 0 Then
-                FinanceEmailSB.Append(";")
-                FinanceUserNameListSB.Append(";")
-            End If
-            FinanceEmailSB.Append(Item.email)
-            FinanceUserNameListSB.Append(Item.username)
+
+        For Each Item In FinanceEmail
+            FinanceEmailSB.Append(String.Format("{0}", Item.Split(",")(0)))
+            FinanceUserNameListSB.Append(String.Format("{0}", Item.Split(",")(1)))
         Next
+
+
     End Sub
 
 

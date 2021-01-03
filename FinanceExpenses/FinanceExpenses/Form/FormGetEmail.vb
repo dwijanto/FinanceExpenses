@@ -208,7 +208,7 @@ Public Class FormGetEmail
                             Model.emailsubject = myemail.Subject
                             Model.emailbody = myemail.Body.Text
                             Model.sender = myemail.From.Address
-                            Model.receiveddate = String.Format("{0:yyyy-MM-dd HH:ss:mm}", myemail.DateTimeReceived)
+                            Model.receiveddate = String.Format("{0:yyyy-MM-dd HH:mm:ss}", myemail.DateTimeReceived)
                             'Get The latest receiveddate
                             If ds.Tables(0).Rows(0).Item("ts") < Model.receiveddate Then
                                 ds.Tables(0).Rows(0).Item("ts") = Model.receiveddate

@@ -31,7 +31,6 @@ Partial Class UCUser
         Me.Label3 = New System.Windows.Forms.Label()
         Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
-        Me.TextBox5 = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.TextBox6 = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
@@ -41,6 +40,7 @@ Partial Class UCUser
         Me.Button1 = New System.Windows.Forms.Button()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -107,13 +107,6 @@ Partial Class UCUser
         Me.Label4.Size = New System.Drawing.Size(32, 13)
         Me.Label4.TabIndex = 6
         Me.Label4.Text = "Email"
-        '
-        'TextBox5
-        '
-        Me.TextBox5.Location = New System.Drawing.Point(108, 107)
-        Me.TextBox5.Name = "TextBox5"
-        Me.TextBox5.Size = New System.Drawing.Size(188, 20)
-        Me.TextBox5.TabIndex = 5
         '
         'Label5
         '
@@ -185,17 +178,27 @@ Partial Class UCUser
         '
         Me.ErrorProvider1.ContainerControl = Me
         '
+        'ComboBox1
+        '
+        Me.ComboBox1.BackColor = System.Drawing.SystemColors.Window
+        Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBox1.FormattingEnabled = True
+        Me.ComboBox1.Location = New System.Drawing.Point(108, 107)
+        Me.ComboBox1.Name = "ComboBox1"
+        Me.ComboBox1.Size = New System.Drawing.Size(188, 21)
+        Me.ComboBox1.TabIndex = 5
+        '
         'UCUser
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.TextBox7)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.TextBox6)
         Me.Controls.Add(Me.Label6)
-        Me.Controls.Add(Me.TextBox5)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.TextBox4)
         Me.Controls.Add(Me.Label4)
@@ -206,7 +209,7 @@ Partial Class UCUser
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Label1)
         Me.Name = "UCUser"
-        Me.Size = New System.Drawing.Size(341, 211)
+        Me.Size = New System.Drawing.Size(370, 241)
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -220,7 +223,6 @@ Partial Class UCUser
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents TextBox4 As System.Windows.Forms.TextBox
     Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents TextBox5 As System.Windows.Forms.TextBox
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents TextBox6 As System.Windows.Forms.TextBox
     Friend WithEvents Label6 As System.Windows.Forms.Label
@@ -230,5 +232,6 @@ Partial Class UCUser
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+    Friend WithEvents ComboBox1 As System.Windows.Forms.ComboBox
 
 End Class

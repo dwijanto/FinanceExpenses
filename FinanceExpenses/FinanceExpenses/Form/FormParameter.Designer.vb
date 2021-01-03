@@ -79,7 +79,7 @@ Partial Class FormParameter
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.Button2)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.Button1)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.TabControl1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(553, 333)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(553, 308)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
@@ -90,7 +90,7 @@ Partial Class FormParameter
         'Button2
         '
         Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button2.Location = New System.Drawing.Point(469, 300)
+        Me.Button2.Location = New System.Drawing.Point(469, 275)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(75, 23)
         Me.Button2.TabIndex = 2
@@ -100,7 +100,7 @@ Partial Class FormParameter
         'Button1
         '
         Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button1.Location = New System.Drawing.Point(374, 300)
+        Me.Button1.Location = New System.Drawing.Point(374, 275)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 23)
         Me.Button1.TabIndex = 1
@@ -116,7 +116,7 @@ Partial Class FormParameter
         Me.TabControl1.Location = New System.Drawing.Point(3, 3)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(548, 295)
+        Me.TabControl1.Size = New System.Drawing.Size(548, 270)
         Me.TabControl1.TabIndex = 0
         '
         'TabPage1
@@ -124,7 +124,7 @@ Partial Class FormParameter
         Me.TabPage1.Controls.Add(Me.UcParams1)
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Size = New System.Drawing.Size(540, 269)
+        Me.TabPage1.Size = New System.Drawing.Size(540, 244)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Parameters"
         '
@@ -132,7 +132,7 @@ Partial Class FormParameter
         '
         Me.UcParams1.Location = New System.Drawing.Point(14, 3)
         Me.UcParams1.Name = "UcParams1"
-        Me.UcParams1.Size = New System.Drawing.Size(481, 209)
+        Me.UcParams1.Size = New System.Drawing.Size(481, 227)
         Me.UcParams1.TabIndex = 0
         '
         'FormParameter

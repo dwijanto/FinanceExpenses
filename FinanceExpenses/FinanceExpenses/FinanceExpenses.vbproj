@@ -98,6 +98,7 @@
     <Compile Include="Class\Controller\DelegateController.vb" />
     <Compile Include="Class\Controller\EmailController.vb" />
     <Compile Include="Class\Controller\ExpensesTypeController.vb" />
+    <Compile Include="Class\Controller\MasterVendorController.vb" />
     <Compile Include="Class\Controller\ProductRequestController.vb" />
     <Compile Include="Class\Controller\TaskController.vb" />
     <Compile Include="Class\Controller\UserController.vb" />
@@ -121,6 +122,7 @@
     <Compile Include="Class\Model\ExpensesModel.vb" />
     <Compile Include="Class\Model\GenerateReportModel.vb" />
     <Compile Include="Class\Model\GetEmailModel.vb" />
+    <Compile Include="Class\Model\MasterVendorModel.vb" />
     <Compile Include="Class\Model\ProductRequestModel.vb" />
     <Compile Include="Class\Model\UserModel.vb" />
     <Compile Include="Class\Model\VendorModel.vb" />
@@ -235,6 +237,12 @@
     <Compile Include="Form\FormExpenses.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Form\FormGenerateReport.Designer.vb">
+      <DependentUpon>FormGenerateReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\FormGenerateReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Form\FormGetEmail.Designer.vb">
       <DependentUpon>FormGetEmail.vb</DependentUpon>
     </Compile>
@@ -245,6 +253,12 @@
       <DependentUpon>FormHelper.vb</DependentUpon>
     </Compile>
     <Compile Include="Form\FormHelper.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\FormMasterVendor.Designer.vb">
+      <DependentUpon>FormMasterVendor.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\FormMasterVendor.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form\FormMyTask.Designer.vb">
@@ -342,11 +356,17 @@
     <EmbeddedResource Include="Form\FormExpenses.resx">
       <DependentUpon>FormExpenses.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form\FormGenerateReport.resx">
+      <DependentUpon>FormGenerateReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\FormGetEmail.resx">
       <DependentUpon>FormGetEmail.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\FormHelper.resx">
       <DependentUpon>FormHelper.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\FormMasterVendor.resx">
+      <DependentUpon>FormMasterVendor.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\FormMyTask.resx">
       <DependentUpon>FormMyTask.vb</DependentUpon>

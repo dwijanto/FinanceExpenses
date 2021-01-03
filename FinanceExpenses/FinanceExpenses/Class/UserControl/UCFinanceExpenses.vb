@@ -9,7 +9,7 @@ Public Class UCFinanceExpenses
     Private DtlBS As BindingSource
     Private WithEvents FinanceTxBS As BindingSource
     Private ApprovalTXBS As BindingSource
-
+    Private VendorBS As BindingSource
     Private Sub RadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton1.CheckedChanged, RadioButton2.CheckedChanged
         onPropertyChanged("DocType")
     End Sub
@@ -44,11 +44,12 @@ Public Class UCFinanceExpenses
         TextBox5.Enabled = False
     End Sub
 
-    Public Sub BindingControl(ByRef drv As DataRowView, ByRef dtlbs As BindingSource, ByRef financetxbs As BindingSource, ByRef ApprovalTxBS As BindingSource)
+    Public Sub BindingControl(ByRef drv As DataRowView, ByRef dtlbs As BindingSource, ByRef financetxbs As BindingSource, ByRef ApprovalTxBS As BindingSource, ByVal VendorBS As BindingSource)
         Me.drv = drv
         Me.DtlBS = dtlbs
         Me.FinanceTxBS = financetxbs
         Me.ApprovalTXBS = ApprovalTxBS
+        Me.VendorBS = VendorBS
         InitData()
         EnabledControl(drv.Row.Item("status"))
         EnableContextMenu()
@@ -57,7 +58,10 @@ Public Class UCFinanceExpenses
 
     Private Sub DataGridView1_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellDoubleClick
         If Not IsNothing(DataGridView1.ContextMenuStrip) Then
-            showDialog(TxEnum.UpdateRecord)
+            If drv.Row.Item("status") = TaskStatusEnum.STATUS_NEW Or drv.Row.Item("status") = TaskStatusEnum.STATUS_FORWARD Or drv.Row.Item("status") = TaskStatusEnum.STATUS_RE_SUBMIT Then
+                showDialog(TxEnum.UpdateRecord)
+            End If
+
         End If
     End Sub
 
@@ -73,9 +77,17 @@ Public Class UCFinanceExpenses
         If Not CheckControl(TextBox5, "Value cannot be blank.") Then
             myret = False
         End If
-        If Not CheckControl(TextBox6, "Value cannot be blank.") Then
+
+        'If Not CheckControl(TextBoxSAP, "Value cannot be blank.") Then
+        '    myret = False
+        'End If
+
+        ErrorProvider1.SetError(BtnVendor, "")
+        If TextBox9.TextLength = 0 Then
+            ErrorProvider1.SetError(BtnVendor, "Please click button to select vendor.")
             myret = False
         End If
+
         ErrorProvider1.SetError(DataGridView1, "")
         If FinanceTxBS.Count = 0 Then
             ErrorProvider1.SetError(DataGridView1, "You must add at least one record.")
@@ -117,17 +129,21 @@ Public Class UCFinanceExpenses
         TextBox2.DataBindings.Clear()
         TextBox3.DataBindings.Clear()
         TextBox5.DataBindings.Clear()
-        TextBox6.DataBindings.Clear()
+        TextBoxSAP.DataBindings.Clear()
         TextBox7.DataBindings.Clear()
         TextBox8.DataBindings.Clear()
+        TextBox9.DataBindings.Clear()
+
 
         TextBox1.DataBindings.Add(New Binding("Text", drv, "sender", False, DataSourceUpdateMode.OnPropertyChanged))
         TextBox2.DataBindings.Add(New Binding("Text", drv, "receiveddate", True, DataSourceUpdateMode.OnPropertyChanged, "", "dd-MMM-yyyy hh:mm:ss tt"))
         TextBox3.DataBindings.Add(New Binding("Text", drv, "emailsubject", False, DataSourceUpdateMode.OnPropertyChanged))
         TextBox5.DataBindings.Add(New Binding("Text", drv, "invoicenumber", False, DataSourceUpdateMode.OnPropertyChanged))
-        TextBox6.DataBindings.Add(New Binding("Text", drv, "financenumber", False, DataSourceUpdateMode.OnPropertyChanged))
+        TextBoxSAP.DataBindings.Add(New Binding("Text", drv, "financenumber", False, DataSourceUpdateMode.OnPropertyChanged))
         TextBox7.DataBindings.Add(New Binding("Text", drv, "emailto", False, DataSourceUpdateMode.OnPropertyChanged))
         TextBox8.DataBindings.Add(New Binding("Text", drv, "refnumber", False, DataSourceUpdateMode.OnPropertyChanged))
+        TextBox9.DataBindings.Add(New Binding("Text", drv, "vendordesc", False, DataSourceUpdateMode.OnPropertyChanged))
+
         Me.DataBindings.Add(New Binding("DocType", drv, "doctype", False, DataSourceUpdateMode.OnPropertyChanged))
 
         For Each drv As DataRowView In DtlBS.List
@@ -156,27 +172,37 @@ Public Class UCFinanceExpenses
 
     Public Sub EnabledControl(Status As FinanceExpenses.TaskStatusEnum)
         TextBox5.Enabled = False
-        TextBox6.Enabled = False
+        TextBoxSAP.Enabled = False
         RadioButton1.Enabled = False
         RadioButton2.Enabled = False
+        DataGridView1.ContextMenuStrip = Nothing
+        ToolTip1.SetToolTip(DataGridView1, "")
+        BtnVendor.Enabled = False
         Select Case Status
             Case TaskStatusEnum.STATUS_NEW, TaskStatusEnum.STATUS_FORWARD, TaskStatusEnum.STATUS_REJECTEDBYFINANCE, TaskStatusEnum.STATUS_REJECTEDBYM1, TaskStatusEnum.STATUS_REJECTEDBYM2
                 TextBox5.Enabled = True
                 RadioButton1.Enabled = True
                 RadioButton2.Enabled = True
+                DataGridView1.ContextMenuStrip = ContextMenuStrip1
+                BtnVendor.Enabled = True
+                'ToolTip1.ToolTipTitle = "Right Click to activate context menu"
+                ToolTip1.SetToolTip(DataGridView1, "Right Click to activate context menu")
             Case TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
+            Case TaskStatusEnum.STATUS_RE_SUBMIT
 
             Case TaskStatusEnum.STATUS_VALIDATEDBYM1
                 Dim appdrv As DataRowView = ApprovalTXBS.Current
                 If IsDBNull(appdrv.Row.Item("ndapprover")) Then
-                    TextBox6.Enabled = True
+                    TextBoxSAP.Enabled = True
                 End If
             Case TaskStatusEnum.STATUS_VALIDATEDBYM2
-                TextBox6.Enabled = True
+                TextBoxSAP.Enabled = True
             Case TaskStatusEnum.STATUS_COMPLETED
                 If User.can("Validate For Finance") Then
-                    TextBox6.Enabled = True
+                    TextBoxSAP.Enabled = True
                 End If
+            Case Else
+
         End Select
     End Sub
 
@@ -217,6 +243,8 @@ Public Class UCFinanceExpenses
             Dim myParamAdapter = ParamAdapter.getInstance
             Dim myFileController As New EmailController
             Dim FullPathFileName = String.Format("{0}\{1:yyyyMM}\{1:ddHHmmss}{2}", myParamAdapter.GetParamDetailCValue("basefolder"), CDate(TextBox2.Text), selecteditem)
+
+
             myFileController.previewdoc(FullPathFileName, selecteditem)
         Else
             MessageBox.Show("Select item from the list.")
@@ -248,9 +276,29 @@ Public Class UCFinanceExpenses
 
     End Sub
 
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles BtnVendor.Click
 
+        If drv.Row.Item("status") = TaskStatusEnum.STATUS_NEW Or drv.Row.Item("status") = TaskStatusEnum.STATUS_FORWARD Or drv.Row.Item("status") = TaskStatusEnum.STATUS_RE_SUBMIT Then
+            Dim helperbs As New BindingSource
+            Dim mycontroller As New UserController
+            helperbs = VendorBS
+            helperbs.Filter = ""
+            Dim myform = New FormHelper(helperbs)
+            myform.Column1.Width = 400
+            myform.Width = 600
+            myform.DataGridView1.Columns(0).DataPropertyName = "vendordesc"
 
+            myform.Filter = "[vendordesc] like '%{0}%'"
+            If myform.ShowDialog() = DialogResult.OK Then
+                Dim drvcurr As DataRowView = helperbs.Current
+                TextBox9.Text = drvcurr.Row.Item("vendordesc")
+                drv.Row.Item("vendorcode") = drvcurr.Row.Item("vendorcode")
+            End If
+        End If
+        
+    End Sub
 
+    Private Sub ListBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListBox1.SelectedIndexChanged
 
-
+    End Sub
 End Class
