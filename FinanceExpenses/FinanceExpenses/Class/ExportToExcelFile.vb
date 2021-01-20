@@ -116,6 +116,22 @@ Public Class ExportToExcelFile
             MsgBox("Please wait until the current process is finished")
         End If
     End Sub
+
+    Public Sub ReadExcel(ByRef sender As System.Object, ByVal e As System.EventArgs)
+        If Not myThread.IsAlive Then
+            Try
+                myThread = New System.Threading.Thread(New ThreadStart(AddressOf DoReadExcel))
+                myThread.SetApartmentState(ApartmentState.MTA)
+                myThread.Start()
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+        Else
+            MsgBox("Please wait until the current process is finished")
+        End If
+    End Sub
+
+
     Sub DoWork()
         Dim errMsg As String = String.Empty
         Dim i As Integer = 0
@@ -146,6 +162,74 @@ Public Class ExportToExcelFile
 
 
     End Sub
+
+    Public Sub DoReadExcel()
+        Dim myCriteria As String = String.Empty
+        Dim result As Boolean = False
+
+        Dim StopWatch As New Stopwatch
+        StopWatch.Start()
+        'Open Excel
+        Application.DoEvents()
+
+        'Excel Variable
+        Dim oXl As Excel.Application = Nothing
+        Dim oWb As Excel.Workbook = Nothing
+        Dim oSheet As Excel.Worksheet = Nothing
+        Dim SheetName As String = vbEmpty
+        Dim hwnd As System.IntPtr
+        Try
+            'Create Object Excel 
+            ProgressReport(2, "CreateObject..")
+            oXl = CType(CreateObject("Excel.Application"), Excel.Application)
+            hwnd = oXl.Hwnd
+            'oXl.ScreenUpdating = False
+            'oXl.Visible = False
+            oXl.DisplayAlerts = False
+            ProgressReport(2, "Opening File...")
+
+            oWb = oXl.Workbooks.Open(Directory)
+
+            oXl.Visible = False
+
+            ProgressReport(2, "Read Data...")
+            oWb.Worksheets(1).select()
+            oWb.SaveAs(Directory.Replace("xlsx", "txt"), Excel.XlFileFormat.xlUnicodeText, CreateBackup:=False)
+            FormatReportCallback.Invoke(oWb, New EventArgs)
+
+            StopWatch.Stop()
+
+
+            ProgressReport(3, "")
+
+            ProgressReport(2, "Elapsed Time: " & Format(StopWatch.Elapsed.Minutes, "00") & ":" & Format(StopWatch.Elapsed.Seconds, "00") & "." & StopWatch.Elapsed.Milliseconds.ToString)
+            result = True
+        Catch ex As Exception
+            ProgressReport(3, ex.Message)
+
+        Finally
+            'clear excel from memory
+            Try
+                oXl.Quit()
+                releaseComObject(oSheet)
+                releaseComObject(oWb)
+                releaseComObject(oXl)
+                GC.Collect()
+                GC.WaitForPendingFinalizers()
+            Catch ex As Exception
+
+            End Try
+
+            Try
+                'to make sure excel is no longer in memory
+                EndTask(hwnd, True, True)
+            Catch ex As Exception
+            End Try
+
+        End Try
+
+    End Sub
+
 
     Sub DoWorkForm()
         Dim errMsg As String = String.Empty
@@ -541,4 +625,7 @@ Public Class ExportToExcelFile
             o = Nothing
         End Try
     End Sub
+
+   
+
 End Class

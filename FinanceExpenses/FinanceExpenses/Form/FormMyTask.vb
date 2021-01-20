@@ -51,7 +51,7 @@ Public Class FormMyTask
             MyTasksCriteria = " where status > 0 and status <= 10"
             HistoryCriteria = " where status > 10"
         Else
-            MyTasksCriteria = String.Format("where (status in({1},{2},{3},{6}) and attn = '{0}' and forwardto isnull) or (status in ({7},{2},{3},{6}) and forwardto = '{0}') or (status in({4},{9}) and u1.email = '{0}') or (status = {5} and u2.email = '{0}') or (status = {4} and ssc.getdelegator('{0}') ~u1.email) or (status = {5} and ssc.getdelegator('{0}') ~u2.email) {8}",
+            MyTasksCriteria = String.Format("where (status in({1},{2},{3},{6}) and attn = '{0}' and forwardto isnull) or (status in ({7},{2},{3},{6}) and forwardto = '{0}') or (status in({4},{9}) and u1.email = '{0}') or (status = {5} and u2.email = '{0}') or (status in({4},{9}) and ssc.getdelegator('{0}') ~u1.email) or (status = {5} and ssc.getdelegator('{0}') ~u2.email) {8}",
                                             DirectCast(User.identity, UserController).email,
                                             Int(TaskStatusEnum.STATUS_NEW),
                                             Int(TaskStatusEnum.STATUS_REJECTEDBYM1),

@@ -35,7 +35,6 @@ Partial Class DialogAddUpdCostCenter
         Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
-        Me.Button2 = New System.Windows.Forms.Button()
         Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
         Me.TextBox5 = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
@@ -90,15 +89,19 @@ Partial Class DialogAddUpdCostCenter
         '
         'TextBox1
         '
+        Me.TextBox1.BackColor = System.Drawing.SystemColors.ButtonHighlight
         Me.TextBox1.Location = New System.Drawing.Point(103, 28)
         Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.ReadOnly = True
         Me.TextBox1.Size = New System.Drawing.Size(227, 20)
         Me.TextBox1.TabIndex = 2
         '
         'TextBox2
         '
+        Me.TextBox2.BackColor = System.Drawing.SystemColors.ButtonHighlight
         Me.TextBox2.Location = New System.Drawing.Point(103, 54)
         Me.TextBox2.Name = "TextBox2"
+        Me.TextBox2.ReadOnly = True
         Me.TextBox2.Size = New System.Drawing.Size(227, 20)
         Me.TextBox2.TabIndex = 4
         '
@@ -153,15 +156,6 @@ Partial Class DialogAddUpdCostCenter
         Me.Button1.Text = "..."
         Me.Button1.UseVisualStyleBackColor = True
         '
-        'Button2
-        '
-        Me.Button2.Location = New System.Drawing.Point(336, 52)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(33, 23)
-        Me.Button2.TabIndex = 10
-        Me.Button2.Text = "..."
-        Me.Button2.UseVisualStyleBackColor = True
-        '
         'ErrorProvider1
         '
         Me.ErrorProvider1.ContainerControl = Me
@@ -185,8 +179,10 @@ Partial Class DialogAddUpdCostCenter
         '
         'TextBox6
         '
+        Me.TextBox6.BackColor = System.Drawing.SystemColors.ButtonHighlight
         Me.TextBox6.Location = New System.Drawing.Point(103, 80)
         Me.TextBox6.Name = "TextBox6"
+        Me.TextBox6.ReadOnly = True
         Me.TextBox6.Size = New System.Drawing.Size(81, 20)
         Me.TextBox6.TabIndex = 12
         '
@@ -210,7 +206,6 @@ Partial Class DialogAddUpdCostCenter
         Me.Controls.Add(Me.TextBox6)
         Me.Controls.Add(Me.TextBox5)
         Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.TextBox4)
         Me.Controls.Add(Me.Label4)
@@ -246,7 +241,6 @@ Partial Class DialogAddUpdCostCenter
     Friend WithEvents TextBox4 As System.Windows.Forms.TextBox
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents Button1 As System.Windows.Forms.Button
-    Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
     Friend WithEvents TextBox5 As System.Windows.Forms.TextBox
     Friend WithEvents Label5 As System.Windows.Forms.Label

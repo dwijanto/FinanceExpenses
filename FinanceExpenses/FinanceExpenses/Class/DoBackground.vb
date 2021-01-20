@@ -78,13 +78,15 @@ Public Class DoBackground
                     Catch ex As Exception
                         MessageBox.Show(ex.Message)
                     End Try
-                    RaiseEvent CallBack(4, New EventArgs)
+                    'RaiseEvent CallBack(4, New EventArgs)
                 Case 5
                     Parent.ToolStripProgressBar1.Style = ProgressBarStyle.Marquee
                 Case 6
                     Parent.ToolStripProgressBar1.Style = ProgressBarStyle.Continuous
                 Case 8
                     RaiseEvent CallBack(8, New EventArgs)
+                Case Else
+                    RaiseEvent CallBack(id, New EventArgs)
             End Select
         End If
     End Sub

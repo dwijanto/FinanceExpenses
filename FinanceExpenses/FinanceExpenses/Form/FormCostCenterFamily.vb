@@ -1,17 +1,15 @@
-﻿Public Class FormCOA
+﻿Public Class FormCostCenterFamily
     Dim ProgressReportCallback1 As ProgressReportCallback = AddressOf myCallBack  'DoBackGround Progress Report ProgressReportCallback.Invoke
     Dim DoBackground1 As DoBackground = New DoBackground(Me, ProgressReportCallback1)
 
-    Private Shared myform As FormCOA
-    Dim myController As COAController
-
-
+    Private Shared myform As FormCostCenterFamily
+    Dim myController As CostCenterFamilyController
 
     Public Shared Function getInstance()
         If myform Is Nothing Then
-            myform = New FormCOA
+            myform = New FormCostCenterFamily
         ElseIf myform.IsDisposed Then
-            myform = New FormCOA
+            myform = New FormCostCenterFamily
         End If
         Return myform
     End Function
@@ -37,7 +35,7 @@
     End Sub
 
     Sub DoWork()
-        myController = New COAController
+        myController = New CostCenterFamilyController
         Try
             DoBackground1.ProgressReport(1, "Loading...Please wait.")
             If myController.loaddata() Then
@@ -82,5 +80,4 @@
     Private Sub DeleteToolStripButton_Click(sender As Object, e As EventArgs) Handles DeleteToolStripButton.Click
         myController.delete(DataGridView1)
     End Sub
-
 End Class

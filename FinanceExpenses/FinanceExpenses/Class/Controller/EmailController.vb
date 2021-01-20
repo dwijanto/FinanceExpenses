@@ -11,6 +11,7 @@
     Private FinanceTxBS As BindingSource
     Private ApprovalTXBS As BindingSource
     Private VendorBS As BindingSource
+    Private ChartOfAccountBS As BindingSource
 
     Private ReferencenumberFilterBS As BindingSource
     Private InvoiceNumberFilterBS As BindingSource
@@ -25,6 +26,12 @@
     Public Sub New()
         MyBase.New()
     End Sub
+
+    Public ReadOnly Property GetChartOfAccountBS As BindingSource
+        Get
+            Return ChartOfAccountBS
+        End Get
+    End Property
 
     Public ReadOnly Property GetReferencenumberFilterBS As BindingSource
         Get
@@ -155,6 +162,8 @@
             ApprovalTXBS.DataMember = "hdrel-approvaltx"
             VendorBS = New BindingSource
             VendorBS.DataSource = DS.Tables("VENDOR")
+            ChartOfAccountBS = New BindingSource
+            ChartOfAccountBS.DataSource = DS.Tables("COA")
             myret = True
         End If
         Return myret
@@ -346,6 +355,9 @@
         Dim myparam(0) As System.Data.IDbDataParameter
         myparam(0) = factory.CreateParameter("paramname", staffemail)
         myresult = DataAccess.ExecuteScalar(sqlstr, CommandType.Text, myparam)
+        If IsNothing(myresult) Then
+            myresult = String.Empty
+        End If
         Return myresult
     End Function
 

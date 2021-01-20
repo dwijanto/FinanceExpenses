@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class FormCOA
+Partial Class FormSAPIndex
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,8 +22,8 @@ Partial Class FormCOA
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormCOA))
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormSAPIndex))
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel2 = New System.Windows.Forms.ToolStripStatusLabel()
@@ -40,7 +40,7 @@ Partial Class FormCOA
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column2 = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
@@ -57,7 +57,7 @@ Partial Class FormCOA
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel2, Me.ToolStripProgressBar1})
         Me.StatusStrip1.Location = New System.Drawing.Point(0, 0)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(897, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(695, 22)
         Me.StatusStrip1.TabIndex = 0
         '
         'ToolStripStatusLabel1
@@ -69,7 +69,7 @@ Partial Class FormCOA
         'ToolStripStatusLabel2
         '
         Me.ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
-        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(780, 17)
+        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(578, 17)
         Me.ToolStripStatusLabel2.Spring = True
         Me.ToolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -84,7 +84,7 @@ Partial Class FormCOA
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToolStripButton, Me.UpdateToolStripButton, Me.DeleteToolStripButton, Me.CommitToolStripButton, Me.RefreshToolStripButton, Me.ToolStripSeparator1, Me.ToolStripLabel1, Me.ToolStripTextBox1})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(515, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(484, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'AddToolStripButton
@@ -158,12 +158,12 @@ Partial Class FormCOA
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.DataGridView1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(897, 362)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(695, 323)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(897, 409)
-        Me.ToolStripContainer1.TabIndex = 5
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(695, 370)
+        Me.ToolStripContainer1.TabIndex = 7
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
         'ToolStripContainer1.TopToolStripPanel
@@ -175,16 +175,16 @@ Partial Class FormCOA
         Me.DataGridView1.AllowUserToAddRows = False
         Me.DataGridView1.AllowUserToDeleteRows = False
         Me.DataGridView1.AllowUserToOrderColumns = True
-        DataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.DataGridView1.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.DataGridView1.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
         Me.DataGridView1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight
         Me.DataGridView1.ColumnHeadersHeight = 35
-        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column4, Me.Column2})
+        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column3, Me.Column2})
         Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView1.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(897, 362)
+        Me.DataGridView1.Size = New System.Drawing.Size(695, 323)
         Me.DataGridView1.TabIndex = 0
         '
         'Column1
@@ -193,12 +193,11 @@ Partial Class FormCOA
         Me.Column1.HeaderText = "SAP Account Number"
         Me.Column1.Name = "Column1"
         '
-        'Column4
+        'Column3
         '
-        Me.Column4.DataPropertyName = "accountname"
-        Me.Column4.HeaderText = "SAP Account Name"
-        Me.Column4.Name = "Column4"
-        Me.Column4.Width = 300
+        Me.Column3.DataPropertyName = "costcenterfamily"
+        Me.Column3.HeaderText = "Cost Center Family"
+        Me.Column3.Name = "Column3"
         '
         'Column2
         '
@@ -206,14 +205,14 @@ Partial Class FormCOA
         Me.Column2.HeaderText = "IsActive"
         Me.Column2.Name = "Column2"
         '
-        'FormCOA
+        'FormSAPIndex
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(897, 409)
+        Me.ClientSize = New System.Drawing.Size(695, 370)
         Me.Controls.Add(Me.ToolStripContainer1)
-        Me.Name = "FormCOA"
-        Me.Text = "FormCOA"
+        Me.Name = "FormSAPIndex"
+        Me.Text = "FormSAPIndex"
         Me.StatusStrip1.ResumeLayout(False)
         Me.StatusStrip1.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
@@ -245,6 +244,6 @@ Partial Class FormCOA
     Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
     Friend WithEvents DataGridView1 As System.Windows.Forms.DataGridView
     Friend WithEvents Column1 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Column4 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column3 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column2 As System.Windows.Forms.DataGridViewCheckBoxColumn
 End Class

@@ -7,7 +7,8 @@ End Enum
 Public Class FormExpenses
 
     Dim ProgressReportCallback1 As ProgressReportCallback = AddressOf myCallBack
-    Dim DoBackground1 As DoBackground = New DoBackground(Me, ProgressReportCallback1)
+
+    Public DoBackground1 As DoBackground = New DoBackground(Me, ProgressReportCallback1)
     Dim FirstApproverUser As List(Of UserController)
     Dim SecondApproverUser As List(Of UserController)
     Dim _isModified As Boolean = False
@@ -30,7 +31,7 @@ Public Class FormExpenses
     Dim FinanceTxBS As BindingSource
     Dim ApprovalTXBS As BindingSource
     Dim VendorBS As BindingSource
-
+    Dim COABS As BindingSource
 
     'Dim FirstApprover As String = String.Empty
     'Dim SecondApprover As String = String.Empty
@@ -45,6 +46,9 @@ Public Class FormExpenses
     Public Shared Event myFormClosed(isModified As Boolean)
     Dim userid = DirectCast(User.identity, UserController).userid
     Dim _HasApprover As Boolean
+    Dim myupload As UploadExpensesController
+
+
     Public Property HasApprover As Boolean
         Get
             Return _HasApprover
@@ -54,7 +58,7 @@ Public Class FormExpenses
         End Set
     End Property
 
-    Sub myCallBack()
+    Public Sub myCallBack(ByRef sender As Object, ByRef e As EventArgs)
 
         DRV = myController.GetCurrentRecord
         DTLBS = myController.GetDTLBS
@@ -62,8 +66,8 @@ Public Class FormExpenses
         FinanceTxBS = myController.GetFinanceTxBS
         ApprovalTXBS = myController.GetApprovalTxBS
         VendorBS = myController.GetVendorBS
-
-        UcFinanceExpenses1.BindingControl(DRV, DTLBS, FinanceTxBS, ApprovalTXBS, VendorBS)
+        COABS = myController.GetChartOfAccountBS
+        UcFinanceExpenses1.BindingControl(DRV, DTLBS, FinanceTxBS, ApprovalTXBS, VendorBS, COABS)
         DataGridView1.AutoGenerateColumns = False
         DataGridView1.DataSource = ActionBS
 
@@ -75,7 +79,8 @@ Public Class FormExpenses
         ToolStripButtonReject.Visible = False 'Reject
         ToolStripButtonComplete.Visible = False 'Complete
         ToolStripButtonForward.Visible = False 'Forward
-
+        ToolStripButton1.Visible = False 'Download
+        ToolStripButton2.Visible = False 'Upload
         Select Case TxEnum
             Case FinanceExpenses.TxEnum.UpdateRecord
                 Select Case DRV.Row.Item("status")
@@ -83,9 +88,13 @@ Public Class FormExpenses
                         ToolStripButtonForward.Visible = True
                         ToolStripButtonValidate.Visible = True 'Validate
                         ToolStripButtonStsCancelled.Visible = True 'Cancel
+                        ToolStripButton1.Visible = True
+                        ToolStripButton2.Visible = True
                     Case TaskStatusEnum.STATUS_FORWARD
                         ToolStripButtonValidate.Visible = True 'Validate
                         ToolStripButtonStsCancelled.Visible = True 'Cancel
+                        ToolStripButton1.Visible = True
+                        ToolStripButton2.Visible = True
                     Case TaskStatusEnum.STATUS_REJECTEDBYM1, TaskStatusEnum.STATUS_REJECTEDBYM2, TaskStatusEnum.STATUS_REJECTEDBYFINANCE
                         ToolStripButtonValidate.Visible = True 'Validate
                         ToolStripButtonValidate.Text = "Re-Submit"
@@ -109,6 +118,8 @@ Public Class FormExpenses
                     Case TaskStatusEnum.STATUS_RE_SUBMIT
                         ToolStripButtonValidate.Visible = True 'Validate
                         ToolStripButtonReject.Visible = True 'Reject
+                        ToolStripButton1.Visible = True
+                        ToolStripButton2.Visible = True
                 End Select
             Case FinanceExpenses.TxEnum.HistoryRecord
                 UcFinanceExpenses1.DisabledContextMenu()
@@ -215,6 +226,8 @@ Public Class FormExpenses
         RemoveHandler myController.IsModified, AddressOf setIsModified
         AddHandler myController.IsModified, AddressOf setIsModified
 
+        AddHandler DoBackground.CallBack, AddressOf RaiseEventCallback
+
         ' Add any initialization after the InitializeComponent() call.
         Criteria = String.Format("where hd.id = {0}", hdid)
         Me.TxEnum = txEnum
@@ -273,10 +286,6 @@ Public Class FormExpenses
             End If
 
         End If
-
-
-
-
     End Sub
 
     Private Sub FormExpenses_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
@@ -472,7 +481,7 @@ Public Class FormExpenses
 
     Private Sub ToolStripButtonValidate_Click(sender As Object, e As EventArgs) Handles ToolStripButtonValidate.Click
         If IsNothing(ApprovalDRV) Then
-            If UcFinanceExpenses1.validate() Then
+            If UcFinanceExpenses1.validate() And Me.validate Then
                 Dim ButtonText = ToolStripButtonValidate.Text
                 If MessageBox.Show("Do you want to validate this record?", ButtonText, System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
                     Dim remarks As String = String.Empty 'InputBox("Please input some comment.")
@@ -504,7 +513,7 @@ Public Class FormExpenses
                                 'DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
                                 'StatusName = "Validated by Requester"
                                 DRV.Row.Item("status") = TaskStatusEnum.STATUS_RE_SUBMIT
-                                StatusName = "Re-Submit"                               
+                                StatusName = "Re-Submit"
                             Case TaskStatusEnum.STATUS_RE_SUBMIT
                                 'DRV.Row.Item("status") = TaskStatusEnum.STATUS_RE_SUBMIT
                                 'StatusName = "Re-Submit"
@@ -541,6 +550,8 @@ Public Class FormExpenses
                         setApproval(DRV.Item("status"), StatusName, remarks)
                     End If
                 End If
+            Else
+                MessageBox.Show("Please fix the error.")
             End If
         Else
             MessageBox.Show("Nothing todo.")
@@ -632,7 +643,6 @@ Public Class FormExpenses
         ApprovalDRV.Row.Item("modifiedby") = userid
         ApprovalDRV.Row.Item("latestupdate") = Now
         ApprovalDRV.Row.Item("remark") = remarks
-        'ApprovalDRV.Row.Item("sscemailhdid") = DRV.Item("id")
 
         ApprovalDRV.EndEdit()
         Logger.log(String.Format("** Submit {0} Id: {1}**", userid, DRV.Row.Item("id")))
@@ -643,15 +653,17 @@ Public Class FormExpenses
         End If
     End Sub
     Public Overloads Function validate() As Boolean
-        'Dim myret As Boolean = True
-        'If myController.GetDTLBS.Count = 0 Then
-        '    myret = False
-        'End If
-        'If Not UcProductRequest1.validate Then
-        '    myret = False
-        'End If
-        'Return myret
-        Return False
+        Dim myret As Boolean = True
+        If UcFinanceExpenses1.ErrorProvider1.GetError(UcFinanceExpenses1.TextBox9).Length > 0 Then
+            myret = False
+        End If
+        If UcFinanceExpenses1.ErrorProvider1.GetError(UcFinanceExpenses1.TextBox5).Length > 0 Then
+            myret = False
+        End If
+        If myController.DS.Tables("FinanceTx").HasErrors Then
+            myret = False
+        End If
+        Return myret
     End Function
 
     Private Sub SendEmail()
@@ -907,9 +919,65 @@ Public Class FormExpenses
         Return myController.GetDelegateTo(SendTo)
     End Function
 
+    Private Sub ToolStripButton2_Click_1(sender As Object, e As EventArgs) Handles ToolStripButton2.Click
+        If Not DoBackground1.myThread.IsAlive Then
+            myupload = New UploadExpensesController(Me, FinanceTxBS, myController)
+            UcFinanceExpenses1.DoImport = True
+            myupload.ImportData()
+        Else
+            MessageBox.Show("Please wait until the current process is finished.")
+        End If
+       
+        
+       
+    End Sub
 
+    Public Sub RaiseEventCallback(sender As Object, e As EventArgs)
+        If sender = 8 Then
+            Try
+                'DoBackground1.ProgressReport(1, "Start Raise Callback")
+                UcFinanceExpenses1.RefreshDatagrid()
+                UcFinanceExpenses1.EnableContextMenu()
 
+                UcFinanceExpenses1.getTotal()
+                UcFinanceExpenses1.DoImport = False
 
+                UcFinanceExpenses1.TextBox9.Text = myupload.VendorDesc
+                UcFinanceExpenses1.TextBox5.Text = myupload.InvoiceNumber
+            Catch ex As Exception
+                DoBackground1.ProgressReport(1, ex.Message)
+            End Try
 
+            Try
+                'MessageBox.Show(myupload.VendorCode)
+                DRV.Row.BeginEdit()
+                DRV.Row.Item("vendorcode") = myupload.VendorCode
+                DRV.Row.Item("invoicenumber") = myupload.InvoiceNumber
+                'DRV.Row.EndEdit()
+            Catch ex As Exception
+                DoBackground1.ProgressReport(1, ex.Message)
+            End Try
+            'DoBackground1.ProgressReport(1, "End Raise Callback")
+        ElseIf sender = 100 Then
+            UcFinanceExpenses1.ErrorProvider1.SetError(UcFinanceExpenses1.TextBox9, "Vendor code is not available.")
+        ElseIf sender = 101 Then
+            UcFinanceExpenses1.ErrorProvider1.SetError(UcFinanceExpenses1.TextBox5, "Value cannot be blank.")
+        End If
+    End Sub
 
+    Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
+        Dim savedialog1 As New SaveFileDialog
+        savedialog1.FileName = "UploadExpanses.xlsx"
+        If savedialog1.ShowDialog = Windows.Forms.DialogResult.OK Then
+            Dim filesource = String.Format("{0}\template\InvoiceUploadTemplate.xlsx", Application.StartupPath)
+            Dim filedestination = savedialog1.FileName
+            Try
+                FileCopy(filesource, filedestination)
+                MessageBox.Show("Done.")
+            Catch ex As Exception
+                MessageBox.Show(ex.Message)
+            End Try
+
+        End If
+    End Sub
 End Class

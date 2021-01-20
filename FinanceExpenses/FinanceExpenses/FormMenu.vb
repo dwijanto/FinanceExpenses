@@ -174,4 +174,14 @@ Public Class FormMenu
         Dim myform As New FormMasterVendor
         myform.ShowDialog()
     End Sub
+
+    Private Sub CostCenterFamilyToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CostCenterFamilyToolStripMenuItem.Click
+        Dim myform As New FormCostCenterFamily
+        myform.Show()
+    End Sub
+
+    Private Sub SAPIndexToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SAPIndexToolStripMenuItem.Click
+        Dim myform As New FormSAPIndex
+        myform.Show()
+    End Sub
 End Class

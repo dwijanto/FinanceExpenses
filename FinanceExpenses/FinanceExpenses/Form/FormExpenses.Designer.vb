@@ -32,6 +32,7 @@ Partial Class FormExpenses
         Me.ToolStripProgressBar1 = New System.Windows.Forms.ToolStripProgressBar()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.UcFinanceExpenses1 = New FinanceExpenses.UCFinanceExpenses()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -39,15 +40,16 @@ Partial Class FormExpenses
         Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripButtonForward = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButtonCommit = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButtonSubmit = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButtonReSubmit = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButtonForward = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButtonValidate = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButtonStsCancelled = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButtonReject = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButtonComplete = New System.Windows.Forms.ToolStripButton()
-        Me.UcFinanceExpenses1 = New FinanceExpenses.UCFinanceExpenses()
+        Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton2 = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -134,6 +136,17 @@ Partial Class FormExpenses
         Me.TabPage1.Text = "Expenses Request"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
+        'UcFinanceExpenses1
+        '
+        Me.UcFinanceExpenses1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.UcFinanceExpenses1.DocType = 1
+        Me.UcFinanceExpenses1.Location = New System.Drawing.Point(8, 27)
+        Me.UcFinanceExpenses1.Name = "UcFinanceExpenses1"
+        Me.UcFinanceExpenses1.Size = New System.Drawing.Size(799, 514)
+        Me.UcFinanceExpenses1.TabIndex = 0
+        '
         'TabPage2
         '
         Me.TabPage2.Controls.Add(Me.DataGridView1)
@@ -200,11 +213,20 @@ Partial Class FormExpenses
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButtonForward, Me.ToolStripButtonCommit, Me.ToolStripButtonSubmit, Me.ToolStripButtonReSubmit, Me.ToolStripButtonValidate, Me.ToolStripButtonStsCancelled, Me.ToolStripButtonReject, Me.ToolStripButtonComplete})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButtonForward, Me.ToolStripButtonCommit, Me.ToolStripButtonSubmit, Me.ToolStripButtonReSubmit, Me.ToolStripButtonValidate, Me.ToolStripButtonStsCancelled, Me.ToolStripButtonReject, Me.ToolStripButtonComplete, Me.ToolStripButton2, Me.ToolStripButton1})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(472, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(688, 25)
         Me.ToolStrip1.TabIndex = 0
+        '
+        'ToolStripButtonForward
+        '
+        Me.ToolStripButtonForward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButtonForward.Image = CType(resources.GetObject("ToolStripButtonForward.Image"), System.Drawing.Image)
+        Me.ToolStripButtonForward.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButtonForward.Name = "ToolStripButtonForward"
+        Me.ToolStripButtonForward.Size = New System.Drawing.Size(54, 22)
+        Me.ToolStripButtonForward.Text = "Forward"
         '
         'ToolStripButtonCommit
         '
@@ -235,15 +257,6 @@ Partial Class FormExpenses
         Me.ToolStripButtonReSubmit.Size = New System.Drawing.Size(66, 22)
         Me.ToolStripButtonReSubmit.Text = "Re-submit"
         Me.ToolStripButtonReSubmit.Visible = False
-        '
-        'ToolStripButtonForward
-        '
-        Me.ToolStripButtonForward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButtonForward.Image = CType(resources.GetObject("ToolStripButtonForward.Image"), System.Drawing.Image)
-        Me.ToolStripButtonForward.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButtonForward.Name = "ToolStripButtonForward"
-        Me.ToolStripButtonForward.Size = New System.Drawing.Size(54, 22)
-        Me.ToolStripButtonForward.Text = "Forward"
         '
         'ToolStripButtonValidate
         '
@@ -282,16 +295,23 @@ Partial Class FormExpenses
         Me.ToolStripButtonComplete.Size = New System.Drawing.Size(63, 22)
         Me.ToolStripButtonComplete.Text = "Complete"
         '
-        'UcFinanceExpenses1
+        'ToolStripButton1
         '
-        Me.UcFinanceExpenses1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.UcFinanceExpenses1.DocType = 1
-        Me.UcFinanceExpenses1.Location = New System.Drawing.Point(8, 27)
-        Me.UcFinanceExpenses1.Name = "UcFinanceExpenses1"
-        Me.UcFinanceExpenses1.Size = New System.Drawing.Size(799, 514)
-        Me.UcFinanceExpenses1.TabIndex = 0
+        Me.ToolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton1.Image = CType(resources.GetObject("ToolStripButton1.Image"), System.Drawing.Image)
+        Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton1.Name = "ToolStripButton1"
+        Me.ToolStripButton1.Size = New System.Drawing.Size(116, 22)
+        Me.ToolStripButton1.Text = "Download Template"
+        '
+        'ToolStripButton2
+        '
+        Me.ToolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton2.Image = CType(resources.GetObject("ToolStripButton2.Image"), System.Drawing.Image)
+        Me.ToolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton2.Name = "ToolStripButton2"
+        Me.ToolStripButton2.Size = New System.Drawing.Size(100, 22)
+        Me.ToolStripButton2.Text = "Upload Template"
         '
         'FormExpenses
         '
@@ -342,4 +362,6 @@ Partial Class FormExpenses
     Friend WithEvents Column2 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column3 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column4 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents ToolStripButton1 As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripButton2 As System.Windows.Forms.ToolStripButton
 End Class

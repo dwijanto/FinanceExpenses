@@ -10,6 +10,8 @@ Public Class UCFinanceExpenses
     Private WithEvents FinanceTxBS As BindingSource
     Private ApprovalTXBS As BindingSource
     Private VendorBS As BindingSource
+    Private COABS As BindingSource
+    Public DoImport As Boolean = False
     Private Sub RadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton1.CheckedChanged, RadioButton2.CheckedChanged
         onPropertyChanged("DocType")
     End Sub
@@ -44,12 +46,13 @@ Public Class UCFinanceExpenses
         TextBox5.Enabled = False
     End Sub
 
-    Public Sub BindingControl(ByRef drv As DataRowView, ByRef dtlbs As BindingSource, ByRef financetxbs As BindingSource, ByRef ApprovalTxBS As BindingSource, ByVal VendorBS As BindingSource)
+    Public Sub BindingControl(ByRef drv As DataRowView, ByRef dtlbs As BindingSource, ByRef financetxbs As BindingSource, ByRef ApprovalTxBS As BindingSource, ByVal VendorBS As BindingSource, ByVal COABS As BindingSource)
         Me.drv = drv
         Me.DtlBS = dtlbs
         Me.FinanceTxBS = financetxbs
         Me.ApprovalTXBS = ApprovalTxBS
         Me.VendorBS = VendorBS
+        Me.COABS = COABS
         InitData()
         EnabledControl(drv.Row.Item("status"))
         EnableContextMenu()
@@ -116,7 +119,7 @@ Public Class UCFinanceExpenses
             Case TxEnum.UpdateRecord
                 mydrv = FinanceTxBS.Current
         End Select
-        Dim myform As New DialogAddUpdCostCenter(mydrv)
+        Dim myform As New DialogAddUpdCostCenter(mydrv, COABS)
         mydrv.BeginEdit()
         myform.ShowDialog()
         getTotal()
@@ -160,7 +163,7 @@ Public Class UCFinanceExpenses
         End If
     End Sub
 
-    Private Sub getTotal()
+    Public Sub getTotal()
         Dim total As Decimal = 0
         For Each drv As DataRowView In FinanceTxBS.List
             If Not IsDBNull(drv.Row.Item("amount")) Then
@@ -187,6 +190,7 @@ Public Class UCFinanceExpenses
                 BtnVendor.Enabled = True
                 'ToolTip1.ToolTipTitle = "Right Click to activate context menu"
                 ToolTip1.SetToolTip(DataGridView1, "Right Click to activate context menu")
+
             Case TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
             Case TaskStatusEnum.STATUS_RE_SUBMIT
 
@@ -206,12 +210,17 @@ Public Class UCFinanceExpenses
         End Select
     End Sub
 
-    Private Sub EnableContextMenu()
-        UpdateToolStripMenuItem.Visible = FinanceTxBS.Count > 0
-        DeleteToolStripMenuItem.Visible = FinanceTxBS.Count > 0
+    Public Sub EnableContextMenu()
+        Try
+            UpdateToolStripMenuItem.Visible = FinanceTxBS.Count > 0
+            DeleteToolStripMenuItem.Visible = FinanceTxBS.Count > 0
+        Catch ex As Exception
+
+        End Try
+
     End Sub
 
-    Private Sub RefreshDatagrid()
+    Public Sub RefreshDatagrid()
         DataGridView1.Invalidate()
     End Sub
 
@@ -228,7 +237,10 @@ Public Class UCFinanceExpenses
 
 
     Private Sub FinanceTxBS_ListChanged(sender As Object, e As System.ComponentModel.ListChangedEventArgs) Handles FinanceTxBS.ListChanged
-        EnableContextMenu()
+        If Not DoImport Then
+            EnableContextMenu()
+        End If
+
 
     End Sub
 
@@ -293,6 +305,7 @@ Public Class UCFinanceExpenses
                 Dim drvcurr As DataRowView = helperbs.Current
                 TextBox9.Text = drvcurr.Row.Item("vendordesc")
                 drv.Row.Item("vendorcode") = drvcurr.Row.Item("vendorcode")
+                ErrorProvider1.SetError(TextBox9, "")
             End If
         End If
         

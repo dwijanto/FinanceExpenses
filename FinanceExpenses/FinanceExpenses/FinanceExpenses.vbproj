@@ -95,12 +95,16 @@
     <Compile Include="Class\Controller\BPAddressController.vb" />
     <Compile Include="Class\Controller\BPartnerController.vb" />
     <Compile Include="Class\Controller\CMMFController.vb" />
+    <Compile Include="Class\Controller\COAController.vb" />
+    <Compile Include="Class\Controller\CostCenterFamilyController.vb" />
     <Compile Include="Class\Controller\DelegateController.vb" />
     <Compile Include="Class\Controller\EmailController.vb" />
     <Compile Include="Class\Controller\ExpensesTypeController.vb" />
     <Compile Include="Class\Controller\MasterVendorController.vb" />
     <Compile Include="Class\Controller\ProductRequestController.vb" />
+    <Compile Include="Class\Controller\SAPIndexController.vb" />
     <Compile Include="Class\Controller\TaskController.vb" />
+    <Compile Include="Class\Controller\UploadExpensesController.vb" />
     <Compile Include="Class\Controller\UserController.vb" />
     <Compile Include="Class\Controller\VendorController.vb" />
     <Compile Include="Class\DoBackground.vb" />
@@ -117,6 +121,8 @@
     <Compile Include="Class\Model\BPAddressModel.vb" />
     <Compile Include="Class\Model\BPartnerModel.vb" />
     <Compile Include="Class\Model\CMMFModel.vb" />
+    <Compile Include="Class\Model\COAModel.vb" />
+    <Compile Include="Class\Model\CostCenterFamilyModel.vb" />
     <Compile Include="Class\Model\DelegateModel.vb" />
     <Compile Include="Class\Model\EmailModel.vb" />
     <Compile Include="Class\Model\ExpensesModel.vb" />
@@ -124,6 +130,7 @@
     <Compile Include="Class\Model\GetEmailModel.vb" />
     <Compile Include="Class\Model\MasterVendorModel.vb" />
     <Compile Include="Class\Model\ProductRequestModel.vb" />
+    <Compile Include="Class\Model\SAPIndexModel.vb" />
     <Compile Include="Class\Model\UserModel.vb" />
     <Compile Include="Class\Model\VendorModel.vb" />
     <Compile Include="Class\PREmail.vb" />
@@ -231,6 +238,12 @@
     <Compile Include="Form\FormCostCenterAssignment.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Form\FormCostCenterFamily.Designer.vb">
+      <DependentUpon>FormCostCenterFamily.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\FormCostCenterFamily.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Form\FormExpenses.Designer.vb">
       <DependentUpon>FormExpenses.vb</DependentUpon>
     </Compile>
@@ -277,6 +290,12 @@
       <DependentUpon>FormRBAC.vb</DependentUpon>
     </Compile>
     <Compile Include="Form\FormRBAC.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\FormSAPIndex.Designer.vb">
+      <DependentUpon>FormSAPIndex.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\FormSAPIndex.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form\FormUser.Designer.vb">
@@ -353,6 +372,9 @@
     <EmbeddedResource Include="Form\FormCostCenterAssignment.resx">
       <DependentUpon>FormCostCenterAssignment.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form\FormCostCenterFamily.resx">
+      <DependentUpon>FormCostCenterFamily.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\FormExpenses.resx">
       <DependentUpon>FormExpenses.vb</DependentUpon>
     </EmbeddedResource>
@@ -376,6 +398,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form\FormRBAC.resx">
       <DependentUpon>FormRBAC.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\FormSAPIndex.resx">
+      <DependentUpon>FormSAPIndex.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\FormUser.resx">
       <DependentUpon>FormUser.vb</DependentUpon>
