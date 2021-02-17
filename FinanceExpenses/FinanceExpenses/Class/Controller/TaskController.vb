@@ -158,4 +158,46 @@
     Public Sub RemoveAt(value As Integer) Implements IToolbarAction.RemoveAt
         BS.RemoveAt(value)
     End Sub
+
+    Public Function SaveMyTask(ByRef DS As DataSet) As Boolean
+        Dim myret As Boolean = False
+
+        Dim ds2 As DataSet = DS.GetChanges()
+        If Not IsNothing(ds2) Then
+            Dim mymessage As String = String.Empty
+            Dim ra As Integer
+            Dim mye As New ContentBaseEventArgs(ds2, True, mymessage, ra, True)
+            Try
+                If SaveMyTask(mye) Then
+                    DS.Merge(ds2)
+                    'Don't use DS.AcceptChanges. Use the statement below.
+                    'Reason: Only AcceptChanges for modified Table. if unmodified table use AcceptChanges -> the position is set to first Row (not correct)
+                    For Each mytable As DataTable In ds2.Tables
+                        If mytable.Rows.Count > 0 Then
+                            DS.Tables(mytable.TableName).AcceptChanges()
+                        End If
+                    Next
+                    MessageBox.Show("Saved.")
+                    RaiseEvent IsModified()
+                    myret = True
+                End If
+            Catch ex As Exception
+                MessageBox.Show(ex.Message)
+                DS.Merge(ds2)
+            End Try
+        Else
+            MessageBox.Show("Nothing to save.")
+        End If
+
+        Return myret
+    End Function
+
+    Private Function SaveMyTask(mye As ContentBaseEventArgs) As Boolean
+        Dim myret As Boolean = False
+        If Model.saveMyTask(Me, mye) Then
+            myret = True
+        End If
+        Return myret
+    End Function
+
 End Class

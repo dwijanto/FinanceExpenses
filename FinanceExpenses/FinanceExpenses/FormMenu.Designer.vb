@@ -29,11 +29,14 @@ Partial Class FormMenu
         Me.ActionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ProductRequestApprovalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DelegateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MasterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FinanceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ParameterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ChartOfAccountToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CostCenterFamilyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SAPIndexToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UserToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MasterVendorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DelegateStatusToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.AdminToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RBACToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GetEmailFromServerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -41,8 +44,9 @@ Partial Class FormMenu
         Me.ProductRequestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UserManualToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CostCenterFamilyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.SAPIndexToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MasterToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.VendorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SearchDocumentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -82,7 +86,7 @@ Partial Class FormMenu
         'MenuStrip1
         '
         Me.MenuStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ActionsToolStripMenuItem, Me.MasterToolStripMenuItem, Me.AdminToolStripMenuItem, Me.ReportToolStripMenuItem, Me.HelpToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ActionsToolStripMenuItem, Me.FinanceToolStripMenuItem, Me.AdminToolStripMenuItem, Me.ReportToolStripMenuItem, Me.HelpToolStripMenuItem, Me.MasterToolStripMenuItem1})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(556, 24)
@@ -108,12 +112,12 @@ Partial Class FormMenu
         Me.DelegateToolStripMenuItem.Size = New System.Drawing.Size(218, 22)
         Me.DelegateToolStripMenuItem.Text = "Delegate"
         '
-        'MasterToolStripMenuItem
+        'FinanceToolStripMenuItem
         '
-        Me.MasterToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ParameterToolStripMenuItem, Me.ChartOfAccountToolStripMenuItem, Me.CostCenterFamilyToolStripMenuItem, Me.SAPIndexToolStripMenuItem, Me.UserToolStripMenuItem, Me.MasterVendorToolStripMenuItem})
-        Me.MasterToolStripMenuItem.Name = "MasterToolStripMenuItem"
-        Me.MasterToolStripMenuItem.Size = New System.Drawing.Size(55, 20)
-        Me.MasterToolStripMenuItem.Text = "Master"
+        Me.FinanceToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ParameterToolStripMenuItem, Me.ChartOfAccountToolStripMenuItem, Me.CostCenterFamilyToolStripMenuItem, Me.SAPIndexToolStripMenuItem, Me.UserToolStripMenuItem, Me.MasterVendorToolStripMenuItem, Me.DelegateStatusToolStripMenuItem1, Me.SearchDocumentToolStripMenuItem})
+        Me.FinanceToolStripMenuItem.Name = "FinanceToolStripMenuItem"
+        Me.FinanceToolStripMenuItem.Size = New System.Drawing.Size(60, 20)
+        Me.FinanceToolStripMenuItem.Text = "Finance"
         '
         'ParameterToolStripMenuItem
         '
@@ -128,6 +132,18 @@ Partial Class FormMenu
         Me.ChartOfAccountToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
         Me.ChartOfAccountToolStripMenuItem.Text = "Chart Of Account"
         '
+        'CostCenterFamilyToolStripMenuItem
+        '
+        Me.CostCenterFamilyToolStripMenuItem.Name = "CostCenterFamilyToolStripMenuItem"
+        Me.CostCenterFamilyToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.CostCenterFamilyToolStripMenuItem.Text = "Cost Center Family"
+        '
+        'SAPIndexToolStripMenuItem
+        '
+        Me.SAPIndexToolStripMenuItem.Name = "SAPIndexToolStripMenuItem"
+        Me.SAPIndexToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.SAPIndexToolStripMenuItem.Text = "SAP Index"
+        '
         'UserToolStripMenuItem
         '
         Me.UserToolStripMenuItem.Name = "UserToolStripMenuItem"
@@ -141,6 +157,13 @@ Partial Class FormMenu
         Me.MasterVendorToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
         Me.MasterVendorToolStripMenuItem.Tag = "FormMasterVendor"
         Me.MasterVendorToolStripMenuItem.Text = "Master Vendor"
+        '
+        'DelegateStatusToolStripMenuItem1
+        '
+        Me.DelegateStatusToolStripMenuItem1.Name = "DelegateStatusToolStripMenuItem1"
+        Me.DelegateStatusToolStripMenuItem1.Size = New System.Drawing.Size(174, 22)
+        Me.DelegateStatusToolStripMenuItem1.Tag = "FormDelegateStatus"
+        Me.DelegateStatusToolStripMenuItem1.Text = "Delegate Status"
         '
         'AdminToolStripMenuItem
         '
@@ -188,17 +211,25 @@ Partial Class FormMenu
         Me.UserManualToolStripMenuItem.Size = New System.Drawing.Size(140, 22)
         Me.UserManualToolStripMenuItem.Text = "User Manual"
         '
-        'CostCenterFamilyToolStripMenuItem
+        'MasterToolStripMenuItem1
         '
-        Me.CostCenterFamilyToolStripMenuItem.Name = "CostCenterFamilyToolStripMenuItem"
-        Me.CostCenterFamilyToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
-        Me.CostCenterFamilyToolStripMenuItem.Text = "Cost Center Family"
+        Me.MasterToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.VendorToolStripMenuItem})
+        Me.MasterToolStripMenuItem1.Name = "MasterToolStripMenuItem1"
+        Me.MasterToolStripMenuItem1.Size = New System.Drawing.Size(55, 20)
+        Me.MasterToolStripMenuItem1.Text = "Master"
         '
-        'SAPIndexToolStripMenuItem
+        'VendorToolStripMenuItem
         '
-        Me.SAPIndexToolStripMenuItem.Name = "SAPIndexToolStripMenuItem"
-        Me.SAPIndexToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
-        Me.SAPIndexToolStripMenuItem.Text = "SAP Index"
+        Me.VendorToolStripMenuItem.Name = "VendorToolStripMenuItem"
+        Me.VendorToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.VendorToolStripMenuItem.Text = "Master Vendor"
+        '
+        'SearchDocumentToolStripMenuItem
+        '
+        Me.SearchDocumentToolStripMenuItem.Name = "SearchDocumentToolStripMenuItem"
+        Me.SearchDocumentToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.SearchDocumentToolStripMenuItem.Tag = "FormSearchDocument"
+        Me.SearchDocumentToolStripMenuItem.Text = "Search Document"
         '
         'FormMenu
         '
@@ -225,7 +256,7 @@ Partial Class FormMenu
     Friend WithEvents StatusStrip1 As System.Windows.Forms.StatusStrip
     Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
     Friend WithEvents ActionsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents MasterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents FinanceToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ParameterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents AdminToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RBACToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -241,5 +272,9 @@ Partial Class FormMenu
     Friend WithEvents MasterVendorToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CostCenterFamilyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SAPIndexToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DelegateStatusToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MasterToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents VendorToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SearchDocumentToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

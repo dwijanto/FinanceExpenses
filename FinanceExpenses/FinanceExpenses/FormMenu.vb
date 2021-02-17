@@ -94,7 +94,11 @@ Public Class FormMenu
         'CreateProductRequestToolStripMenuItem.Visible = User.can("Create Product Request") And (DirectCast(User.identity, UserController).deptid = DeptEnum.MarketingHK Or DirectCast(User.identity, UserController).deptid = DeptEnum.SalesHK) 'User with deptid in Sales HK and Marketing HK
         'ProductRequestApprovalToolStripMenuItem.Visible = User.can("View Product Request Approval")
         'ParameterToolStripMenuItem.Visible = User.can("View Master")
-        MasterToolStripMenuItem.Visible = User.can("View Master")
+        AddHandler DelegateStatusToolStripMenuItem1.Click, AddressOf ToolStripMenuItem_Click
+        AddHandler SearchDocumentToolStripMenuItem.Click, AddressOf ToolStripMenuItem_Click
+        ReportToolStripMenuItem.Visible = User.can("Validate For Finance")
+        FinanceToolStripMenuItem.Visible = User.can("View Master")
+        MasterToolStripMenuItem1.Visible = User.can("Update Vendor")
         AdminToolStripMenuItem.Visible = User.can("View Admin")
     End Sub
 
@@ -170,7 +174,7 @@ Public Class FormMenu
         myform.ShowDialog()
     End Sub
 
-    Private Sub MasterVendorToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MasterVendorToolStripMenuItem.Click
+    Private Sub MasterVendorToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MasterVendorToolStripMenuItem.Click, VendorToolStripMenuItem.Click
         Dim myform As New FormMasterVendor
         myform.ShowDialog()
     End Sub
@@ -183,5 +187,21 @@ Public Class FormMenu
     Private Sub SAPIndexToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SAPIndexToolStripMenuItem.Click
         Dim myform As New FormSAPIndex
         myform.Show()
+    End Sub
+
+    Private Sub DelegateStatusToolStripMenuItem_Click(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub DelegateStatusToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles DelegateStatusToolStripMenuItem1.Click
+
+    End Sub
+
+    Private Sub VendorToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VendorToolStripMenuItem.Click
+
+    End Sub
+
+    Private Sub SearchDocumentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SearchDocumentToolStripMenuItem.Click
+
     End Sub
 End Class

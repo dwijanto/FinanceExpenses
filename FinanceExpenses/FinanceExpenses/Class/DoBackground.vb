@@ -56,7 +56,7 @@ Public Class DoBackground
         End If
     End Sub
 
-    Sub run(start As System.Threading.ThreadStart)
+    Public Sub run(start As System.Threading.ThreadStart)
         myThread = New Thread(start)
         myThread.SetApartmentState(ApartmentState.STA)
         myThread.Start()

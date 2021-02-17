@@ -57,9 +57,9 @@ Public Class EmailModel
                                 " left join ssc.user delegatendapp on delegatendapp.employeenumber = app.delegatendapprover {0};", Criteria))
         sb.Append(String.Format("select dt.* from ssc.sscemaildt dt left join ssc.sscemailhd hd on hd.id = dt.hdid  {0};", Criteria))
         sb.Append(String.Format("select ssc.getstatusname(ac.status) as statusname,ac.* from ssc.sscemailaction ac left join ssc.sscemailhd hd on hd.id = ac.sscemailhdid  {0};", Criteria))
-        sb.Append(String.Format("select fi.* from ssc.sscfinancetx fi left join ssc.sscemailhd hd on hd.id = fi.sscemailhdid  {0};", Criteria))
+        sb.Append(String.Format("select fi.*,true::boolean as isok from ssc.sscfinancetx fi left join ssc.sscemailhd hd on hd.id = fi.sscemailhdid  {0};", Criteria))
         sb.Append(String.Format("select ap.* from ssc.sscapprovaltx ap left join ssc.sscemailhd hd on hd.id = ap.sscemailhdid  {0};", Criteria))
-        sb.Append(String.Format("select null as vendorcode,'N/A' as vendorname, 'N/A' as vendordesc union all (select vendorcode,vendorname::text, vendorcode::text || ' - ' || vendorname::text as vendordesc from ssc.vendor where isactive order by vendorname);"))
+        sb.Append(String.Format("select 98000102 as vendorcode,'ONE TIME VENDOR SEB ASIA' as vendorname, '98000102 - ONE TIME VENDOR SEB ASIA' as vendordesc union all (select vendorcode,vendorname::text, vendorcode::text || ' - ' || vendorname::text as vendordesc from ssc.vendor where isactive and vendorcode <> 98000102 order by vendorname);"))
         sb.Append(String.Format("select vendorcode,vendorname::text, vendorcode::text || ' - ' || vendorname::text as vendordesc from ssc.vendor where isactive order by vendorname;"))
         sb.Append(String.Format("select * from ssc.chartaccountview;"))
         DS = DataAccess.GetDataSet(sb.ToString, CommandType.Text, Nothing)
@@ -160,7 +160,7 @@ Public Class EmailModel
         Dim myret As Boolean = True
         'Try
         Dim sb As New StringBuilder
-        sb.Append(String.Format("select ssc.getrole(status,u1.email,u2.email,'{1}') as role,ssc.getstatusname(status) as statusname,date_part('Year',creationdate)::text || '-' || to_char(referencenumber,'FM000000') as refnumber,hd.*,hd.vendorcode::text as vendorcodetext,coalesce(v.vendorname,'N/A') as vendorname,ap.stapprover,ap.ndapprover,ap.delegatestapprover,ap.delegatendapprover,u1.username as stapprovername,u1.email as stapproveremail,u2.username as ndapprovername ,u2.email as ndapproveremail,u3.username as attnname from ssc.sscemailhd hd left join ssc.sscapprovaltx ap on ap.sscemailhdid = hd.id left join ssc.user u1 on u1.employeenumber = ap.stapprover left join ssc.user u2 on u2.employeenumber = ap.ndapprover left join ssc.vendor v on v.vendorcode = hd.vendorcode left join ssc.user u3 on u3.email = hd.attn {0} order by hd.id desc;", MyTaskcriteria, DirectCast(User.identity, UserController).email))
+        sb.Append(String.Format("select ssc.getrole(status,u1.email,u2.email,attn,'{1}') as role,ssc.getstatusname(status) as statusname,date_part('Year',creationdate)::text || '-' || to_char(referencenumber,'FM000000') as refnumber,hd.*,hd.vendorcode::text as vendorcodetext,coalesce(v.vendorname,'N/A') as vendorname,ap.stapprover,ap.ndapprover,ap.delegatestapprover,ap.delegatendapprover,u1.username as stapprovername,u1.email as stapproveremail,u2.username as ndapprovername ,u2.email as ndapproveremail,u3.username as attnname from ssc.sscemailhd hd left join ssc.sscapprovaltx ap on ap.sscemailhdid = hd.id left join ssc.user u1 on u1.employeenumber = ap.stapprover left join ssc.user u2 on u2.employeenumber = ap.ndapprover left join ssc.vendor v on v.vendorcode = hd.vendorcode left join ssc.user u3 on u3.email = hd.attn {0} order by hd.id desc;", MyTaskcriteria, DirectCast(User.identity, UserController).email))
         sb.Append(String.Format("select ssc.getrolehistory(status,u1.email,u2.email,hd.attn,hd.forwardto,'{1}') as role,ssc.getstatusname(status) as statusname,date_part('Year',creationdate)::text || '-' || to_char(referencenumber,'FM000000') as refnumber,hd.*,hd.vendorcode::text as vendorcodetext,coalesce(v.vendorname,'N/A') as vendorname,ap.stapprover,ap.ndapprover,ap.delegatestapprover,ap.delegatendapprover,u1.username as stapprovername,u1.email as stapproveremail,u2.username as ndapprovername,u2.email as ndapproveremail from ssc.sscemailhd hd left join ssc.sscapprovaltx ap on ap.sscemailhdid = hd.id left join ssc.user u1 on u1.employeenumber = ap.stapprover left join ssc.user u2 on u2.employeenumber = ap.ndapprover left join ssc.vendor v on v.vendorcode = hd.vendorcode {0} order by hd.id desc;", Historycriteria, DirectCast(User.identity, UserController).email))
         DS = DataAccess.GetDataSet(sb.ToString, CommandType.Text, Nothing)
 
@@ -169,6 +169,18 @@ Public Class EmailModel
         ' myret = False
         'End Try
 
+        Return myret
+    End Function
+
+    Public Function LoadSearchData(ByRef DS As DataSet) As Boolean
+        Dim myret As Boolean = True
+        Try
+            Dim sb As New StringBuilder
+            sb.Append("select date_part('Year',creationdate)::text || '-' || to_char(referencenumber,'FM000000') as description,referencenumber,receiveddate from ssc.sscemailhd order by referencenumber desc;")
+            DS = DataAccess.GetDataSet(sb.ToString, CommandType.Text, Nothing)
+        Catch ex As Exception
+            myret = False
+        End Try
         Return myret
     End Function
 
@@ -562,6 +574,33 @@ Public Class EmailModel
             Return "ssc.sscemailhd"
         End Get
     End Property
+
+    Function saveMyTask(taskController As TaskController, mye As ContentBaseEventArgs) As Boolean
+        Dim myret As Boolean = False
+        Dim factory = DataAccess.factory
+        Dim mytransaction As IDbTransaction
+        Using conn As IDbConnection = factory.CreateConnection
+            conn.Open()
+            mytransaction = conn.BeginTransaction
+            Dim dataadapter = factory.CreateAdapter
+            Dim sqlstr As String = String.Empty
+
+            sqlstr = "ssc.sp_updatesscemailhd"
+            dataadapter.UpdateCommand = factory.CreateCommand(sqlstr, conn)
+            dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.Int64, 0, "id", DataRowVersion.Original))
+            dataadapter.UpdateCommand.Parameters.Add(factory.CreateParameter("", DbType.String, 0, "financeremarks", DataRowVersion.Current))
+            dataadapter.UpdateCommand.CommandType = CommandType.StoredProcedure
+
+
+            dataadapter.UpdateCommand.Transaction = mytransaction
+           
+            mye.ra = factory.Update(mye.dataset.Tables(0))
+            mye.ra = factory.Update(mye.dataset.Tables(1))
+            mytransaction.Commit()
+            myret = True
+        End Using
+        Return myret
+    End Function
 
 
   

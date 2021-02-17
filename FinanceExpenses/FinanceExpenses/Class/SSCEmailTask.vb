@@ -62,7 +62,7 @@ Public Class SSCEmailTask
             If cc.Length > 0 Then
                 Me.cc = Trim(cc)
             End If
-            Me.subject = String.Format("Indirect Purchase Invoice Approval Task. (Date : {0:dd-MMM-yyyy}) ", Today.Date)
+            Me.subject = String.Format("Ref No# {1} Indirect Purchase Invoice Approval Task. (Date : {0:dd-MMM-yyyy}) ", Today.Date, drv.Item("refnumber"))
             Dim mycontent As String
             If Not IsNothing(Me.sendto) Then
                 If statusname = "Completed" Then

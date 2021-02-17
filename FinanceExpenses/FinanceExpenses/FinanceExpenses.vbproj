@@ -244,6 +244,12 @@
     <Compile Include="Form\FormCostCenterFamily.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Form\FormDelegateStatus.Designer.vb">
+      <DependentUpon>FormDelegateStatus.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\FormDelegateStatus.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Form\FormExpenses.Designer.vb">
       <DependentUpon>FormExpenses.vb</DependentUpon>
     </Compile>
@@ -296,6 +302,12 @@
       <DependentUpon>FormSAPIndex.vb</DependentUpon>
     </Compile>
     <Compile Include="Form\FormSAPIndex.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\FormSearchDocument.Designer.vb">
+      <DependentUpon>FormSearchDocument.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\FormSearchDocument.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form\FormUser.Designer.vb">
@@ -375,6 +387,9 @@
     <EmbeddedResource Include="Form\FormCostCenterFamily.resx">
       <DependentUpon>FormCostCenterFamily.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form\FormDelegateStatus.resx">
+      <DependentUpon>FormDelegateStatus.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\FormExpenses.resx">
       <DependentUpon>FormExpenses.vb</DependentUpon>
     </EmbeddedResource>
@@ -401,6 +416,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form\FormSAPIndex.resx">
       <DependentUpon>FormSAPIndex.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\FormSearchDocument.resx">
+      <DependentUpon>FormSearchDocument.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\FormUser.resx">
       <DependentUpon>FormUser.vb</DependentUpon>

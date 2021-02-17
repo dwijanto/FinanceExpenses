@@ -12,7 +12,7 @@ Public Class DelegateModel
 
     Public ReadOnly Property FilterField
         Get
-            Return "[staffcode] like '%{0}%' "
+            Return "[staffcode] like '%{0}%' or [delegator] like '%{0}%' or [delegatee] like '%{0}%'"
         End Get
     End Property
 
@@ -31,7 +31,7 @@ Public Class DelegateModel
 
     Private Function GetSqlstr(ByVal criteria) As String
         Dim sb As New StringBuilder
-        sb.Append(String.Format("select u.* from {0} u {1} ", TableName, criteria))
+        sb.Append(String.Format("select u.*,u1.username as delegator,u2.username as delegatee from {0} u  left join ssc.user u1 on u1.email = u.staffcode left join ssc.user u2 on u2.email = u.delegateto {1};", TableName, criteria))
         Return sb.ToString
     End Function
 

@@ -44,10 +44,15 @@ Public Class FormGetEmail
             End If
         End If
         ProgressReport(6, "Marque")
-        If GetFolder01(0) Then
-            ProgressReport(2, "Done")
-            ProgressReport(1, "")
-        End If
+        Try
+            If GetFolder01(0) Then
+                ProgressReport(2, "Done")
+                ProgressReport(1, "")
+            End If
+        Catch ex As Exception
+            Logger.log(ex.Message)
+        End Try
+      
         ProgressReport(5, "Continuous")
         File.Delete(Application.StartupPath & "\log\GetAttachment.lck")
     End Sub
@@ -204,8 +209,12 @@ Public Class FormGetEmail
                                 Model.emailto = sb.ToString
                             End If
 
-                            'Debug.Print(String.Format("{0:yyyyMMddHHmmss} - {1} {2} {3}", Item.DateTimeReceived, Item.Subject, myemail.From.Address, myemail.Sender.Address))
-                            Model.emailsubject = myemail.Subject
+                            'Debug.Print(String.Format("{0:yyyyMMddHHmmss} - {1} {2} {3}", Item.DateTimeReceived, Item.Subject, myemail.From.Address, myemail.Sender.Address))                            
+                            Model.emailsubject = "No-Subject"
+                            If Not IsNothing(myemail.Subject) Then
+                                Model.emailsubject = myemail.Subject
+                            End If
+
                             Model.emailbody = myemail.Body.Text
                             Model.sender = myemail.From.Address
                             Model.receiveddate = String.Format("{0:yyyy-MM-dd HH:mm:ss}", myemail.DateTimeReceived)
@@ -248,8 +257,9 @@ Public Class FormGetEmail
                                 End If
 
                                 For Each Attach As Attachment In Item.Attachments
-                                    Dim fileAttachment As FileAttachment = DirectCast(Attach, FileAttachment)
+                                    'Dim fileAttachment As FileAttachment = DirectCast(Attach, FileAttachment)
                                     If TypeOf Attach Is FileAttachment Then
+                                        Dim fileAttachment As FileAttachment = DirectCast(Attach, FileAttachment)
                                         Dim pkey2(1) As Object
                                         pkey2(0) = myid
                                         pkey2(1) = fileAttachment.Name

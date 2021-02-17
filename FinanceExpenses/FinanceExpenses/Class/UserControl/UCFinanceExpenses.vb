@@ -12,6 +12,7 @@ Public Class UCFinanceExpenses
     Private VendorBS As BindingSource
     Private COABS As BindingSource
     Public DoImport As Boolean = False
+    Public DS As DataSet
     Private Sub RadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton1.CheckedChanged, RadioButton2.CheckedChanged
         onPropertyChanged("DocType")
     End Sub
@@ -46,13 +47,14 @@ Public Class UCFinanceExpenses
         TextBox5.Enabled = False
     End Sub
 
-    Public Sub BindingControl(ByRef drv As DataRowView, ByRef dtlbs As BindingSource, ByRef financetxbs As BindingSource, ByRef ApprovalTxBS As BindingSource, ByVal VendorBS As BindingSource, ByVal COABS As BindingSource)
+    Public Sub BindingControl(ByRef drv As DataRowView, ByRef dtlbs As BindingSource, ByRef financetxbs As BindingSource, ByRef ApprovalTxBS As BindingSource, ByVal VendorBS As BindingSource, ByVal COABS As BindingSource, ByRef DS As DataSet, ByRef Parent As Object)
         Me.drv = drv
         Me.DtlBS = dtlbs
         Me.FinanceTxBS = financetxbs
         Me.ApprovalTXBS = ApprovalTxBS
         Me.VendorBS = VendorBS
         Me.COABS = COABS
+        Me.DS = DS
         InitData()
         EnabledControl(drv.Row.Item("status"))
         EnableContextMenu()
@@ -69,12 +71,35 @@ Public Class UCFinanceExpenses
     End Sub
 
     Private Sub UpdateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UpdateToolStripMenuItem.Click
-        showDialog(TxEnum.UpdateRecord)
+        If Not IsNothing(FinanceTxBS) Then
+            showDialog(TxEnum.UpdateRecord)
+        Else
+            MessageBox.Show("Please wait until the current process is finished.")
+        End If
     End Sub
     Private Sub AddNewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AddNewToolStripMenuItem.Click
-        showDialog(TxEnum.NewRecord)
-    End Sub
+        If Not IsNothing(FinanceTxBS) Then
+            showDialog(TxEnum.NewRecord)
+        Else
+            MessageBox.Show("Please wait until the current process is finished.")
+        End If
 
+    End Sub
+    Private Sub DeleteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem.Click
+        If Not IsNothing(FinanceTxBS) Then
+            If Not IsNothing(FinanceTxBS.Current) Then
+                If MessageBox.Show("Delete this record?", "Delete Record", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
+                    For Each drv As DataGridViewRow In DataGridView1.SelectedRows
+                        FinanceTxBS.RemoveAt(drv.Index)
+                    Next
+                    getTotal()
+                End If
+            End If
+        Else
+            MessageBox.Show("Please wait until the current process is finished.")
+        End If
+
+    End Sub
     Public Overloads Function validate() As Boolean
         Dim myret As Boolean = True
         If Not CheckControl(TextBox5, "Value cannot be blank.") Then
@@ -95,7 +120,13 @@ Public Class UCFinanceExpenses
         If FinanceTxBS.Count = 0 Then
             ErrorProvider1.SetError(DataGridView1, "You must add at least one record.")
             myret = False
+        Else
+            If DS.Tables("FinanceTx").HasErrors Then
+                ErrorProvider1.SetError(DataGridView1, "Error Found. Please check details.")
+                myret = False
+            End If
         End If
+
         Return myret
     End Function
 
@@ -221,19 +252,23 @@ Public Class UCFinanceExpenses
     End Sub
 
     Public Sub RefreshDatagrid()
+        DataGridView1.ScrollBars = ScrollBars.None
+        DataGridView1.Enabled = True
+        DataGridView1.ScrollBars = ScrollBars.Both
+        DataGridView1.PerformLayout()
+        DataGridView1.Invalidate()
+        'Dim MI As New MethodInvoker(AddressOf ToBeInvoke)
+        'Invoke(MI)
+        'ToBeInvoke()
+    End Sub
+    Private Sub ToBeInvoke()
+        DataGridView1.ScrollBars = ScrollBars.None
+        DataGridView1.Enabled = True
+        DataGridView1.ScrollBars = ScrollBars.Both
+        DataGridView1.PerformLayout()
         DataGridView1.Invalidate()
     End Sub
 
-    Private Sub DeleteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem.Click
-        If Not IsNothing(FinanceTxBS.Current) Then
-            If MessageBox.Show("Delete this record?", "Delete Record", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
-                For Each drv As DataGridViewRow In DataGridView1.SelectedRows
-                    FinanceTxBS.RemoveAt(drv.Index)
-                Next
-                getTotal()
-            End If
-        End If
-    End Sub
 
 
     Private Sub FinanceTxBS_ListChanged(sender As Object, e As System.ComponentModel.ListChangedEventArgs) Handles FinanceTxBS.ListChanged
@@ -314,4 +349,11 @@ Public Class UCFinanceExpenses
     Private Sub ListBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListBox1.SelectedIndexChanged
 
     End Sub
+
+    Private Sub DataGridView1_DataError(sender As Object, e As DataGridViewDataErrorEventArgs) Handles DataGridView1.DataError
+
+    End Sub
+
+
+
 End Class

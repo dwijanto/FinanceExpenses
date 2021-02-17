@@ -133,8 +133,15 @@ Public Class FormMyTask
         HistoryBS.DataSource = DS.Tables(1)
         DataGridView1.AutoGenerateColumns = False
         DataGridView1.DataSource = MyTasksBS
+        
         DataGridView2.AutoGenerateColumns = False
         DataGridView2.DataSource = HistoryBS
+        If User.can("Validate For Finance") Then
+            DataGridView1.Columns("financeremarksmytask").Visible = True
+            DataGridView2.Columns("financeremarkshistory").Visible = True
+            DataGridView2.ReadOnly = False
+            ToolStripButton1.Visible = True
+        End If
     End Sub
 
     Private Sub DateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker1.ValueChanged, DateTimePicker2.ValueChanged
@@ -156,4 +163,14 @@ Public Class FormMyTask
     End Sub
 
 
+    Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
+        Me.Validate()
+        MyTasksBS.EndEdit()
+        HistoryBS.EndEdit()
+        myController.SaveMyTask(DS)
+    End Sub
+
+    Private Sub ToolStripTextBox1_Click(sender As Object, e As EventArgs) Handles ToolStripTextBox1.Click
+
+    End Sub
 End Class

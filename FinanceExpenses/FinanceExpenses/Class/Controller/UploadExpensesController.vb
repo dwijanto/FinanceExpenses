@@ -10,20 +10,45 @@ Public Class UploadExpensesController
     Public InvoiceNumber As String
     Public Parent As FormExpenses
     Dim myThread As New System.Threading.Thread(AddressOf ImportData)
-    Dim ImportFileName As String
+    Public ImportFileName As String
     Dim myCallback As FormatReportDelegate
     Public ErrMessage As StringBuilder
     Public Property HasError As Boolean = False
     Dim myController As EmailController
     Dim ErrorProvider1 As New ErrorProvider
 
+    Dim ProgressReportCallback1 As ProgressReportCallback = AddressOf importCallback
+    Public DoBackground1 As DoBackground '= New DoBackground(Me, ProgressReportCallback1)
+
+    Sub importCallback()
+        Throw New NotImplementedException
+    End Sub
+   
+
+
     Public Sub New(ByRef parent As FormExpenses, ByRef FinanceTxBS As BindingSource, ByRef myController As EmailController)
         Me.FinanceTxBS = FinanceTxBS
         Me.Parent = parent
         myCallback = AddressOf ReadExcel
         Me.myController = myController
+        DoBackground1 = New DoBackground(parent, ProgressReportCallback1)
     End Sub
 
+    Public Sub ImportData01()
+        Dim OpenFileDialog1 As New OpenFileDialog
+        If Not myThread.IsAlive Then
+            Parent.ToolStripStatusLabel1.Text = ""
+            If OpenFileDialog1.ShowDialog = Windows.Forms.DialogResult.OK Then
+                ImportFileName = OpenFileDialog1.FileName
+
+                DoBackground1.doThread(AddressOf DoImport)
+            Else
+                'DoBackground1.ProgressReport(5, "Marquee")
+                Parent.DoBackground1.ProgressReport(1, "Open file cancelled.")
+            End If
+
+        End If
+    End Sub
 
     Public Sub ImportData()
         Dim OpenFileDialog1 As New OpenFileDialog
@@ -33,8 +58,8 @@ Public Class UploadExpensesController
                 ImportFileName = OpenFileDialog1.FileName
                 myThread = New Thread(AddressOf DoImport)
                 myThread.SetApartmentState(ApartmentState.MTA)
-                'myThread.Start()
-                DoImport()
+                myThread.Start()
+                'DoImport()
             Else
                 'DoBackground1.ProgressReport(5, "Marquee")
                 Parent.DoBackground1.ProgressReport(1, "Open file cancelled.")
@@ -42,8 +67,21 @@ Public Class UploadExpensesController
 
         End If
     End Sub
+    Public Sub DoImport01()
+        Dim myExcel As New ExportToExcelFile(Parent, ImportFileName, "", myCallback)
+        DoBackground1.ProgressReport(1, "Working with template...")
+        myExcel.DoReadExcel()
+        DoBackground1.ProgressReport(1, "Populate Data...")
+        PopulateData()
+        'Parent.UcFinanceExpenses1.DataGridView1.Invalidate()
+        'Parent.UcFinanceExpenses1.getTotal()
+        DoBackground1.ProgressReport(1, "Done.")
 
-    Public Sub DoImport()
+        DoBackground1.ProgressReport(8, "Raise Callback.")
+        DoBackground1.ProgressReport(1, "End Raise Callback. Done")
+
+    End Sub
+    Public Sub DoImport00()
         Dim myExcel As New ExportToExcelFile(Parent, ImportFileName, "", myCallback)
         Parent.DoBackground1.ProgressReport(1, "Working with template...")
         myExcel.DoReadExcel()
@@ -55,6 +93,21 @@ Public Class UploadExpensesController
 
         Parent.DoBackground1.ProgressReport(8, "Raise Callback.")
         Parent.DoBackground1.ProgressReport(1, "End Raise Callback. Done")
+
+    End Sub
+
+    Public Sub DoImport()
+        Dim myExcel As New ExportToExcelFile(Parent, ImportFileName, "", myCallback)
+        Parent.DoBackground2.ProgressReport(1, "Working with template...")
+        myExcel.DoReadExcel()
+        Parent.DoBackground2.ProgressReport(1, "Populate Data...")
+        PopulateData()
+        'Parent.UcFinanceExpenses1.DataGridView1.Invalidate()
+        'Parent.UcFinanceExpenses1.getTotal()
+        Parent.DoBackground2.ProgressReport(1, "Done.")
+
+        Parent.DoBackground2.ProgressReport(8, "Raise Callback.")
+        Parent.DoBackground2.ProgressReport(1, "End Raise Callback. Done")
 
     End Sub
 
@@ -86,7 +139,7 @@ Public Class UploadExpensesController
             InvoiceNumber = myList(1)(1)
             Crcy = myList(3)(1)
 
-            
+
 
             For i = 5 To myList.Count - 1
                 If myList(i)(1) = "" Then
@@ -147,25 +200,29 @@ Public Class UploadExpensesController
 
         For Each drv As DataRowView In FinanceTxBS.List
             myErrorSB = New StringBuilder
+            drv.Row.Item("isok") = True
             If drv.Row.Item("amount") = 0 Then
                 myErrorSB.Append("Amount cannot be 0. ")
                 myret = False
+                drv.Row.Item("isok") = False
             End If
             If Crcy.Length = 0 Then
                 myErrorSB.Append("Currency cannot be blank. ")
                 myret = False
+                drv.Row.Item("isok") = False
             End If
             'find SAPIndex
             Dim pk01(0) As Object
             pk01(0) = String.Format("{0}-{1}{2}", drv.Row.Item("glaccount"), drv.Row.Item("costcenter"), drv.Row.Item("family"))
             Dim myresult = COATable.Rows.Find(pk01)
             If IsNothing(myresult) Then
-                myErrorSB.Append(String.Format("This account {0} - {1}{2} is not listed in Chart Of Account.", drv.Row.Item("glaccount"), drv.Row.Item("costcenter"), drv.Row.Item("family")))
+                myErrorSB.Append(String.Format("This account {0}-{1}{2} is not available for posting. Please contact controlling team for information..", drv.Row.Item("glaccount"), drv.Row.Item("costcenter"), drv.Row.Item("family")))
                 myret = False
+                drv.Row.Item("isok") = False
             Else
-                'drv.BeginEdit()
+                drv.BeginEdit()
                 drv.Row.Item("sapindexid") = myresult.Item("id")
-                'drv.EndEdit()
+                drv.EndEdit()
 
             End If
 
@@ -173,6 +230,8 @@ Public Class UploadExpensesController
         Next
         Return myret
     End Function
+
+
 
 End Class
 

@@ -7,8 +7,11 @@ End Enum
 Public Class FormExpenses
 
     Dim ProgressReportCallback1 As ProgressReportCallback = AddressOf myCallBack
-
     Public DoBackground1 As DoBackground = New DoBackground(Me, ProgressReportCallback1)
+
+    Dim ProgressReportCallback2 As ProgressReportCallback = AddressOf myCallBack
+    Public DoBackground2 As DoBackground = New DoBackground(Me, ProgressReportCallback2)
+
     Dim FirstApproverUser As List(Of UserController)
     Dim SecondApproverUser As List(Of UserController)
     Dim _isModified As Boolean = False
@@ -67,7 +70,7 @@ Public Class FormExpenses
         ApprovalTXBS = myController.GetApprovalTxBS
         VendorBS = myController.GetVendorBS
         COABS = myController.GetChartOfAccountBS
-        UcFinanceExpenses1.BindingControl(DRV, DTLBS, FinanceTxBS, ApprovalTXBS, VendorBS, COABS)
+        UcFinanceExpenses1.BindingControl(DRV, DTLBS, FinanceTxBS, ApprovalTXBS, VendorBS, COABS, myController.DS, Me)
         DataGridView1.AutoGenerateColumns = False
         DataGridView1.DataSource = ActionBS
 
@@ -292,6 +295,14 @@ Public Class FormExpenses
         RaiseEvent myFormClosed(IsModified)
     End Sub
 
+    Private Sub FormExpenses_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        If DoBackground1.myThread.IsAlive Then
+            e.Cancel = True
+            'DoBackground1.ProgressReport(1, "Please wait until the current process is finished.")
+            MessageBox.Show("Please wait until the current process is finished.")
+        End If
+    End Sub
+
 
     Private Sub FormProductRequest_Load(sender As Object, e As EventArgs) Handles Me.Load
         loaddata()
@@ -458,182 +469,198 @@ Public Class FormExpenses
     End Sub
 
     Private Sub ToolStripButtonForward_Click(sender As Object, e As EventArgs) Handles ToolStripButtonForward.Click
-        If IsNothing(ApprovalDRV) Then
-            If MessageBox.Show("Do you want to forward this record?", "Forward To", System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
-                Dim myform As New DialogForwardTo
-                If myform.ShowDialog = Windows.Forms.DialogResult.OK Then
-                    DRV.Row.Item("status") = TaskStatusEnum.STATUS_FORWARD
-                    DRV.Row.Item("forwardto") = myform.getForwardTo
-                    DRV.Row.Item("forwardtoname") = myform.getForwardToName
-                    Dim remarks As String = myform.getRemark
-                    Dim StatusName As String = String.Empty
-                    StatusName = "Forward task"
-                    setApproval(DRV.Item("status"), StatusName, remarks)
+        If Not DoBackground1.myThread.IsAlive Then
+            If IsNothing(ApprovalDRV) Then
+                If MessageBox.Show("Do you want to forward this record?", "Forward To", System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
+                    Dim myform As New DialogForwardTo
+                    If myform.ShowDialog = Windows.Forms.DialogResult.OK Then
+                        DRV.Row.Item("status") = TaskStatusEnum.STATUS_FORWARD
+                        DRV.Row.Item("forwardto") = myform.getForwardTo
+                        DRV.Row.Item("forwardtoname") = myform.getForwardToName
+                        Dim remarks As String = myform.getRemark
+                        Dim StatusName As String = String.Empty
+                        StatusName = "Forward task"
+                        setApproval(DRV.Item("status"), StatusName, remarks)
+                    End If
                 End If
-            End If
 
-        Else
-            MessageBox.Show("Nothing todo.")
+            Else
+                MessageBox.Show("Nothing todo.")
+            End If
         End If
+        
 
 
     End Sub
 
     Private Sub ToolStripButtonValidate_Click(sender As Object, e As EventArgs) Handles ToolStripButtonValidate.Click
-        If IsNothing(ApprovalDRV) Then
-            If UcFinanceExpenses1.validate() And Me.validate Then
-                Dim ButtonText = ToolStripButtonValidate.Text
-                If MessageBox.Show("Do you want to validate this record?", ButtonText, System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
-                    Dim remarks As String = String.Empty 'InputBox("Please input some comment.")
-                    Dim mydialog = New DialogInputText
+        If Not DoBackground1.myThread.IsAlive Then
+            If IsNothing(ApprovalDRV) Then
+                If UcFinanceExpenses1.validate() And Me.validate Then
+                    Dim ButtonText = ToolStripButtonValidate.Text
+                    If MessageBox.Show("Do you want to validate this record?", ButtonText, System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
+                        Dim remarks As String = String.Empty 'InputBox("Please input some comment.")
+                        Dim mydialog = New DialogInputText
+                        If mydialog.ShowDialog = Windows.Forms.DialogResult.OK Then
+                            remarks = mydialog.GetRemark
+                            Dim StatusName As String = String.Empty
+                            Select Case DRV.Row.Item("status")
+                                Case TaskStatusEnum.STATUS_NEW, TaskStatusEnum.STATUS_FORWARD
+                                    DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
+                                    StatusName = "Validated by Requester"
+                                    'Create Approver
+                                    Dim appdrv As DataRowView = myController.GetApprovalTxBS.AddNew
+                                    appdrv.Row.Item("stapprover") = FirstApproverUser(0).employeenumber
+                                    DRV.Row.Item("stemail") = FirstApproverUser(0).email
+                                    DRV.Row.Item("stapprovername") = FirstApproverUser(0).username
+                                    'If DirectCast(User.identity, UserController).nlevelapproval = 2 Then
+                                    '    appdrv.Row.Item("ndapprover") = SecondApproverUser(0).employeenumber
+                                    '    DRV.Row.Item("ndemail") = SecondApproverUser(0).email
+                                    '    DRV.Row.Item("ndapprovername") = SecondApproverUser(0).username
+                                    'End If
+                                    If Not IsNothing(SecondApproverUser) Then
+                                        appdrv.Row.Item("ndapprover") = SecondApproverUser(0).employeenumber
+                                        DRV.Row.Item("ndemail") = SecondApproverUser(0).email
+                                        DRV.Row.Item("ndapprovername") = SecondApproverUser(0).username
+                                    End If
+                                    appdrv.EndEdit()
+                                Case TaskStatusEnum.STATUS_REJECTEDBYM1, TaskStatusEnum.STATUS_REJECTEDBYM2, TaskStatusEnum.STATUS_REJECTEDBYFINANCE
+                                    'DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
+                                    'StatusName = "Validated by Requester"
+                                    DRV.Row.Item("status") = TaskStatusEnum.STATUS_RE_SUBMIT
+                                    StatusName = "Re-Submit"
+                                Case TaskStatusEnum.STATUS_RE_SUBMIT
+                                    'DRV.Row.Item("status") = TaskStatusEnum.STATUS_RE_SUBMIT
+                                    'StatusName = "Re-Submit"
+                                    DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYM1
+                                    StatusName = "Validated by M+1"
+                                Case TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
+                                    DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYM1
+                                    StatusName = "Validated by M+1"
+                                    'Check Delegation
+                                    Dim appdrv As DataRowView = ApprovalTXBS.Current
+                                    If appdrv.Row.Item("stapprover") <> DirectCast(User.identity, UserController).employeenumber Then
+                                        'Delegate Task
+                                        appdrv.Row.Item("delegatestapprover") = DirectCast(User.identity, UserController).employeenumber
+                                    End If
+                                Case TaskStatusEnum.STATUS_VALIDATEDBYM1
+                                    'Can be validate by Finance Team when
+                                    Dim appdrv = ApprovalTXBS.Current
+                                    If IsDBNull(appdrv.row.item("ndapprover")) Then
+                                        DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYFINANCE
+                                        StatusName = "Validated by Finance"
+                                    Else
+                                        DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYM2
+                                        StatusName = "Validated by M+2"
+                                    End If
+                                    'Check Delegation
+                                    If appdrv.Row.Item("ndapprover") <> DirectCast(User.identity, UserController).employeenumber Then
+                                        'Delegate Task
+                                        appdrv.Row.Item("delegatendapprover") = DirectCast(User.identity, UserController).employeenumber
+                                    End If
+                                Case TaskStatusEnum.STATUS_VALIDATEDBYM2
+                                    DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYFINANCE
+                                    StatusName = "Validated by Finance"
+                            End Select
+                            setApproval(DRV.Item("status"), StatusName, remarks)
+                        End If
+                    End If
+                Else
+                    MessageBox.Show("Please fix the error.")
+                End If
+            Else
+                MessageBox.Show("Nothing todo.")
+            End If
+        End If
+        
+    End Sub
+
+    Private Sub ToolStripButtonStsCancelled_Click(sender As Object, e As EventArgs) Handles ToolStripButtonStsCancelled.Click
+        If Not DoBackground1.myThread.IsAlive Then
+
+
+            If IsNothing(ApprovalDRV) Then
+                If MessageBox.Show("Do you want to cancel this record?", "Cancel", System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
+                    Dim mydialog As New DialogInputText
+                    If mydialog.ShowDialog = Windows.Forms.DialogResult.OK Then
+                        Dim remarks As String = mydialog.GetRemark
+                        If DRV.Row.Item("status") = TaskStatusEnum.STATUS_NEW Then
+                            DRV.Row.Item("status") = TaskStatusEnum.STATUS_CANCELLED
+                            setApproval(DRV.Item("status"), "Cancelled", remarks, False)
+                        End If
+                    End If
+                End If
+            Else
+                MessageBox.Show("Nothing todo.")
+            End If
+        End If
+    End Sub
+
+    Private Sub ToolStripButtonReject_Click(sender As Object, e As EventArgs) Handles ToolStripButtonReject.Click
+        If Not DoBackground1.myThread.IsAlive Then
+
+
+            If IsNothing(ApprovalDRV) Then
+                If MessageBox.Show("Do you want to reject this record?", "Reject", System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
+                    'Dim remarks As String = InputBox("Please input some comment.")
+                    Dim mydialog As New DialogInputText
+                    Dim remarks As String = String.Empty
                     If mydialog.ShowDialog = Windows.Forms.DialogResult.OK Then
                         remarks = mydialog.GetRemark
                         Dim StatusName As String = String.Empty
                         Select Case DRV.Row.Item("status")
-                            Case TaskStatusEnum.STATUS_NEW, TaskStatusEnum.STATUS_FORWARD
-                                DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
-                                StatusName = "Validated by Requester"
-                                'Create Approver
-                                Dim appdrv As DataRowView = myController.GetApprovalTxBS.AddNew
-                                appdrv.Row.Item("stapprover") = FirstApproverUser(0).employeenumber
-                                DRV.Row.Item("stemail") = FirstApproverUser(0).email
-                                DRV.Row.Item("stapprovername") = FirstApproverUser(0).username
-                                'If DirectCast(User.identity, UserController).nlevelapproval = 2 Then
-                                '    appdrv.Row.Item("ndapprover") = SecondApproverUser(0).employeenumber
-                                '    DRV.Row.Item("ndemail") = SecondApproverUser(0).email
-                                '    DRV.Row.Item("ndapprovername") = SecondApproverUser(0).username
-                                'End If
-                                If Not IsNothing(SecondApproverUser) Then
-                                    appdrv.Row.Item("ndapprover") = SecondApproverUser(0).employeenumber
-                                    DRV.Row.Item("ndemail") = SecondApproverUser(0).email
-                                    DRV.Row.Item("ndapprovername") = SecondApproverUser(0).username
-                                End If
-                                appdrv.EndEdit()
-                            Case TaskStatusEnum.STATUS_REJECTEDBYM1, TaskStatusEnum.STATUS_REJECTEDBYM2, TaskStatusEnum.STATUS_REJECTEDBYFINANCE
-                                'DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
-                                'StatusName = "Validated by Requester"
-                                DRV.Row.Item("status") = TaskStatusEnum.STATUS_RE_SUBMIT
-                                StatusName = "Re-Submit"
-                            Case TaskStatusEnum.STATUS_RE_SUBMIT
-                                'DRV.Row.Item("status") = TaskStatusEnum.STATUS_RE_SUBMIT
-                                'StatusName = "Re-Submit"
-                                DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYM1
-                                StatusName = "Validated by M+1"
                             Case TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
-                                DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYM1
-                                StatusName = "Validated by M+1"
-                                'Check Delegation
-                                Dim appdrv As DataRowView = ApprovalTXBS.Current
-                                If appdrv.Row.Item("stapprover") <> DirectCast(User.identity, UserController).employeenumber Then
-                                    'Delegate Task
-                                    appdrv.Row.Item("delegatestapprover") = DirectCast(User.identity, UserController).employeenumber
-                                End If
+                                DRV.Row.Item("status") = TaskStatusEnum.STATUS_REJECTEDBYM1
+                                StatusName = "Rejected by M+1"
+                            Case TaskStatusEnum.STATUS_RE_SUBMIT
+                                DRV.Row.Item("status") = TaskStatusEnum.STATUS_REJECTEDBYM1
+                                StatusName = "Rejected by M+1"
                             Case TaskStatusEnum.STATUS_VALIDATEDBYM1
-                                'Can be validate by Finance Team when
                                 Dim appdrv = ApprovalTXBS.Current
                                 If IsDBNull(appdrv.row.item("ndapprover")) Then
-                                    DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYFINANCE
-                                    StatusName = "Validated by Finance"
+                                    DRV.Row.Item("status") = TaskStatusEnum.STATUS_REJECTEDBYFINANCE
+                                    StatusName = "Rejected by Finance"
                                 Else
-                                    DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYM2
-                                    StatusName = "Validated by M+2"
-                                End If
-                                'Check Delegation
-                                If appdrv.Row.Item("ndapprover") <> DirectCast(User.identity, UserController).employeenumber Then
-                                    'Delegate Task
-                                    appdrv.Row.Item("delegatendapprover") = DirectCast(User.identity, UserController).employeenumber
+                                    DRV.Row.Item("status") = TaskStatusEnum.STATUS_REJECTEDBYM2
+                                    StatusName = "Rejected by M+2"
                                 End If
                             Case TaskStatusEnum.STATUS_VALIDATEDBYM2
-                                DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYFINANCE
-                                StatusName = "Validated by Finance"
-                        End Select
-                        setApproval(DRV.Item("status"), StatusName, remarks)
-                    End If
-                End If
-            Else
-                MessageBox.Show("Please fix the error.")
-            End If
-        Else
-            MessageBox.Show("Nothing todo.")
-        End If
-    End Sub
-
-    Private Sub ToolStripButtonStsCancelled_Click(sender As Object, e As EventArgs) Handles ToolStripButtonStsCancelled.Click
-        If IsNothing(ApprovalDRV) Then
-            If MessageBox.Show("Do you want to cancel this record?", "Cancel", System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
-                Dim mydialog As New DialogInputText
-                If mydialog.ShowDialog = Windows.Forms.DialogResult.OK Then
-                    Dim remarks As String = mydialog.GetRemark
-                    If DRV.Row.Item("status") = TaskStatusEnum.STATUS_NEW Then
-                        DRV.Row.Item("status") = TaskStatusEnum.STATUS_CANCELLED
-                        setApproval(DRV.Item("status"), "Cancelled", remarks, False)
-                    End If
-                End If
-            End If
-        Else
-            MessageBox.Show("Nothing todo.")
-        End If
-
-    End Sub
-
-    Private Sub ToolStripButtonReject_Click(sender As Object, e As EventArgs) Handles ToolStripButtonReject.Click
-        If IsNothing(ApprovalDRV) Then
-            If MessageBox.Show("Do you want to reject this record?", "Reject", System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
-                'Dim remarks As String = InputBox("Please input some comment.")
-                Dim mydialog As New DialogInputText
-                Dim remarks As String = String.Empty
-                If mydialog.ShowDialog = Windows.Forms.DialogResult.OK Then
-                    remarks = mydialog.GetRemark
-                    Dim StatusName As String = String.Empty
-                    Select Case DRV.Row.Item("status")
-                        Case TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
-                            DRV.Row.Item("status") = TaskStatusEnum.STATUS_REJECTEDBYM1
-                            StatusName = "Rejected by M+1"
-                        Case TaskStatusEnum.STATUS_RE_SUBMIT
-                            DRV.Row.Item("status") = TaskStatusEnum.STATUS_REJECTEDBYM1
-                            StatusName = "Rejected by M+1"
-                        Case TaskStatusEnum.STATUS_VALIDATEDBYM1
-                            Dim appdrv = ApprovalTXBS.Current
-                            If IsDBNull(appdrv.row.item("ndapprover")) Then
                                 DRV.Row.Item("status") = TaskStatusEnum.STATUS_REJECTEDBYFINANCE
                                 StatusName = "Rejected by Finance"
-                            Else
-                                DRV.Row.Item("status") = TaskStatusEnum.STATUS_REJECTEDBYM2
-                                StatusName = "Rejected by M+2"
-                            End If
-                        Case TaskStatusEnum.STATUS_VALIDATEDBYM2
-                            DRV.Row.Item("status") = TaskStatusEnum.STATUS_REJECTEDBYFINANCE
-                            StatusName = "Rejected by Finance"
-                    End Select
-                    setApproval(DRV.Item("status"), StatusName, remarks)
-                Else
+                        End Select
+                        setApproval(DRV.Item("status"), StatusName, remarks)
+                    Else
+
+                    End If
+
 
                 End If
-
-
+            Else
+                MessageBox.Show("Nothing todo.")
             End If
-        Else
-            MessageBox.Show("Nothing todo.")
         End If
-
     End Sub
 
     Private Sub ToolStripButtonComplete_Click(sender As Object, e As EventArgs) Handles ToolStripButtonComplete.Click
-        If IsNothing(ApprovalDRV) Then
-            If UcFinanceExpenses1.validate() Then
-                If MessageBox.Show("Do you want to complete this record?", "Complete", System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
-                    Dim remarks As String = String.Empty
-                    Dim mydialog = New DialogInputText
-                    If mydialog.ShowDialog = Windows.Forms.DialogResult.OK Then
-                        remarks = mydialog.GetRemark
-                        DRV.Row.Item("status") = TaskStatusEnum.STATUS_COMPLETED
-                        setApproval(DRV.Item("status"), "Completed", remarks)
+        If Not DoBackground1.myThread.IsAlive Then
+
+
+            If IsNothing(ApprovalDRV) Then
+                If UcFinanceExpenses1.validate() Then
+                    If MessageBox.Show("Do you want to complete this record?", "Complete", System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
+                        Dim remarks As String = String.Empty
+                        Dim mydialog = New DialogInputText
+                        If mydialog.ShowDialog = Windows.Forms.DialogResult.OK Then
+                            remarks = mydialog.GetRemark
+                            DRV.Row.Item("status") = TaskStatusEnum.STATUS_COMPLETED
+                            setApproval(DRV.Item("status"), "Completed", remarks)
+                        End If
                     End If
                 End If
-            End If
 
-        Else
-            MessageBox.Show("Nothing todo.")
+            Else
+                MessageBox.Show("Nothing todo.")
+            End If
         End If
     End Sub
     Private Sub setApproval(status As Integer, statusname As String, remarks As String, Optional send As Boolean = True)
@@ -919,7 +946,7 @@ Public Class FormExpenses
         Return myController.GetDelegateTo(SendTo)
     End Function
 
-    Private Sub ToolStripButton2_Click_1(sender As Object, e As EventArgs) Handles ToolStripButton2.Click
+    Private Sub ToolStripButton2_Click_10(sender As Object, e As EventArgs)
         If Not DoBackground1.myThread.IsAlive Then
             myupload = New UploadExpensesController(Me, FinanceTxBS, myController)
             UcFinanceExpenses1.DoImport = True
@@ -927,16 +954,48 @@ Public Class FormExpenses
         Else
             MessageBox.Show("Please wait until the current process is finished.")
         End If
-       
-        
-       
+
+
+
     End Sub
+    Private Sub ToolStripButton2_Click_1(sender As Object, e As EventArgs) Handles ToolStripButton2.Click
+        If Not DoBackground1.myThread.IsAlive Then
+            myupload = New UploadExpensesController(Me, FinanceTxBS, myController)
+            UcFinanceExpenses1.DoImport = True
+            ImportData()
+        Else
+            MessageBox.Show("Please wait until the current process is finished.")
+        End If
+
+
+
+    End Sub
+
+    Private Sub ImportData()
+        Dim OpenFileDialog1 As New OpenFileDialog
+        If Not DoBackground1.myThread.IsAlive Then
+            ToolStripStatusLabel1.Text = ""
+            If OpenFileDialog1.ShowDialog = Windows.Forms.DialogResult.OK Then
+                myupload.ImportFileName = OpenFileDialog1.FileName
+
+                DoBackground2.doThread(AddressOf myupload.DoImport)
+            Else
+                'DoBackground1.ProgressReport(5, "Marquee")
+                DoBackground2.ProgressReport(1, "Open file cancelled.")
+            End If
+
+        End If
+
+    End Sub
+
 
     Public Sub RaiseEventCallback(sender As Object, e As EventArgs)
         If sender = 8 Then
             Try
                 'DoBackground1.ProgressReport(1, "Start Raise Callback")
                 UcFinanceExpenses1.RefreshDatagrid()
+
+                'UcFinanceExpenses1.DataGridView1.DataSource = FinanceTxBS
                 UcFinanceExpenses1.EnableContextMenu()
 
                 UcFinanceExpenses1.getTotal()
@@ -953,7 +1012,7 @@ Public Class FormExpenses
                 DRV.Row.BeginEdit()
                 DRV.Row.Item("vendorcode") = myupload.VendorCode
                 DRV.Row.Item("invoicenumber") = myupload.InvoiceNumber
-                'DRV.Row.EndEdit()
+                DRV.Row.EndEdit()
             Catch ex As Exception
                 DoBackground1.ProgressReport(1, ex.Message)
             End Try
@@ -966,18 +1025,24 @@ Public Class FormExpenses
     End Sub
 
     Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
-        Dim savedialog1 As New SaveFileDialog
-        savedialog1.FileName = "UploadExpanses.xlsx"
-        If savedialog1.ShowDialog = Windows.Forms.DialogResult.OK Then
-            Dim filesource = String.Format("{0}\template\InvoiceUploadTemplate.xlsx", Application.StartupPath)
-            Dim filedestination = savedialog1.FileName
-            Try
-                FileCopy(filesource, filedestination)
-                MessageBox.Show("Done.")
-            Catch ex As Exception
-                MessageBox.Show(ex.Message)
-            End Try
+        If Not DoBackground1.myThread.IsAlive Then
 
+
+            Dim savedialog1 As New SaveFileDialog
+            savedialog1.FileName = "UploadExpanses.xlsx"
+            If savedialog1.ShowDialog = Windows.Forms.DialogResult.OK Then
+                Dim filesource = String.Format("{0}\template\InvoiceUploadTemplate.xlsx", Application.StartupPath)
+                Dim filedestination = savedialog1.FileName
+                Try
+                    FileCopy(filesource, filedestination)
+                    MessageBox.Show("Done.")
+                Catch ex As Exception
+                    MessageBox.Show(ex.Message)
+                End Try
+
+            End If
         End If
     End Sub
+
+   
 End Class

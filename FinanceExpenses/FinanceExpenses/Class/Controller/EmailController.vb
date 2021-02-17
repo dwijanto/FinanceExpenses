@@ -124,7 +124,17 @@
         End Try
         Return myret
     End Function
-
+    Public Function LoadSearchData() As Boolean
+        Dim myret As Boolean = False
+        Model = New EmailModel
+        Dim DS = New DataSet
+        If Model.LoadSearchData(DS) Then
+            ReferencenumberFilterBS = New BindingSource            
+            ReferencenumberFilterBS.DataSource = DS.Tables(0)           
+            myret = True
+        End If
+        Return myret
+    End Function
 
     Public Function loaddata() As Boolean Implements IController.loaddata
         Dim myret As Boolean = False
