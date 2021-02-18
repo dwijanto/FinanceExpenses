@@ -176,7 +176,7 @@ Public Class EmailModel
         Dim myret As Boolean = True
         Try
             Dim sb As New StringBuilder
-            sb.Append("select date_part('Year',creationdate)::text || '-' || to_char(referencenumber,'FM000000') as description,referencenumber,receiveddate from ssc.sscemailhd order by referencenumber desc;")
+            sb.Append("select date_part('Year',creationdate)::text || '-' || to_char(referencenumber,'FM000000') as description,referencenumber,receiveddate from ssc.sscemailhd where status = 99 order by referencenumber desc;")
             DS = DataAccess.GetDataSet(sb.ToString, CommandType.Text, Nothing)
         Catch ex As Exception
             myret = False

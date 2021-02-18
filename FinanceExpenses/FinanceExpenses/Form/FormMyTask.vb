@@ -156,7 +156,7 @@ Public Class FormMyTask
 
     Private Sub ApplyFilter()
 
-        Dim myfilter = String.Format("refnumber like '*{0}*' or statusname like '*{0}*' or emailsubject like '*{0}*' or sender like '*{0}*' or emailto like '*{0}*' or stapprovername like '*{0}*' or ndapprovername like '*{0}*' or financenumber like '*{0}*' or vendorcodetext like '*{0}*'  or vendorname like '*{0}*' ", ToolStripTextBox1.Text)
+        Dim myfilter = String.Format("refnumber like '*{0}*' or statusname like '*{0}*' or emailsubject like '*{0}*' or sender like '*{0}*' or emailto like '*{0}*' or stapprovername like '*{0}*' or ndapprovername like '*{0}*' or financenumber like '*{0}*' or vendorcodetext like '*{0}*'  or vendorname like '*{0}*' or role like '*{0}*'", ToolStripTextBox1.Text)
         MyTasksBS.Filter = myfilter
         HistoryBS.Filter = myfilter
 
