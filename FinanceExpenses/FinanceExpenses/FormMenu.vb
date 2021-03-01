@@ -1,4 +1,6 @@
 ﻿Imports System.Reflection
+Imports System.Threading
+
 Public Enum TxEnum
     NewRecord = 1
     CopyRecord = 2
@@ -7,7 +9,8 @@ Public Enum TxEnum
     ValidateRecord = 5
 End Enum
 Public Class FormMenu
-
+    Private Shared mutex As Mutex = Nothing
+    Private createdNew As Boolean
     Private UserInfo1 As UserInfo = UserInfo.getInstance
     Dim HasError As Boolean = True
     Private userid As String
@@ -36,10 +39,16 @@ Public Class FormMenu
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
-
+        mutex = New Mutex(True, String.Format("Global\{0}", Environment.UserName), createdNew)
+        'mutex = New Mutex(True, String.Format("Global\{0}", "Hello"), createdNew)
     End Sub
     Private Sub FormMenu_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If HasError Then
+            Me.Close()
+            Exit Sub
+        End If
+
+        If Not (createdNew) Then
             Me.Close()
             Exit Sub
         End If
@@ -57,8 +66,8 @@ Public Class FormMenu
                 Exit Sub
             End If
             Dim mydata As DataSet = myuser.findByUserid(userid.ToLower)
-            If mydata.tables(0).rows.count > 0 Then
-                Dim identity = myuser.findIdentity(mydata.Tables(0).rows(0).item("id"))
+            If mydata.Tables(0).Rows.Count > 0 Then
+                Dim identity = myuser.findIdentity(mydata.Tables(0).Rows(0).Item("id"))
                 User.setIdentity(identity)
                 User.login(identity)
                 User.IdentityClass = myuser
@@ -76,7 +85,7 @@ Public Class FormMenu
         End Try
 
     End Sub
-   
+
     Public Function GetMenuDesc() As String
         Return "App.Version: " & My.Application.Info.Version.ToString & " :: Server: " & DataAccess.GetHostName & ", Database: " & DataAccess.GetDataBaseName & ", Userid: " & UserInfo1.Userid 'HelperClass1.UserId
     End Function
@@ -96,6 +105,8 @@ Public Class FormMenu
         'ParameterToolStripMenuItem.Visible = User.can("View Master")
         AddHandler DelegateStatusToolStripMenuItem1.Click, AddressOf ToolStripMenuItem_Click
         AddHandler SearchDocumentToolStripMenuItem.Click, AddressOf ToolStripMenuItem_Click
+        AddHandler SearchDocumentFilterToolStripMenuItem.Click, AddressOf ToolStripMenuItem_Click
+
         ReportToolStripMenuItem.Visible = User.can("Validate For Finance")
         FinanceToolStripMenuItem.Visible = User.can("View Master")
         MasterToolStripMenuItem1.Visible = User.can("Update Vendor")
@@ -124,8 +135,8 @@ Public Class FormMenu
 
 
     Private Sub UserManualToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UserManualToolStripMenuItem.Click
-        Dim p As New System.Diagnostics.Process        
-        p.StartInfo.FileName = Application.StartupPath & "\Help\ProductRequestHelp.pdf"
+        Dim p As New System.Diagnostics.Process
+        p.StartInfo.FileName = Application.StartupPath & "\Help\FinanceAppHelp.pdf"
         Try
             p.Start()
         Catch ex As Exception
@@ -166,7 +177,7 @@ Public Class FormMenu
     End Sub
 
     Private Sub RBACToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RBACToolStripMenuItem.Click
-        
+
     End Sub
 
     Private Sub ProductRequestToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ProductRequestToolStripMenuItem.Click
@@ -202,6 +213,10 @@ Public Class FormMenu
     End Sub
 
     Private Sub SearchDocumentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SearchDocumentToolStripMenuItem.Click
+
+    End Sub
+
+    Private Sub SearchDocumentFilterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SearchDocumentFilterToolStripMenuItem.Click
 
     End Sub
 End Class

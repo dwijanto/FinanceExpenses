@@ -584,10 +584,10 @@ Public Class FormExpenses
                     Dim mydialog As New DialogInputText
                     If mydialog.ShowDialog = Windows.Forms.DialogResult.OK Then
                         Dim remarks As String = mydialog.GetRemark
-                        If DRV.Row.Item("status") = TaskStatusEnum.STATUS_NEW Then
-                            DRV.Row.Item("status") = TaskStatusEnum.STATUS_CANCELLED
-                            setApproval(DRV.Item("status"), "Cancelled", remarks, False)
-                        End If
+                        'If DRV.Row.Item("status") = TaskStatusEnum.STATUS_NEW Or DRV.Row.Item("Status") = TaskStatusEnum.STATUS_REJECTEDBYM1 Then
+                        DRV.Row.Item("status") = TaskStatusEnum.STATUS_CANCELLED
+                        setApproval(DRV.Item("status"), "Cancelled", remarks, False)
+                        'End If
                     End If
                 End If
             Else

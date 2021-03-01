@@ -113,7 +113,7 @@
             Return BS.Filter
         End Get
         Set(ByVal value As String)
-            BS.Filter = String.Format(value)
+            BS.Filter = String.Format(Model.SortField, value)
         End Set
     End Property
     Public Function GetCurrentRecord() As DataRowView Implements IToolbarAction.GetCurrentRecord

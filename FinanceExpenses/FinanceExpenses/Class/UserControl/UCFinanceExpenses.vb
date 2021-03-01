@@ -121,6 +121,12 @@ Public Class UCFinanceExpenses
             ErrorProvider1.SetError(DataGridView1, "You must add at least one record.")
             myret = False
         Else
+            For Each dr As DataRow In DS.Tables("FinanceTx").Rows
+                If IsDBNull(dr.Item("glaccount")) Then
+                    dr.RowError = "Blank record. Please remove it."
+                    myret = False
+                End If
+            Next
             If DS.Tables("FinanceTx").HasErrors Then
                 ErrorProvider1.SetError(DataGridView1, "Error Found. Please check details.")
                 myret = False

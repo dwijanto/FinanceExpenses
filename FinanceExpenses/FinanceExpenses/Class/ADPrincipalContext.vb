@@ -63,8 +63,11 @@ Public Class ADPrincipalContext
                 myInfo.Department = userinfo.Properties("department")(0).ToString
             End If
 
+            If userinfo.Properties("co").Count > 0 Then
+                myInfo.Country = userinfo.Properties("co")(0).ToString
 
-            myInfo.Country = userinfo.Properties("co")(0).ToString
+            End If
+
             If userinfo.Properties("l").Count > 0 Then
                 myInfo.Location = userinfo.Properties("l")(0).ToString
             End If

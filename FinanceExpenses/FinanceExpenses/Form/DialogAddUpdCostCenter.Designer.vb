@@ -40,6 +40,8 @@ Partial Class DialogAddUpdCostCenter
         Me.Label5 = New System.Windows.Forms.Label()
         Me.TextBox6 = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
+        Me.TextBox7 = New System.Windows.Forms.TextBox()
+        Me.Label7 = New System.Windows.Forms.Label()
         Me.TableLayoutPanel1.SuspendLayout()
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -52,7 +54,7 @@ Partial Class DialogAddUpdCostCenter
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel1.Controls.Add(Me.OK_Button, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.Cancel_Button, 1, 0)
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(304, 248)
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(309, 281)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
@@ -116,7 +118,7 @@ Partial Class DialogAddUpdCostCenter
         '
         'TextBox3
         '
-        Me.TextBox3.Location = New System.Drawing.Point(103, 104)
+        Me.TextBox3.Location = New System.Drawing.Point(103, 135)
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.Size = New System.Drawing.Size(227, 20)
         Me.TextBox3.TabIndex = 6
@@ -124,7 +126,7 @@ Partial Class DialogAddUpdCostCenter
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(54, 107)
+        Me.Label3.Location = New System.Drawing.Point(54, 138)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(43, 13)
         Me.Label3.TabIndex = 5
@@ -132,7 +134,7 @@ Partial Class DialogAddUpdCostCenter
         '
         'TextBox4
         '
-        Me.TextBox4.Location = New System.Drawing.Point(103, 156)
+        Me.TextBox4.Location = New System.Drawing.Point(103, 187)
         Me.TextBox4.Multiline = True
         Me.TextBox4.Name = "TextBox4"
         Me.TextBox4.Size = New System.Drawing.Size(327, 81)
@@ -141,7 +143,7 @@ Partial Class DialogAddUpdCostCenter
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(53, 164)
+        Me.Label4.Location = New System.Drawing.Point(53, 195)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(44, 13)
         Me.Label4.TabIndex = 7
@@ -163,7 +165,7 @@ Partial Class DialogAddUpdCostCenter
         'TextBox5
         '
         Me.TextBox5.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.TextBox5.Location = New System.Drawing.Point(103, 130)
+        Me.TextBox5.Location = New System.Drawing.Point(103, 161)
         Me.TextBox5.Name = "TextBox5"
         Me.TextBox5.Size = New System.Drawing.Size(81, 20)
         Me.TextBox5.TabIndex = 7
@@ -171,7 +173,7 @@ Partial Class DialogAddUpdCostCenter
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(48, 133)
+        Me.Label5.Location = New System.Drawing.Point(48, 164)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(49, 13)
         Me.Label5.TabIndex = 11
@@ -195,13 +197,33 @@ Partial Class DialogAddUpdCostCenter
         Me.Label6.TabIndex = 13
         Me.Label6.Text = "Family"
         '
+        'TextBox7
+        '
+        Me.TextBox7.BackColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.TextBox7.Location = New System.Drawing.Point(103, 106)
+        Me.TextBox7.Name = "TextBox7"
+        Me.TextBox7.ReadOnly = True
+        Me.TextBox7.Size = New System.Drawing.Size(327, 20)
+        Me.TextBox7.TabIndex = 15
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(19, 109)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(78, 13)
+        Me.Label7.TabIndex = 14
+        Me.Label7.Text = "Account Name"
+        '
         'DialogAddUpdCostCenter
         '
         Me.AcceptButton = Me.OK_Button
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.Cancel_Button
-        Me.ClientSize = New System.Drawing.Size(462, 289)
+        Me.ClientSize = New System.Drawing.Size(467, 322)
+        Me.Controls.Add(Me.TextBox7)
+        Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.TextBox6)
         Me.Controls.Add(Me.TextBox5)
@@ -246,5 +268,7 @@ Partial Class DialogAddUpdCostCenter
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents TextBox6 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox7 As System.Windows.Forms.TextBox
+    Friend WithEvents Label7 As System.Windows.Forms.Label
 
 End Class

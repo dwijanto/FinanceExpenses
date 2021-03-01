@@ -16,14 +16,14 @@ Public Class MasterVendorModel
 
     Public ReadOnly Property SortField As String Implements IModel.sortField
         Get
-            Return "vendorcode"
+            Return "vendorcode like '%{0}%' or vendorname like '%{0}%'"
         End Get
     End Property
 
 
     Private Function GetSqlstr(ByVal criteria) As String
         Dim sb As New StringBuilder
-        sb.Append(String.Format("select * from {0} u {1} ", TableName, criteria))
+        sb.Append(String.Format("select u.vendorcode::text,u.vendorname,isactive from {0} u {1} ", TableName, criteria))
         Return sb.ToString
     End Function
 

@@ -57,7 +57,7 @@ Public Class EmailModel
                                 " left join ssc.user delegatendapp on delegatendapp.employeenumber = app.delegatendapprover {0};", Criteria))
         sb.Append(String.Format("select dt.* from ssc.sscemaildt dt left join ssc.sscemailhd hd on hd.id = dt.hdid  {0};", Criteria))
         sb.Append(String.Format("select ssc.getstatusname(ac.status) as statusname,ac.* from ssc.sscemailaction ac left join ssc.sscemailhd hd on hd.id = ac.sscemailhdid  {0};", Criteria))
-        sb.Append(String.Format("select fi.*,true::boolean as isok from ssc.sscfinancetx fi left join ssc.sscemailhd hd on hd.id = fi.sscemailhdid  {0};", Criteria))
+        sb.Append(String.Format("select fi.*,true::boolean as isok,c.accountname from ssc.sscfinancetx fi left join ssc.sscemailhd hd on hd.id = fi.sscemailhdid left join ssc.coa c on c.sapce = fi.glaccount {0};", Criteria))
         sb.Append(String.Format("select ap.* from ssc.sscapprovaltx ap left join ssc.sscemailhd hd on hd.id = ap.sscemailhdid  {0};", Criteria))
         sb.Append(String.Format("select 98000102 as vendorcode,'ONE TIME VENDOR SEB ASIA' as vendorname, '98000102 - ONE TIME VENDOR SEB ASIA' as vendordesc union all (select vendorcode,vendorname::text, vendorcode::text || ' - ' || vendorname::text as vendordesc from ssc.vendor where isactive and vendorcode <> 98000102 order by vendorname);"))
         sb.Append(String.Format("select vendorcode,vendorname::text, vendorcode::text || ' - ' || vendorname::text as vendordesc from ssc.vendor where isactive order by vendorname;"))
@@ -177,6 +177,22 @@ Public Class EmailModel
         Try
             Dim sb As New StringBuilder
             sb.Append("select date_part('Year',creationdate)::text || '-' || to_char(referencenumber,'FM000000') as description,referencenumber,receiveddate from ssc.sscemailhd where status = 99 order by referencenumber desc;")
+            DS = DataAccess.GetDataSet(sb.ToString, CommandType.Text, Nothing)
+        Catch ex As Exception
+            myret = False
+        End Try
+        Return myret
+    End Function
+
+    Public Function LoadSearchData(ByRef DS As DataSet, ByVal criteria As String) As Boolean
+        Dim myret As Boolean = True
+        Try
+            Dim sb As New StringBuilder
+            sb.Append(String.Format("select false::boolean as isselected,date_part('Year',creationdate)::text || '-' || to_char(referencenumber,'FM000000') as billref, receiveddate,dt.attachmentname ," &
+                      " hd.financenumber, hd.vendorcode::text, v.vendorname  from ssc.sscemailhd hd" &
+                      " left join ssc.sscemaildt dt on dt.hdid = hd.id " &
+                      " left join ssc.vendor v on v.vendorcode = hd.vendorcode" &
+                      " where (date_part('Year',creationdate)::text = '{0}' and status =99)", criteria))
             DS = DataAccess.GetDataSet(sb.ToString, CommandType.Text, Nothing)
         Catch ex As Exception
             myret = False

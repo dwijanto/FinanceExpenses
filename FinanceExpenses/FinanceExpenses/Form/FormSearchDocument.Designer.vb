@@ -27,12 +27,12 @@ Partial Class FormSearchDocument
         Me.ToolStripStatusLabel2 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripProgressBar1 = New System.Windows.Forms.ToolStripProgressBar()
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
-        Me.Button2 = New System.Windows.Forms.Button()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.ListBox1 = New System.Windows.Forms.ListBox()
-        Me.Button3 = New System.Windows.Forms.Button()
         Me.Button4 = New System.Windows.Forms.Button()
+        Me.Button3 = New System.Windows.Forms.Button()
+        Me.ListBox1 = New System.Windows.Forms.ListBox()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Button5 = New System.Windows.Forms.Button()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -75,11 +75,11 @@ Partial Class FormSearchDocument
         '
         'ToolStripContainer1.ContentPanel
         '
+        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.Button5)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.Button4)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.Button3)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.ListBox1)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.Button2)
-        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.Button1)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.Label1)
         Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(602, 339)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -88,6 +88,32 @@ Partial Class FormSearchDocument
         Me.ToolStripContainer1.Size = New System.Drawing.Size(602, 386)
         Me.ToolStripContainer1.TabIndex = 6
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
+        '
+        'Button4
+        '
+        Me.Button4.Location = New System.Drawing.Point(448, 75)
+        Me.Button4.Name = "Button4"
+        Me.Button4.Size = New System.Drawing.Size(47, 23)
+        Me.Button4.TabIndex = 6
+        Me.Button4.Text = "Delete"
+        Me.Button4.UseVisualStyleBackColor = True
+        '
+        'Button3
+        '
+        Me.Button3.Location = New System.Drawing.Point(448, 46)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(47, 23)
+        Me.Button3.TabIndex = 5
+        Me.Button3.Text = "Clear"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
+        'ListBox1
+        '
+        Me.ListBox1.FormattingEnabled = True
+        Me.ListBox1.Location = New System.Drawing.Point(162, 46)
+        Me.ListBox1.Name = "ListBox1"
+        Me.ListBox1.Size = New System.Drawing.Size(280, 212)
+        Me.ListBox1.TabIndex = 4
         '
         'Button2
         '
@@ -98,49 +124,23 @@ Partial Class FormSearchDocument
         Me.Button2.Text = "Exract Data"
         Me.Button2.UseVisualStyleBackColor = True
         '
-        'Button1
-        '
-        Me.Button1.Location = New System.Drawing.Point(448, 46)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(47, 23)
-        Me.Button1.TabIndex = 2
-        Me.Button1.Text = "..."
-        Me.Button1.UseVisualStyleBackColor = True
-        '
         'Label1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(59, 51)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(97, 13)
+        Me.Label1.Size = New System.Drawing.Size(85, 13)
         Me.Label1.TabIndex = 1
-        Me.Label1.Text = "Reference Number"
+        Me.Label1.Text = "Finance Number"
         '
-        'ListBox1
+        'Button5
         '
-        Me.ListBox1.FormattingEnabled = True
-        Me.ListBox1.Location = New System.Drawing.Point(162, 46)
-        Me.ListBox1.Name = "ListBox1"
-        Me.ListBox1.Size = New System.Drawing.Size(280, 212)
-        Me.ListBox1.TabIndex = 4
-        '
-        'Button3
-        '
-        Me.Button3.Location = New System.Drawing.Point(448, 75)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(47, 23)
-        Me.Button3.TabIndex = 5
-        Me.Button3.Text = "Clear"
-        Me.Button3.UseVisualStyleBackColor = True
-        '
-        'Button4
-        '
-        Me.Button4.Location = New System.Drawing.Point(448, 104)
-        Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(47, 23)
-        Me.Button4.TabIndex = 6
-        Me.Button4.Text = "Delete"
-        Me.Button4.UseVisualStyleBackColor = True
+        Me.Button5.Location = New System.Drawing.Point(448, 104)
+        Me.Button5.Name = "Button5"
+        Me.Button5.Size = New System.Drawing.Size(47, 23)
+        Me.Button5.TabIndex = 7
+        Me.Button5.Text = "Paste"
+        Me.Button5.UseVisualStyleBackColor = True
         '
         'FormSearchDocument
         '
@@ -167,9 +167,9 @@ Partial Class FormSearchDocument
     Public WithEvents ToolStripProgressBar1 As System.Windows.Forms.ToolStripProgressBar
     Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
     Friend WithEvents Button2 As System.Windows.Forms.Button
-    Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents Button3 As System.Windows.Forms.Button
     Friend WithEvents ListBox1 As System.Windows.Forms.ListBox
     Friend WithEvents Button4 As System.Windows.Forms.Button
+    Friend WithEvents Button5 As System.Windows.Forms.Button
 End Class

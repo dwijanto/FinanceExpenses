@@ -220,8 +220,10 @@ Public Class UploadExpensesController
                 myret = False
                 drv.Row.Item("isok") = False
             Else
+                Dim accountname As String = myresult.Item("description").ToString.Substring(myresult.Item("sapindex").ToString.Length + 3)
                 drv.BeginEdit()
                 drv.Row.Item("sapindexid") = myresult.Item("id")
+                drv.Row.Item("accountname") = accountname
                 drv.EndEdit()
 
             End If

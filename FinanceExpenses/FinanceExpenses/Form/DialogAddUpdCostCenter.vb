@@ -64,6 +64,12 @@ Public Class DialogAddUpdCostCenter
         Me.Close()
     End Sub
 
+    Private Sub DialogAddUpdCostCenter_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        If Me.DialogResult = System.Windows.Forms.DialogResult.Cancel Then
+            drv.CancelEdit()
+        End If
+    End Sub
+
     Private Sub DialogAddUpdCostCenter_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         InitData()
     End Sub
@@ -84,13 +90,17 @@ Public Class DialogAddUpdCostCenter
                 Dim sapce As String = drvcurr.Row.Item("sapce")
                 Dim cc As String = drvcurr.Row.Item("cc")
                 Dim family As String = drvcurr.Row.Item("family")
+                Dim accountname As String = drvcurr.Row.Item("description").ToString.Substring(drvcurr.Row.Item("sapindex").ToString.Length + 3)
                 TextBox1.Text = sapce
                 TextBox2.Text = cc
                 TextBox6.Text = family
+                TextBox7.Text = accountname
                 drv.Row.Item("glaccount") = sapce
                 drv.Row.Item("costcenter") = cc
                 drv.Row.Item("family") = family
                 drv.Row.Item("sapindexid") = drvcurr.Row.Item("id")
+                drv.Row.Item("accountname") = accountname
+
             End If
 
         Catch ex As Exception
@@ -106,6 +116,7 @@ Public Class DialogAddUpdCostCenter
         TextBox4.DataBindings.Clear()
         TextBox5.DataBindings.Clear()
         TextBox6.DataBindings.Clear()
+        TextBox7.DataBindings.Clear()
 
         TextBox1.DataBindings.Add(New Binding("Text", drv, "glaccount", False, DataSourceUpdateMode.OnPropertyChanged))
         TextBox2.DataBindings.Add(New Binding("Text", drv, "costcenter", False, DataSourceUpdateMode.OnPropertyChanged))
@@ -113,6 +124,7 @@ Public Class DialogAddUpdCostCenter
         TextBox4.DataBindings.Add(New Binding("Text", drv, "remark", False, DataSourceUpdateMode.OnPropertyChanged))
         TextBox5.DataBindings.Add(New Binding("Text", drv, "crcy", False, DataSourceUpdateMode.OnPropertyChanged))
         TextBox6.DataBindings.Add(New Binding("Text", drv, "family", False, DataSourceUpdateMode.OnPropertyChanged))
+        TextBox7.DataBindings.Add(New Binding("Text", drv, "accountname", False, DataSourceUpdateMode.OnPropertyChanged))
     End Sub
 
 

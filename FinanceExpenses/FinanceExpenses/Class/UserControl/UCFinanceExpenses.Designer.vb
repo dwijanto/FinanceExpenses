@@ -23,7 +23,7 @@ Partial Class UCFinanceExpenses
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
@@ -35,6 +35,14 @@ Partial Class UCFinanceExpenses
         Me.TextBoxSAP = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
+        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column7 = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.AddNewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UpdateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -59,13 +67,6 @@ Partial Class UCFinanceExpenses
         Me.TextBox9 = New System.Windows.Forms.TextBox()
         Me.BtnVendor = New System.Windows.Forms.Button()
         Me.Label12 = New System.Windows.Forms.Label()
-        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column7 = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip1.SuspendLayout()
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -165,16 +166,82 @@ Partial Class UCFinanceExpenses
         Me.DataGridView1.AllowUserToOrderColumns = True
         Me.DataGridView1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column6, Me.Column3, Me.Column5, Me.Column4, Me.Column7})
+        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column6, Me.Column8, Me.Column3, Me.Column5, Me.Column4, Me.Column7})
         Me.DataGridView1.ContextMenuStrip = Me.ContextMenuStrip1
         Me.DataGridView1.Location = New System.Drawing.Point(134, 233)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.ReadOnly = True
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.DataGridView1.ShowCellToolTips = False
-        Me.DataGridView1.Size = New System.Drawing.Size(647, 125)
+        Me.DataGridView1.Size = New System.Drawing.Size(812, 125)
         Me.DataGridView1.TabIndex = 14
         Me.ToolTip1.SetToolTip(Me.DataGridView1, "Right Click to activate context menu")
+        '
+        'Column1
+        '
+        Me.Column1.DataPropertyName = "glaccount"
+        Me.Column1.HeaderText = "GL Account Number"
+        Me.Column1.Name = "Column1"
+        Me.Column1.ReadOnly = True
+        '
+        'Column2
+        '
+        Me.Column2.DataPropertyName = "costcenter"
+        Me.Column2.HeaderText = "Cost Center"
+        Me.Column2.Name = "Column2"
+        Me.Column2.ReadOnly = True
+        Me.Column2.Width = 70
+        '
+        'Column6
+        '
+        Me.Column6.DataPropertyName = "family"
+        Me.Column6.HeaderText = "Family"
+        Me.Column6.Name = "Column6"
+        Me.Column6.ReadOnly = True
+        Me.Column6.Width = 50
+        '
+        'Column8
+        '
+        Me.Column8.DataPropertyName = "accountname"
+        Me.Column8.HeaderText = "Account Name"
+        Me.Column8.Name = "Column8"
+        Me.Column8.ReadOnly = True
+        Me.Column8.Width = 160
+        '
+        'Column3
+        '
+        Me.Column3.DataPropertyName = "amount"
+        DataGridViewCellStyle1.Format = "#,##0.00"
+        Me.Column3.DefaultCellStyle = DataGridViewCellStyle1
+        Me.Column3.HeaderText = "Amount"
+        Me.Column3.Name = "Column3"
+        Me.Column3.ReadOnly = True
+        Me.Column3.Width = 70
+        '
+        'Column5
+        '
+        Me.Column5.DataPropertyName = "crcy"
+        Me.Column5.HeaderText = "Crcy"
+        Me.Column5.Name = "Column5"
+        Me.Column5.ReadOnly = True
+        Me.Column5.Width = 50
+        '
+        'Column4
+        '
+        Me.Column4.DataPropertyName = "remark"
+        Me.Column4.HeaderText = "Remark"
+        Me.Column4.Name = "Column4"
+        Me.Column4.ReadOnly = True
+        Me.Column4.Width = 195
+        '
+        'Column7
+        '
+        Me.Column7.DataPropertyName = "isok"
+        Me.Column7.HeaderText = "isOK?"
+        Me.Column7.Name = "Column7"
+        Me.Column7.ReadOnly = True
+        Me.Column7.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
+        Me.Column7.Width = 50
         '
         'ContextMenuStrip1
         '
@@ -257,7 +324,7 @@ Partial Class UCFinanceExpenses
         Me.WebBrowser1.Location = New System.Drawing.Point(134, 396)
         Me.WebBrowser1.MinimumSize = New System.Drawing.Size(20, 20)
         Me.WebBrowser1.Name = "WebBrowser1"
-        Me.WebBrowser1.Size = New System.Drawing.Size(669, 115)
+        Me.WebBrowser1.Size = New System.Drawing.Size(812, 115)
         Me.WebBrowser1.TabIndex = 20
         '
         'Label8
@@ -271,7 +338,7 @@ Partial Class UCFinanceExpenses
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(690, 97)
+        Me.Button1.Location = New System.Drawing.Point(690, 102)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(66, 23)
         Me.Button1.TabIndex = 22
@@ -371,56 +438,6 @@ Partial Class UCFinanceExpenses
         Me.Label12.TabIndex = 33
         Me.Label12.Text = "Vendor"
         '
-        'Column1
-        '
-        Me.Column1.DataPropertyName = "glaccount"
-        Me.Column1.HeaderText = "GL Account Number"
-        Me.Column1.Name = "Column1"
-        '
-        'Column2
-        '
-        Me.Column2.DataPropertyName = "costcenter"
-        Me.Column2.HeaderText = "Cost Center"
-        Me.Column2.Name = "Column2"
-        '
-        'Column6
-        '
-        Me.Column6.DataPropertyName = "family"
-        Me.Column6.HeaderText = "Family"
-        Me.Column6.Name = "Column6"
-        Me.Column6.Width = 50
-        '
-        'Column3
-        '
-        Me.Column3.DataPropertyName = "amount"
-        DataGridViewCellStyle6.Format = "#,##0.00"
-        Me.Column3.DefaultCellStyle = DataGridViewCellStyle6
-        Me.Column3.HeaderText = "Amount"
-        Me.Column3.Name = "Column3"
-        Me.Column3.ReadOnly = True
-        '
-        'Column5
-        '
-        Me.Column5.DataPropertyName = "crcy"
-        Me.Column5.HeaderText = "Crcy"
-        Me.Column5.Name = "Column5"
-        Me.Column5.Width = 50
-        '
-        'Column4
-        '
-        Me.Column4.DataPropertyName = "remark"
-        Me.Column4.HeaderText = "Remark"
-        Me.Column4.Name = "Column4"
-        Me.Column4.Width = 130
-        '
-        'Column7
-        '
-        Me.Column7.DataPropertyName = "isok"
-        Me.Column7.HeaderText = "isOK?"
-        Me.Column7.Name = "Column7"
-        Me.Column7.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
-        Me.Column7.Width = 50
-        '
         'UCFinanceExpenses
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -455,7 +472,7 @@ Partial Class UCFinanceExpenses
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Label1)
         Me.Name = "UCFinanceExpenses"
-        Me.Size = New System.Drawing.Size(806, 514)
+        Me.Size = New System.Drawing.Size(949, 514)
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ContextMenuStrip1.ResumeLayout(False)
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -497,13 +514,14 @@ Partial Class UCFinanceExpenses
     Friend WithEvents BtnVendor As System.Windows.Forms.Button
     Friend WithEvents TextBox9 As System.Windows.Forms.TextBox
     Public WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+    Public WithEvents DataGridView1 As System.Windows.Forms.DataGridView
     Friend WithEvents Column1 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column2 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column6 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column8 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column3 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column5 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column4 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column7 As System.Windows.Forms.DataGridViewCheckBoxColumn
-    Public WithEvents DataGridView1 As System.Windows.Forms.DataGridView
 
 End Class

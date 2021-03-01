@@ -36,7 +36,10 @@ Public Class FormSearchDocument
     End Sub
 
     Private Sub loaddata()
-        doBackground1.doThread(AddressOf doWork)
+        doBackground1.doThread(AddressOf doWork1)
+    End Sub
+    Private Sub doWork1()
+        basefolder = myParam.GetParamDetailCValue("basefolder")
     End Sub
 
     Private Sub doWork()
@@ -53,7 +56,7 @@ Public Class FormSearchDocument
         End Try
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub Button1_Click(sender As Object, e As EventArgs)
         Try
             Dim helperbs As New BindingSource
             helperbs.Filter = ""
@@ -109,8 +112,8 @@ Public Class FormSearchDocument
     End Sub
 
     Private Sub GetRecord()
-        Dim sqlstr = String.Format("select date_part('Year',creationdate)::text || '-' || to_char(referencenumber,'FM000000') as description, receiveddate,dt.attachmentname  from ssc.sscemailhd hd" &
-            " left join ssc.sscemaildt dt on dt.hdid = hd.id where (date_part('Year',creationdate)::text || '-' || to_char(referencenumber,'FM000000')) in ({0})", sb.ToString)
+        Dim sqlstr = String.Format("select date_part('Year',creationdate)::text || '-' || to_char(referencenumber,'FM000000') as description, receiveddate,dt.attachmentname,financenumber  from ssc.sscemailhd hd" &
+            " left join ssc.sscemaildt dt on dt.hdid = hd.id where financenumber in ({0}) and status = 99", sb.ToString)
         Dim ds As DataSet = DataAccess.GetDataSet(sqlstr, CommandType.Text, Nothing)
         If ds.Tables(0).Rows.Count > 0 Then
             Dim i As Integer = 0
@@ -118,7 +121,7 @@ Public Class FormSearchDocument
                 'Find Folder if not exist then create
                 'After that copy to that folder
                 i += 1
-                Dim Targetfolder As String = String.Format("{0}\{1}", selectedFolder, dr.Item("description"))
+                Dim Targetfolder As String = String.Format("{0}\{1}-{2}", selectedFolder, dr.Item("description"), dr.Item("financenumber"))
                 Dim TargetFile As String = String.Format("{0}\{1}", Targetfolder, dr.Item("attachmentname"))
                 doBackground1.ProgressReport(1, String.Format("Copy in progress {0} [{1} of {2}]", TargetFile, i, ds.Tables(0).Rows.Count))
                 Try
@@ -137,5 +140,19 @@ Public Class FormSearchDocument
         End If
     End Sub
 
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        Dim mydata As String = My.Computer.Clipboard.GetText()
+        mydata = mydata.Replace(vbLf, "")
+
+        Dim arrdata() = mydata.Split(vbCr)
+        'ListBox1.Items.AddRange(arrdata)
+        For Each Item In arrdata
+            If Item.Length > 0 Then
+                ListBox1.Items.Add(Item)
+            End If
+        Next
+    End Sub
+
+   
 End Class
 

@@ -87,7 +87,8 @@
 
     Private Sub AddToolStripButton_Click(sender As Object, e As EventArgs) Handles AddToolStripButton.Click
         'showTX(TxEnum.NewRecord)
-        myController.GetNewRecord()
+        Dim drv = myController.GetNewRecord()
+        drv.Row.Item("isactive") = True
     End Sub
 
     Private Sub CommitToolStripButton_Click(sender As Object, e As EventArgs) Handles CommitToolStripButton.Click
@@ -104,4 +105,7 @@
     End Sub
 
 
+    Private Sub ToolStripTextBox1_Click(sender As Object, e As EventArgs) Handles ToolStripTextBox1.Click
+
+    End Sub
 End Class
