@@ -78,8 +78,16 @@ Public Class FormMyTask
         Try
             DS = New DataSet
             If myController.MyTasksloaddata(DS, MyTasksCriteria, HistoryCriteria) Then
+                Dim pk(0) As DataColumn
+                pk(0) = DS.Tables(0).Columns("id")
+                DS.Tables(0).PrimaryKey = pk
+
+                Dim pk1(0) As DataColumn
+                pk1(0) = DS.Tables(1).Columns("id")
+                DS.Tables(1).PrimaryKey = pk1
+
                 DoBackground1.ProgressReport(4, "CallBack")
-                DoBackground1.ProgressReport(1, "Loading Data.Done!")              
+                DoBackground1.ProgressReport(1, "Loading Data.Done!")
             End If
         Catch ex As Exception
             DoBackground1.ProgressReport(1, "Loading Data. Error::" & ex.Message)            
