@@ -111,7 +111,7 @@
                 DoBackground1.ProgressReport(1, String.Format("Downloading ::{0} of {1} {2}", i, selectedItems, drv.Row.Item("attachmentname")))
                 Try
                     Dim FullPathSourceFile = String.Format("{0}\{1:yyyyMM}\{1:ddHHmmss}{2}", basefolder, drv.Row.Item("receiveddate"), drv.Row.Item("attachmentname"))
-                    Dim Targetfolder As String = String.Format("{0}\{1}", SelectedFolder, drv.Row.Item("billref"))
+                    Dim Targetfolder As String = String.Format("{0}\{1}-{2}", SelectedFolder, drv.Row.Item("financenumber"), drv.Row.Item("billref"))
                     Dim TargetFile As String = String.Format("{0}\{1}", Targetfolder, drv.Row.Item("attachmentname"))
                     DoBackground1.ProgressReport(1, String.Format("Copy in progress {0} [{1} of {2}]", TargetFile, i, selectedItems))
                     If Not IO.Directory.Exists(SelectedFolder) Then
@@ -149,6 +149,17 @@
             Dim FullPathFileName = String.Format("{0}\{1:yyyyMM}\{1:ddHHmmss}{2}", myParamAdapter.GetParamDetailCValue("basefolder"), drv.Row.Item("receiveddate"), drv.Row.Item("attachmentname"))
             myFileController.previewdoc(FullPathFileName, drv.Row.Item("attachmentname"))
         End If
+
+    End Sub
+
+   
+    Private Sub TextBox1_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBox1.KeyDown
+        If (e.KeyCode = Keys.Enter) Then            
+            RefreshToolStripButton.PerformClick()
+        End If
+    End Sub
+
+    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles TextBox1.TextChanged
 
     End Sub
 End Class

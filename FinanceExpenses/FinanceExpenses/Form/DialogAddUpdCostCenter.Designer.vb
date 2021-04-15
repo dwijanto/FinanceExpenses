@@ -134,7 +134,7 @@ Partial Class DialogAddUpdCostCenter
         '
         'TextBox4
         '
-        Me.TextBox4.Location = New System.Drawing.Point(103, 187)
+        Me.TextBox4.Location = New System.Drawing.Point(103, 161)
         Me.TextBox4.Multiline = True
         Me.TextBox4.Name = "TextBox4"
         Me.TextBox4.Size = New System.Drawing.Size(327, 81)
@@ -143,7 +143,7 @@ Partial Class DialogAddUpdCostCenter
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(53, 195)
+        Me.Label4.Location = New System.Drawing.Point(53, 169)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(44, 13)
         Me.Label4.TabIndex = 7
@@ -165,19 +165,21 @@ Partial Class DialogAddUpdCostCenter
         'TextBox5
         '
         Me.TextBox5.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.TextBox5.Location = New System.Drawing.Point(103, 161)
+        Me.TextBox5.Location = New System.Drawing.Point(103, 281)
         Me.TextBox5.Name = "TextBox5"
         Me.TextBox5.Size = New System.Drawing.Size(81, 20)
         Me.TextBox5.TabIndex = 7
+        Me.TextBox5.Visible = False
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(48, 164)
+        Me.Label5.Location = New System.Drawing.Point(33, 284)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(49, 13)
         Me.Label5.TabIndex = 11
         Me.Label5.Text = "Currency"
+        Me.Label5.Visible = False
         '
         'TextBox6
         '

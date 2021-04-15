@@ -116,17 +116,6 @@ Namespace My
             End Set
         End Property
         
-        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("host=hon14nt;port=5432;database=LogisticDb;CommandTimeout=10000;TimeOut=1024;User"& _ 
-            "id=admin;Password=admin;")>  _
-        Public ReadOnly Property Conn1() As String
-            Get
-                Return CType(Me("Conn1"),String)
-            End Get
-        End Property
-        
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("HON14NT")>  _
@@ -137,6 +126,17 @@ Namespace My
             Set
                 Me("HOST") = value
             End Set
+        End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("host=hon14nt;port=5432;database=LogisticDb;CommandTimeout=10000;TimeOut=1024;User"& _ 
+            "id=admin;Password=admin;")>  _
+        Public ReadOnly Property Conn1() As String
+            Get
+                Return CType(Me("Conn1"),String)
+            End Get
         End Property
     End Class
 End Namespace

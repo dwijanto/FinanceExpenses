@@ -42,12 +42,12 @@ Partial Class FormExpenses
         Me.ToolStripButtonForward = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButtonCommit = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButtonSubmit = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButtonReSubmit = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButtonAskForValidation = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButtonValidate = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripButton2 = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButtonStsCancelled = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButtonReject = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButtonComplete = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripButton2 = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
         Me.UcFinanceExpenses1 = New FinanceExpenses.UCFinanceExpenses()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
@@ -142,7 +142,7 @@ Partial Class FormExpenses
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(911, 552)
+        Me.TabPage2.Size = New System.Drawing.Size(962, 552)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Approval Status"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -162,7 +162,7 @@ Partial Class FormExpenses
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.ReadOnly = True
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(864, 270)
+        Me.DataGridView1.Size = New System.Drawing.Size(915, 270)
         Me.DataGridView1.TabIndex = 0
         '
         'Column1
@@ -202,10 +202,10 @@ Partial Class FormExpenses
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButtonForward, Me.ToolStripButtonCommit, Me.ToolStripButtonSubmit, Me.ToolStripButtonReSubmit, Me.ToolStripButtonValidate, Me.ToolStripButtonStsCancelled, Me.ToolStripButtonReject, Me.ToolStripButtonComplete, Me.ToolStripButton2, Me.ToolStripButton1})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButtonForward, Me.ToolStripButtonCommit, Me.ToolStripButtonSubmit, Me.ToolStripButtonAskForValidation, Me.ToolStripButtonValidate, Me.ToolStripButton2, Me.ToolStripButtonStsCancelled, Me.ToolStripButtonReject, Me.ToolStripButtonComplete, Me.ToolStripButton1})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(487, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(592, 25)
         Me.ToolStrip1.TabIndex = 0
         '
         'ToolStripButtonForward
@@ -237,15 +237,14 @@ Partial Class FormExpenses
         Me.ToolStripButtonSubmit.Text = "Submit"
         Me.ToolStripButtonSubmit.Visible = False
         '
-        'ToolStripButtonReSubmit
+        'ToolStripButtonAskForValidation
         '
-        Me.ToolStripButtonReSubmit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButtonReSubmit.Image = CType(resources.GetObject("ToolStripButtonReSubmit.Image"), System.Drawing.Image)
-        Me.ToolStripButtonReSubmit.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButtonReSubmit.Name = "ToolStripButtonReSubmit"
-        Me.ToolStripButtonReSubmit.Size = New System.Drawing.Size(66, 22)
-        Me.ToolStripButtonReSubmit.Text = "Re-submit"
-        Me.ToolStripButtonReSubmit.Visible = False
+        Me.ToolStripButtonAskForValidation.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButtonAskForValidation.Image = CType(resources.GetObject("ToolStripButtonAskForValidation.Image"), System.Drawing.Image)
+        Me.ToolStripButtonAskForValidation.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButtonAskForValidation.Name = "ToolStripButtonAskForValidation"
+        Me.ToolStripButtonAskForValidation.Size = New System.Drawing.Size(105, 22)
+        Me.ToolStripButtonAskForValidation.Text = "Ask For Validation"
         '
         'ToolStripButtonValidate
         '
@@ -255,6 +254,15 @@ Partial Class FormExpenses
         Me.ToolStripButtonValidate.Name = "ToolStripButtonValidate"
         Me.ToolStripButtonValidate.Size = New System.Drawing.Size(52, 22)
         Me.ToolStripButtonValidate.Text = "Validate"
+        '
+        'ToolStripButton2
+        '
+        Me.ToolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ToolStripButton2.Image = CType(resources.GetObject("ToolStripButton2.Image"), System.Drawing.Image)
+        Me.ToolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton2.Name = "ToolStripButton2"
+        Me.ToolStripButton2.Size = New System.Drawing.Size(100, 22)
+        Me.ToolStripButton2.Text = "Upload Template"
         '
         'ToolStripButtonStsCancelled
         '
@@ -283,15 +291,6 @@ Partial Class FormExpenses
         Me.ToolStripButtonComplete.Name = "ToolStripButtonComplete"
         Me.ToolStripButtonComplete.Size = New System.Drawing.Size(63, 22)
         Me.ToolStripButtonComplete.Text = "Complete"
-        '
-        'ToolStripButton2
-        '
-        Me.ToolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.ToolStripButton2.Image = CType(resources.GetObject("ToolStripButton2.Image"), System.Drawing.Image)
-        Me.ToolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.ToolStripButton2.Name = "ToolStripButton2"
-        Me.ToolStripButton2.Size = New System.Drawing.Size(100, 22)
-        Me.ToolStripButton2.Text = "Upload Template"
         '
         'ToolStripButton1
         '
@@ -342,7 +341,7 @@ Partial Class FormExpenses
     Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
     Friend WithEvents ToolStripButtonCommit As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripButtonSubmit As System.Windows.Forms.ToolStripButton
-    Friend WithEvents ToolStripButtonReSubmit As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripButtonAskForValidation As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripButtonValidate As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripButtonStsCancelled As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripButtonReject As System.Windows.Forms.ToolStripButton

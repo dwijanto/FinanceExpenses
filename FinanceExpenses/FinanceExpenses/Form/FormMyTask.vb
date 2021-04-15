@@ -102,6 +102,12 @@ Public Class FormMyTask
     End Sub
 
     Private Sub DataGridView1_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellDoubleClick
+        Select Case DataGridView1.Columns(e.ColumnIndex).Name
+            Case "financeremarksmytask"
+                Exit Sub
+            Case "FinanceNumberMyTask"
+                'Exit Sub
+        End Select
         Dim drv = MyTasksBS.Current
         Dim myForm = New FormExpenses(drv.row.item("id"), TxEnum.UpdateRecord)
         If myForm.HasApprover Then
@@ -144,9 +150,12 @@ Public Class FormMyTask
         
         DataGridView2.AutoGenerateColumns = False
         DataGridView2.DataSource = HistoryBS
+
         If User.can("Validate For Finance") Then
             DataGridView1.Columns("financeremarksmytask").Visible = True
             DataGridView2.Columns("financeremarkshistory").Visible = True
+            'DataGridView1.Columns("financenumbermytask").ReadOnly = False
+            'DataGridView2.Columns("financenumberhistory").ReadOnly = False
             DataGridView2.ReadOnly = False
             ToolStripButton1.Visible = True
         End If
@@ -164,7 +173,7 @@ Public Class FormMyTask
 
     Private Sub ApplyFilter()
 
-        Dim myfilter = String.Format("refnumber like '*{0}*' or statusname like '*{0}*' or emailsubject like '*{0}*' or sender like '*{0}*' or emailto like '*{0}*' or stapprovername like '*{0}*' or ndapprovername like '*{0}*' or financenumber like '*{0}*' or vendorcodetext like '*{0}*'  or vendorname like '*{0}*' or role like '*{0}*'", ToolStripTextBox1.Text)
+        Dim myfilter = String.Format("refnumber like '*{0}*' or statusname like '*{0}*' or emailsubject like '*{0}*' or sender like '*{0}*' or emailto like '*{0}*' or stapprovername like '*{0}*' or ndapprovername like '*{0}*' or financenumber like '*{0}*' or vendorcodetext like '*{0}*'  or vendorname like '*{0}*' or role like '*{0}*' or financeremarks like '*{0}*'", ToolStripTextBox1.Text)
         MyTasksBS.Filter = myfilter
         HistoryBS.Filter = myfilter
 

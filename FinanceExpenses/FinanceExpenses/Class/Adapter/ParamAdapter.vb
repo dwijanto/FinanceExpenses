@@ -14,6 +14,7 @@ Public Class ParamAdapter
     Public BS6 As BindingSource
     Public BS7 As BindingSource
     Public BS8 As BindingSource
+    Public BS9 As BindingSource
     Private ErrMessage As String = String.Empty
 
     Public ReadOnly Property getErrorMessage As String
@@ -39,14 +40,44 @@ Public Class ParamAdapter
         myresult = DataAccess.ExecuteScalar(sqlstr, CommandType.Text, myparam)
         Return myresult
     End Function
+
+    Public Function GetDateValue(ByVal paramName As String) As String
+        Dim sqlstr = String.Format("select dvalue from ssc.paramdt dt where dt.paramname =:paramname", paramName)
+        Dim myresult As Date
+        Dim myparam(0) As System.Data.IDbDataParameter
+        myparam(0) = factory.CreateParameter("paramname", paramName)
+        myresult = DataAccess.ExecuteScalar(sqlstr, CommandType.Text, myparam)
+        Return myresult
+    End Function
+
+    Function getOverdueTask(paramname As String) As Integer
+        Dim sqlstr = String.Format("select ivalue from ssc.paramdt dt where dt.paramname =:paramname", paramname)
+        Dim myresult As String
+        Dim myparam(0) As System.Data.IDbDataParameter
+        myparam(0) = factory.CreateParameter("paramname", paramname)
+        myresult = DataAccess.ExecuteScalar(sqlstr, CommandType.Text, myparam)
+        Return myresult
+    End Function
+
     Function getLimit(ByVal paramName) As Decimal
-        Dim sqlstr = String.Format("select dt.nvalue,ph.* from ssc.paramdt dt left join ssc.paramhd ph on ph.paramhdid = dt.paramhdid where dt.paramname =:paramname and ph.paramname = 'DirectorLimit'", paramName)
+        Dim sqlstr = String.Format("select dt.nvalue from ssc.paramdt dt left join ssc.paramhd ph on ph.paramhdid = dt.paramhdid where dt.paramname =:paramname and ph.paramname = 'limit'", paramName)
         Dim myresult As String = String.Empty
         Dim myparam(0) As System.Data.IDbDataParameter
         myparam(0) = factory.CreateParameter("paramname", paramName)
         myresult = DataAccess.ExecuteScalar(sqlstr, CommandType.Text, myparam)
         Return myresult
     End Function
+
+    Function getCurrencyBS() As BindingSource
+        Dim myresult As New BindingSource
+        Dim sqlstr = String.Format("select dt.paramname,dt.nvalue from ssc.paramdt dt left join ssc.paramhd hd on hd.paramhdid = dt.paramhdid where hd.paramname ='currency' order by paramname")
+        DS = DataAccess.GetDataSet(sqlstr, CommandType.Text)
+        If DS.Tables(0).Rows.Count > 0 Then
+            myresult.DataSource = DS.Tables(0)
+        End If
+        Return myresult
+    End Function
+
     Public Function GetApprovalName(ByVal paramdtId As Integer) As ApprovalInfo
         Dim myApprovalInfo As ApprovalInfo = Nothing
         Try
@@ -117,6 +148,7 @@ Public Class ParamAdapter
         sb.Append(String.Format("select pd.* from ssc.paramdt pd  where pd.paramname = :mailbox order by paramdtid; "))
         sb.Append(String.Format("select pd.* from ssc.paramdt pd  where pd.paramname = :notvalidemail order by paramdtid; "))
         sb.Append(String.Format("select pd.* from ssc.paramdt pd  where pd.paramname = :financeemail order by paramdtid; "))
+        sb.Append(String.Format("select pd.* from ssc.paramdt pd  where pd.paramname = :cutoffdate order by paramdtid; "))
         Dim sqlstr = sb.ToString
         DS = New DataSet
         BS = New BindingSource
@@ -127,8 +159,9 @@ Public Class ParamAdapter
         BS6 = New BindingSource
         BS7 = New BindingSource
         BS8 = New BindingSource
+        BS9 = New BindingSource
 
-        Dim myparam(7) As System.Data.IDbDataParameter
+        Dim myparam(8) As System.Data.IDbDataParameter
         myparam(0) = factory.CreateParameter("emaillastreceived", "emaillastreceived")
         myparam(1) = factory.CreateParameter("url", "url")
         myparam(2) = factory.CreateParameter("username", "username")
@@ -137,6 +170,7 @@ Public Class ParamAdapter
         myparam(5) = factory.CreateParameter("mailbox", "mailbox")
         myparam(6) = factory.CreateParameter("notvalidemail", "NotValidEmail")
         myparam(7) = factory.CreateParameter("financeemail", "FinanceEmail")
+        myparam(8) = factory.CreateParameter("cutoffdate", "cutoffdate")
 
         Try
             DS = DataAccess.GetDataSet(sqlstr, CommandType.Text, myparam)
@@ -200,6 +234,11 @@ Public Class ParamAdapter
             pk8(0) = DS.Tables(7).Columns("paramdtid")
             DS.Tables(7).PrimaryKey = pk8
             BS8.DataSource = DS.Tables(7)
+
+            Dim pk9(0) As DataColumn
+            pk9(0) = DS.Tables(8).Columns("paramdtid")
+            DS.Tables(8).PrimaryKey = pk9
+            BS9.DataSource = DS.Tables(8)
             myret = True
         Catch ex As Exception
             ErrMessage = ex.Message
@@ -217,6 +256,7 @@ Public Class ParamAdapter
         BS6.EndEdit()
         BS7.EndEdit()
         BS8.EndEdit()
+        BS9.EndEdit()
 
         Dim ds2 As DataSet = DS.GetChanges
         If Not IsNothing(ds2) Then
@@ -294,6 +334,10 @@ Public Class ParamAdapter
         End Using
         Return myret
     End Function
+
+
+
+
 
 
 

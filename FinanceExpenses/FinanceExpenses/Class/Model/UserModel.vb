@@ -87,6 +87,7 @@ Public Class UserModel
         Return bs
     End Function
 
+
     Public Function save1(ByVal obj As Object, ByVal mye As ContentBaseEventArgs) As Boolean
         Dim myret As Boolean = False
         Dim factory = DataAccess.factory

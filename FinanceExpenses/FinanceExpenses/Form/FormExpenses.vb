@@ -20,7 +20,7 @@ Public Class FormExpenses
     Private TxEnum As TxEnum
     Private Criteria As String
 
-    Dim myParam = ParamAdapter.getInstance
+    Dim myParam As ParamAdapter = ParamAdapter.getInstance
 
     Dim Identity As UserController = User.getIdentity
 
@@ -35,6 +35,12 @@ Public Class FormExpenses
     Dim ApprovalTXBS As BindingSource
     Dim VendorBS As BindingSource
     Dim COABS As BindingSource
+
+    Dim CurrencyBS As BindingSource
+    Dim Limit As Decimal
+    Dim ExRate As Decimal
+    Private TotalAmount As Decimal
+
 
     'Dim FirstApprover As String = String.Empty
     'Dim SecondApprover As String = String.Empty
@@ -70,20 +76,31 @@ Public Class FormExpenses
         ApprovalTXBS = myController.GetApprovalTxBS
         VendorBS = myController.GetVendorBS
         COABS = myController.GetChartOfAccountBS
-        UcFinanceExpenses1.BindingControl(DRV, DTLBS, FinanceTxBS, ApprovalTXBS, VendorBS, COABS, myController.DS, Me)
+
+        CurrencyBS = myParam.getCurrencyBS
+        Limit = myParam.getLimit("MplusOneLimit")
+
+
+        UcFinanceExpenses1.BindingControl(DRV, DTLBS, FinanceTxBS, ApprovalTXBS, VendorBS, COABS, myController.DS, CurrencyBS, Me)
         DataGridView1.AutoGenerateColumns = False
         DataGridView1.DataSource = ActionBS
 
-        ToolStripButtonCommit.Visible = False 'Commit
-        ToolStripButtonSubmit.Visible = False 'submit
-        ToolStripButtonReSubmit.Visible = False 'Re-Submit
-        ToolStripButtonValidate.Visible = False 'Validate
-        ToolStripButtonStsCancelled.Visible = False 'Cancel
-        ToolStripButtonReject.Visible = False 'Reject
-        ToolStripButtonComplete.Visible = False 'Complete
-        ToolStripButtonForward.Visible = False 'Forward
-        ToolStripButton1.Visible = False 'Download
-        ToolStripButton2.Visible = False 'Upload
+
+
+        'ToolStripButtonCommit.Visible = False 'Commit
+        'ToolStripButtonSubmit.Visible = False 'submit
+        'ToolStripButtonReSubmit.Visible = False 'Re-Submit
+        'ToolStripButtonValidate.Visible = False 'Validate
+        'ToolStripButtonStsCancelled.Visible = False 'Cancel
+        'ToolStripButtonReject.Visible = False 'Reject
+        'ToolStripButtonComplete.Visible = False 'Complete
+        'ToolStripButtonForward.Visible = False 'Forward
+        'ToolStripButton1.Visible = False 'Download
+        'ToolStripButton2.Visible = False 'Upload
+
+        SetVisible(False)
+
+
         Select Case TxEnum
             Case FinanceExpenses.TxEnum.UpdateRecord
                 Select Case DRV.Row.Item("status")
@@ -91,8 +108,10 @@ Public Class FormExpenses
                         ToolStripButtonForward.Visible = True
                         ToolStripButtonValidate.Visible = True 'Validate
                         ToolStripButtonStsCancelled.Visible = True 'Cancel
+                        ToolStripButtonAskForValidation.Visible = True
                         ToolStripButton1.Visible = True
                         ToolStripButton2.Visible = True
+
                     Case TaskStatusEnum.STATUS_FORWARD
                         ToolStripButtonValidate.Visible = True 'Validate
                         ToolStripButtonStsCancelled.Visible = True 'Cancel
@@ -114,10 +133,12 @@ Public Class FormExpenses
                         Else
                             ToolStripButtonComplete.Visible = True
                             ToolStripButtonReject.Visible = True 'Reject
+                            ToolStripButtonCommit.Visible = True 'Commit
                         End If
                     Case TaskStatusEnum.STATUS_VALIDATEDBYM2
                         ToolStripButtonComplete.Visible = True
                         ToolStripButtonReject.Visible = True 'Reject
+                        ToolStripButtonCommit.Visible = True 'Commit
                     Case TaskStatusEnum.STATUS_RE_SUBMIT
                         ToolStripButtonValidate.Visible = True 'Validate
                         ToolStripButtonReject.Visible = True 'Reject
@@ -305,6 +326,7 @@ Public Class FormExpenses
 
 
     Private Sub FormProductRequest_Load(sender As Object, e As EventArgs) Handles Me.Load
+        SetVisible(False)
         loaddata()
     End Sub
 
@@ -508,6 +530,9 @@ Public Class FormExpenses
                                 Case TaskStatusEnum.STATUS_NEW, TaskStatusEnum.STATUS_FORWARD
                                     DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
                                     StatusName = "Validated by Requester"
+                                    TotalAmount = UcFinanceExpenses1.TextBox4.Text
+                                    
+
                                     'Create Approver
                                     Dim appdrv As DataRowView = myController.GetApprovalTxBS.AddNew
                                     appdrv.Row.Item("stapprover") = FirstApproverUser(0).employeenumber
@@ -518,11 +543,17 @@ Public Class FormExpenses
                                     '    DRV.Row.Item("ndemail") = SecondApproverUser(0).email
                                     '    DRV.Row.Item("ndapprovername") = SecondApproverUser(0).username
                                     'End If
-                                    If Not IsNothing(SecondApproverUser) Then
-                                        appdrv.Row.Item("ndapprover") = SecondApproverUser(0).employeenumber
-                                        DRV.Row.Item("ndemail") = SecondApproverUser(0).email
-                                        DRV.Row.Item("ndapprovername") = SecondApproverUser(0).username
+                                    'Check Limit
+                                    'second approver is needed when 
+                                    ExRate = UcFinanceExpenses1.getExrate
+                                    If (Limit * ExRate) < TotalAmount Then
+                                        If Not IsNothing(SecondApproverUser) Then
+                                            appdrv.Row.Item("ndapprover") = SecondApproverUser(0).employeenumber
+                                            DRV.Row.Item("ndemail") = SecondApproverUser(0).email
+                                            DRV.Row.Item("ndapprovername") = SecondApproverUser(0).username
+                                        End If
                                     End If
+
                                     appdrv.EndEdit()
                                 Case TaskStatusEnum.STATUS_REJECTEDBYM1, TaskStatusEnum.STATUS_REJECTEDBYM2, TaskStatusEnum.STATUS_REJECTEDBYFINANCE
                                     'DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
@@ -537,12 +568,13 @@ Public Class FormExpenses
                                 Case TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
                                     DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYM1
                                     StatusName = "Validated by M+1"
-                                    'Check Delegation
+                                    'Check if user is from Delegation
                                     Dim appdrv As DataRowView = ApprovalTXBS.Current
                                     If appdrv.Row.Item("stapprover") <> DirectCast(User.identity, UserController).employeenumber Then
                                         'Delegate Task
                                         appdrv.Row.Item("delegatestapprover") = DirectCast(User.identity, UserController).employeenumber
                                     End If
+
                                 Case TaskStatusEnum.STATUS_VALIDATEDBYM1
                                     'Can be validate by Finance Team when
                                     Dim appdrv = ApprovalTXBS.Current
@@ -856,23 +888,67 @@ Public Class FormExpenses
         Return myret
     End Function
 
-    Private Sub ToolStripButtonReSubmit_Click(sender As Object, e As EventArgs) Handles ToolStripButtonReSubmit.Click
-        'If Me.validate Then
-        '    If DRV.Row.Item("status") = ProductRequestStatusEnum.StatusRejectedbyDirector Or DRV.Row.Item("status") = ProductRequestStatusEnum.StatusRejectedbyMDirector Then  'DRV is header record
-        '        If MessageBox.Show("Do you want to resubmit this record?", "reSubmit", System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
-        '            Dim userid = DirectCast(User.identity, UserController).userid
-        '            DRV.Row.Item("status") = ProductRequestStatusEnum.StatusResubmit
-        '            DRV.Row.Item("deptapproval") = DeptApproval.ID
-        '            setApproval(DRV.Item("status"), "Resubmit", "")
-        '        End If
-        '    Else
-        '        If DRV.Row.Item("status") = ProductRequestStatusEnum.StatusNew Then
-        '            MessageBox.Show("Record already submitted.")
-        '        ElseIf DRV.Row.Item("status") = ProductRequestStatusEnum.StatusCancelled Then
-        '            MessageBox.Show("Record has been cancelled.")
-        '        End If
-        '    End If
-        'End If
+    Private Sub ToolStripButtonReSubmit_Click(sender As Object, e As EventArgs) Handles ToolStripButtonAskForValidation.Click
+        If Not DoBackground1.myThread.IsAlive Then
+            If IsNothing(ApprovalDRV) Then
+                If UcFinanceExpenses1.validate() And Me.validate Then
+                    If MessageBox.Show("Do you want to ask validation for this task?", "Ask For Validation", System.Windows.Forms.MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = DialogResult.OK Then
+                        Dim myform As New DialogAskForValidation
+                        If myform.ShowDialog = Windows.Forms.DialogResult.OK Then
+
+
+                            DRV.Row.Item("status") = TaskStatusEnum.STATUS_VALIDATEDBYREQUESTER
+                            Dim statusname = String.Empty
+                            statusname = "Validated by Requester"
+                            TotalAmount = UcFinanceExpenses1.TextBox4.Text
+
+
+                            'Create Approver
+                            Dim myApproval As New ApprovalModel
+                            Dim myfirst = myform.getAskForValidationEmployeeNumber
+                            Dim appdrv As DataRowView = myController.GetApprovalTxBS.AddNew
+                            appdrv.Row.Item("stapprover") = myform.getAskForValidationEmployeeNumber
+                            DRV.Row.Item("stemail") = myform.getAskForValidationEmail
+                            DRV.Row.Item("stapprovername") = myform.getAskForValidationName
+
+                            'Find Second Approver
+                            If myform.getNlevelApproval = ApproverType.FinalApprover Then
+                                'Final Approver, no need to find the second approver.
+                            ElseIf myform.getNlevelApproval = ApproverType.RegularUser Then
+                                'First Approver. Find the Final Approver again.
+                                'SecondApprover = myApproval.getApprover(FirstApprover)
+                                'Get SecondApprover
+                                SecondApproverUser = myApproval.getApprover(myform.getAskForValidationEmployeeNumber)
+                            End If
+
+                            'Check Limit
+                            'second approver is needed when 
+                            ExRate = UcFinanceExpenses1.getExrate
+                            If (Limit * ExRate) < TotalAmount Then
+                                If Not IsNothing(SecondApproverUser) Then
+                                    appdrv.Row.Item("ndapprover") = SecondApproverUser(0).employeenumber
+                                    DRV.Row.Item("ndemail") = SecondApproverUser(0).email
+                                    DRV.Row.Item("ndapprovername") = SecondApproverUser(0).username
+                                End If
+                            End If
+
+                            appdrv.EndEdit()
+                            setApproval(DRV.Item("status"), statusname, myform.getRemark)
+                        End If
+                    End If
+                Else
+                    MessageBox.Show("Please fix the error.")
+                End If
+                
+
+            Else
+                MessageBox.Show("Nothing todo.")
+            End If
+        End If
+    End Sub
+
+    Private Sub CreateApprovalTx()
+
     End Sub
 
     'Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
@@ -960,9 +1036,14 @@ Public Class FormExpenses
     End Sub
     Private Sub ToolStripButton2_Click_1(sender As Object, e As EventArgs) Handles ToolStripButton2.Click
         If Not DoBackground1.myThread.IsAlive Then
-            myupload = New UploadExpensesController(Me, FinanceTxBS, myController)
-            UcFinanceExpenses1.DoImport = True
-            ImportData()
+            If IsNothing(ApprovalDRV) Then
+                myupload = New UploadExpensesController(Me, FinanceTxBS, myController)
+                UcFinanceExpenses1.DoImport = True
+                ImportData()
+            Else
+                MessageBox.Show("Nothing todo.")
+            End If
+            
         Else
             MessageBox.Show("Please wait until the current process is finished.")
         End If
@@ -1003,6 +1084,7 @@ Public Class FormExpenses
 
                 UcFinanceExpenses1.TextBox9.Text = myupload.VendorDesc
                 UcFinanceExpenses1.TextBox5.Text = myupload.InvoiceNumber
+                UcFinanceExpenses1.ComboBox1.SelectedValue = myupload.Crcy.ToUpper
             Catch ex As Exception
                 DoBackground1.ProgressReport(1, ex.Message)
             End Try
@@ -1044,5 +1126,27 @@ Public Class FormExpenses
         End If
     End Sub
 
+    Private Sub SetEnabled(value As Boolean)
+        ToolStripButtonForward.Enabled = value
+        ToolStripButtonCommit.Enabled = value
+        ToolStripButtonAskForValidation.Enabled = value
+        ToolStripButtonValidate.Enabled = value
+        ToolStripButton2.Enabled = value 'Upload
+        ToolStripButtonStsCancelled.Enabled = value
+        ToolStripButtonReject.Enabled = value
+        ToolStripButtonComplete.Enabled = value
+        ToolStripButton1.Enabled = value 'Download
+    End Sub
+    Private Sub SetVisible(value As Boolean)
+        ToolStripButtonForward.Visible = value
+        ToolStripButtonCommit.Visible = value
+        ToolStripButtonAskForValidation.Visible = value
+        ToolStripButtonValidate.Visible = value
+        ToolStripButton2.Visible = value 'Upload
+        ToolStripButtonStsCancelled.Visible = value
+        ToolStripButtonReject.Visible = value
+        ToolStripButtonComplete.Visible = value
+        ToolStripButton1.Visible = value 'Download
+    End Sub
    
 End Class

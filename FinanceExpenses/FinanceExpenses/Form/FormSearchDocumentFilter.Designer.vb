@@ -28,6 +28,7 @@ Partial Class FormSearchDocumentFilter
         Me.ToolStripStatusLabel2 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripProgressBar1 = New System.Windows.Forms.ToolStripProgressBar()
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
+        Me.Button2 = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
@@ -36,6 +37,7 @@ Partial Class FormSearchDocumentFilter
         Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
@@ -43,7 +45,6 @@ Partial Class FormSearchDocumentFilter
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox1 = New System.Windows.Forms.ToolStripTextBox()
-        Me.Button2 = New System.Windows.Forms.Button()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -59,7 +60,7 @@ Partial Class FormSearchDocumentFilter
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel2, Me.ToolStripProgressBar1})
         Me.StatusStrip1.Location = New System.Drawing.Point(0, 0)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(731, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(1038, 22)
         Me.StatusStrip1.TabIndex = 0
         '
         'ToolStripStatusLabel1
@@ -71,7 +72,7 @@ Partial Class FormSearchDocumentFilter
         'ToolStripStatusLabel2
         '
         Me.ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
-        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(614, 17)
+        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(921, 17)
         Me.ToolStripStatusLabel2.Spring = True
         Me.ToolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -95,17 +96,27 @@ Partial Class FormSearchDocumentFilter
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.DataGridView1)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.Label1)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.TextBox1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(731, 278)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(1038, 278)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(731, 325)
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(1038, 325)
         Me.ToolStripContainer1.TabIndex = 7
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
         'ToolStripContainer1.TopToolStripPanel
         '
         Me.ToolStripContainer1.TopToolStripPanel.Controls.Add(Me.ToolStrip1)
+        '
+        'Button2
+        '
+        Me.Button2.Enabled = False
+        Me.Button2.Location = New System.Drawing.Point(400, 38)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(102, 23)
+        Me.Button2.TabIndex = 12
+        Me.Button2.Text = "Preview"
+        Me.Button2.UseVisualStyleBackColor = True
         '
         'Button1
         '
@@ -138,11 +149,11 @@ Partial Class FormSearchDocumentFilter
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight
         Me.DataGridView1.ColumnHeadersHeight = 36
-        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column4, Me.Column5})
+        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column4, Me.Column5, Me.Column6})
         Me.DataGridView1.Location = New System.Drawing.Point(0, 65)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DataGridView1.Size = New System.Drawing.Size(728, 210)
+        Me.DataGridView1.Size = New System.Drawing.Size(1035, 210)
         Me.DataGridView1.TabIndex = 9
         '
         'Column1
@@ -185,6 +196,13 @@ Partial Class FormSearchDocumentFilter
         Me.Column5.ReadOnly = True
         Me.Column5.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
         Me.Column5.Width = 300
+        '
+        'Column6
+        '
+        Me.Column6.DataPropertyName = "attachmentname"
+        Me.Column6.HeaderText = "File Name"
+        Me.Column6.Name = "Column6"
+        Me.Column6.Width = 300
         '
         'Label1
         '
@@ -237,21 +255,11 @@ Partial Class FormSearchDocumentFilter
         Me.ToolStripTextBox1.Name = "ToolStripTextBox1"
         Me.ToolStripTextBox1.Size = New System.Drawing.Size(200, 25)
         '
-        'Button2
-        '
-        Me.Button2.Enabled = False
-        Me.Button2.Location = New System.Drawing.Point(400, 38)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(102, 23)
-        Me.Button2.TabIndex = 12
-        Me.Button2.Text = "Preview"
-        Me.Button2.UseVisualStyleBackColor = True
-        '
         'FormSearchDocumentFilter
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(731, 325)
+        Me.ClientSize = New System.Drawing.Size(1038, 325)
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Name = "FormSearchDocumentFilter"
         Me.Text = "FormSearchDocumentFilter"
@@ -286,10 +294,11 @@ Partial Class FormSearchDocumentFilter
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripLabel1 As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripTextBox1 As System.Windows.Forms.ToolStripTextBox
+    Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents Column1 As System.Windows.Forms.DataGridViewCheckBoxColumn
     Friend WithEvents Column2 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column3 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column4 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column5 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Button2 As System.Windows.Forms.Button
+    Friend WithEvents Column6 As System.Windows.Forms.DataGridViewTextBoxColumn
 End Class

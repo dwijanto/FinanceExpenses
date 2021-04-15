@@ -121,7 +121,7 @@ Public Class FormSearchDocument
                 'Find Folder if not exist then create
                 'After that copy to that folder
                 i += 1
-                Dim Targetfolder As String = String.Format("{0}\{1}-{2}", selectedFolder, dr.Item("description"), dr.Item("financenumber"))
+                Dim Targetfolder As String = String.Format("{0}\{1}-{2}", selectedFolder, dr.Item("financenumber"), dr.Item("description"))
                 Dim TargetFile As String = String.Format("{0}\{1}", Targetfolder, dr.Item("attachmentname"))
                 doBackground1.ProgressReport(1, String.Format("Copy in progress {0} [{1} of {2}]", TargetFile, i, ds.Tables(0).Rows.Count))
                 Try
@@ -137,6 +137,8 @@ Public Class FormSearchDocument
 
             Next
             doBackground1.ProgressReport(1, String.Format("Done"))
+        Else
+            doBackground1.ProgressReport(1, String.Format("File not found."))
         End If
     End Sub
 

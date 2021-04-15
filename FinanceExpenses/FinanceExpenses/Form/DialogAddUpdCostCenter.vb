@@ -49,11 +49,11 @@ Public Class DialogAddUpdCostCenter
             ErrorProvider1.SetError(TextBox4, "Value cannot be blank.")
             myret = False
         End If
-        ErrorProvider1.SetError(TextBox5, "")
-        If TextBox5.TextLength = 0 Then
-            ErrorProvider1.SetError(TextBox5, "Value cannot be blank.")
-            myret = False
-        End If
+        'ErrorProvider1.SetError(TextBox5, "")
+        'If TextBox5.TextLength = 0 Then
+        '    ErrorProvider1.SetError(TextBox5, "Value cannot be blank.")
+        '    myret = False
+        'End If
 
         Return myret
     End Function
@@ -114,7 +114,7 @@ Public Class DialogAddUpdCostCenter
         TextBox2.DataBindings.Clear()
         TextBox3.DataBindings.Clear()
         TextBox4.DataBindings.Clear()
-        TextBox5.DataBindings.Clear()
+        'TextBox5.DataBindings.Clear()
         TextBox6.DataBindings.Clear()
         TextBox7.DataBindings.Clear()
 
@@ -122,7 +122,7 @@ Public Class DialogAddUpdCostCenter
         TextBox2.DataBindings.Add(New Binding("Text", drv, "costcenter", False, DataSourceUpdateMode.OnPropertyChanged))
         TextBox3.DataBindings.Add(New Binding("Text", drv, "amount", True, DataSourceUpdateMode.OnPropertyChanged, "", "#,##0.00"))
         TextBox4.DataBindings.Add(New Binding("Text", drv, "remark", False, DataSourceUpdateMode.OnPropertyChanged))
-        TextBox5.DataBindings.Add(New Binding("Text", drv, "crcy", False, DataSourceUpdateMode.OnPropertyChanged))
+        'TextBox5.DataBindings.Add(New Binding("Text", drv, "crcy", False, DataSourceUpdateMode.OnPropertyChanged))
         TextBox6.DataBindings.Add(New Binding("Text", drv, "family", False, DataSourceUpdateMode.OnPropertyChanged))
         TextBox7.DataBindings.Add(New Binding("Text", drv, "accountname", False, DataSourceUpdateMode.OnPropertyChanged))
     End Sub

@@ -87,6 +87,7 @@ Public Class FormMenu
     End Sub
 
     Public Function GetMenuDesc() As String
+        UcCutoffDate1.DisplayMessage()
         Return "App.Version: " & My.Application.Info.Version.ToString & " :: Server: " & DataAccess.GetHostName & ", Database: " & DataAccess.GetDataBaseName & ", Userid: " & UserInfo1.Userid 'HelperClass1.UserId
     End Function
 
@@ -218,5 +219,11 @@ Public Class FormMenu
 
     Private Sub SearchDocumentFilterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SearchDocumentFilterToolStripMenuItem.Click
 
+    End Sub
+
+    Private Sub SendReminderToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SendReminderToolStripMenuItem.Click
+        Dim myform = New FormReminder
+        myform.AutoGenerate = AutoGenerateEnum.Not_Auto
+        myform.Show()
     End Sub
 End Class

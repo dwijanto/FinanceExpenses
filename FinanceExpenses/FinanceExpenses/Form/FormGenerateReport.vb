@@ -67,10 +67,10 @@ Public Class FormGenerateReport
         '                       " left join ssc.sscapprovaltx a on a.sscemailhdid = h.id" &
         '                       " left join ssc.sscfinancetx f on f.sscemailhdid = h.id" &
         '                       " {0} order by receiveddate asc;", criteria)
-        Dim Sqlstr As String = String.Format("with lu as (select sscemailhdid,max(latestupdate) as latestaction from ssc.sscemailaction group by sscemailhdid order by sscemailhdid)" &
+        Dim Sqlstr As String = String.Format("with lu as (select sscemailhdid,max(latestupdate) as approvaldate from ssc.sscemailaction group by sscemailhdid order by sscemailhdid)" &
                                              " select h.*,d.*,a.*,f.*,ssc.getstatusname(h.status) as statusname,date_part('Year',creationdate)::text || '-' || to_char(referencenumber,'FM000000') as refnumber," &
                                              " v.vendorname,u1.username as requester,u2.username as forwardtoname,u3.username as staprovername," &
-                                             " u4.username as ndapprovername,u5.username as delegatestapprovername,u6.username as delegatendapprovername,lu.latestaction" &
+                                             " u4.username as ndapprovername,u5.username as delegatestapprovername,u6.username as delegatendapprovername,lu.approvaldate" &
                                              " from ssc.sscemailhd h " &
                                              " left join ssc.sscemaildt d on d.hdid = h.id" &
                                              " left join ssc.sscapprovaltx a on a.sscemailhdid = h.id" &

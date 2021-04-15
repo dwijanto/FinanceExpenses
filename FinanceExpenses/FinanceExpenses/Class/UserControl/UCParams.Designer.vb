@@ -38,6 +38,8 @@ Partial Class UCParams
         Me.Label7 = New System.Windows.Forms.Label()
         Me.TB8FinanceTeam = New System.Windows.Forms.TextBox()
         Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.SuspendLayout()
         '
         'Label1
@@ -169,10 +171,30 @@ Partial Class UCParams
         Me.Label8.TabIndex = 14
         Me.Label8.Text = "Finance Team"
         '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(60, 224)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(61, 13)
+        Me.Label9.TabIndex = 16
+        Me.Label9.Text = "Cutoff Date"
+        '
+        'DateTimePicker1
+        '
+        Me.DateTimePicker1.CustomFormat = "dd-MMM-yyyy"
+        Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DateTimePicker1.Location = New System.Drawing.Point(141, 221)
+        Me.DateTimePicker1.Name = "DateTimePicker1"
+        Me.DateTimePicker1.Size = New System.Drawing.Size(131, 20)
+        Me.DateTimePicker1.TabIndex = 17
+        '
         'UCParams
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.DateTimePicker1)
+        Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.TB8FinanceTeam)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.TB7NotValidEmail)
@@ -190,7 +212,7 @@ Partial Class UCParams
         Me.Controls.Add(Me.TB1EmailLastReceived)
         Me.Controls.Add(Me.Label1)
         Me.Name = "UCParams"
-        Me.Size = New System.Drawing.Size(481, 237)
+        Me.Size = New System.Drawing.Size(481, 252)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -211,5 +233,7 @@ Partial Class UCParams
     Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents TB8FinanceTeam As System.Windows.Forms.TextBox
     Friend WithEvents Label8 As System.Windows.Forms.Label
+    Friend WithEvents Label9 As System.Windows.Forms.Label
+    Friend WithEvents DateTimePicker1 As System.Windows.Forms.DateTimePicker
 
 End Class

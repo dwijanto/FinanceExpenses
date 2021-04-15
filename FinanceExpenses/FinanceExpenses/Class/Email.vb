@@ -71,7 +71,7 @@ Public Class Email
                 'smtp.office365.com
                 Using smtp = New SmtpClient(My.Settings.smtpclient)
                     'MessageBox.Show(My.Settings.smtpclient)     
-                    Logger.log("SMTP Send")
+                    Logger.log(String.Format("SMTP Send {0}", Me.sendto))
                     smtp.Send(mail)
                     Logger.log("SMTP Send Done")
                 End Using

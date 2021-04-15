@@ -25,6 +25,7 @@ Partial Class FormMenu
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormMenu))
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
+        Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.ActionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ProductRequestApprovalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -38,6 +39,7 @@ Partial Class FormMenu
         Me.MasterVendorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DelegateStatusToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.SearchDocumentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SearchDocumentFilterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AdminToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RBACToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GetEmailFromServerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -47,10 +49,13 @@ Partial Class FormMenu
         Me.UserManualToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MasterToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.VendorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.SearchDocumentFilterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UcCutoffDate1 = New FinanceExpenses.UCCutoffDate()
+        Me.SendReminderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
+        Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
+        Me.FlowLayoutPanel1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -63,11 +68,12 @@ Partial Class FormMenu
         '
         'ToolStripContainer1.ContentPanel
         '
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(556, 80)
+        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.FlowLayoutPanel1)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(718, 158)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(556, 126)
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(718, 204)
         Me.ToolStripContainer1.TabIndex = 0
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
@@ -80,9 +86,19 @@ Partial Class FormMenu
         Me.StatusStrip1.Dock = System.Windows.Forms.DockStyle.None
         Me.StatusStrip1.Location = New System.Drawing.Point(0, 0)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(556, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(718, 22)
         Me.StatusStrip1.TabIndex = 0
         Me.StatusStrip1.Text = "StatusStrip1"
+        '
+        'FlowLayoutPanel1
+        '
+        Me.FlowLayoutPanel1.AutoScroll = True
+        Me.FlowLayoutPanel1.Controls.Add(Me.UcCutoffDate1)
+        Me.FlowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(0, 0)
+        Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
+        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(718, 158)
+        Me.FlowLayoutPanel1.TabIndex = 0
         '
         'MenuStrip1
         '
@@ -90,7 +106,7 @@ Partial Class FormMenu
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ActionsToolStripMenuItem, Me.FinanceToolStripMenuItem, Me.AdminToolStripMenuItem, Me.ReportToolStripMenuItem, Me.HelpToolStripMenuItem, Me.MasterToolStripMenuItem1})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(556, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(718, 24)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -173,9 +189,16 @@ Partial Class FormMenu
         Me.SearchDocumentToolStripMenuItem.Tag = "FormSearchDocument"
         Me.SearchDocumentToolStripMenuItem.Text = "Search Document"
         '
+        'SearchDocumentFilterToolStripMenuItem
+        '
+        Me.SearchDocumentFilterToolStripMenuItem.Name = "SearchDocumentFilterToolStripMenuItem"
+        Me.SearchDocumentFilterToolStripMenuItem.Size = New System.Drawing.Size(197, 22)
+        Me.SearchDocumentFilterToolStripMenuItem.Tag = "FormSearchDocumentFilter"
+        Me.SearchDocumentFilterToolStripMenuItem.Text = "Search Document Filter"
+        '
         'AdminToolStripMenuItem
         '
-        Me.AdminToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RBACToolStripMenuItem, Me.GetEmailFromServerToolStripMenuItem})
+        Me.AdminToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RBACToolStripMenuItem, Me.GetEmailFromServerToolStripMenuItem, Me.SendReminderToolStripMenuItem})
         Me.AdminToolStripMenuItem.Name = "AdminToolStripMenuItem"
         Me.AdminToolStripMenuItem.Size = New System.Drawing.Size(55, 20)
         Me.AdminToolStripMenuItem.Text = "Admin"
@@ -232,18 +255,24 @@ Partial Class FormMenu
         Me.VendorToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.VendorToolStripMenuItem.Text = "Master Vendor"
         '
-        'SearchDocumentFilterToolStripMenuItem
+        'UcCutoffDate1
         '
-        Me.SearchDocumentFilterToolStripMenuItem.Name = "SearchDocumentFilterToolStripMenuItem"
-        Me.SearchDocumentFilterToolStripMenuItem.Size = New System.Drawing.Size(197, 22)
-        Me.SearchDocumentFilterToolStripMenuItem.Tag = "FormSearchDocumentFilter"
-        Me.SearchDocumentFilterToolStripMenuItem.Text = "Search Document Filter"
+        Me.UcCutoffDate1.Location = New System.Drawing.Point(3, 3)
+        Me.UcCutoffDate1.Name = "UcCutoffDate1"
+        Me.UcCutoffDate1.Size = New System.Drawing.Size(537, 147)
+        Me.UcCutoffDate1.TabIndex = 0
+        '
+        'SendReminderToolStripMenuItem
+        '
+        Me.SendReminderToolStripMenuItem.Name = "SendReminderToolStripMenuItem"
+        Me.SendReminderToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
+        Me.SendReminderToolStripMenuItem.Text = "Send Reminder"
         '
         'FormMenu
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(556, 126)
+        Me.ClientSize = New System.Drawing.Size(718, 204)
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip1
@@ -251,10 +280,12 @@ Partial Class FormMenu
         Me.Text = "FormMenu"
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
         Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout()
+        Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
         Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(False)
         Me.ToolStripContainer1.TopToolStripPanel.PerformLayout()
         Me.ToolStripContainer1.ResumeLayout(False)
         Me.ToolStripContainer1.PerformLayout()
+        Me.FlowLayoutPanel1.ResumeLayout(False)
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
         Me.ResumeLayout(False)
@@ -285,5 +316,8 @@ Partial Class FormMenu
     Friend WithEvents VendorToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SearchDocumentToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SearchDocumentFilterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents FlowLayoutPanel1 As System.Windows.Forms.FlowLayoutPanel
+    Friend WithEvents UcCutoffDate1 As FinanceExpenses.UCCutoffDate
+    Friend WithEvents SendReminderToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

@@ -23,6 +23,10 @@ Partial Class FormMyTask
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormMyTask))
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
@@ -41,20 +45,6 @@ Partial Class FormMyTask
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
-        Me.Column8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.financeremarksmytask = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column14 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column10 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column11 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column16 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column17 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ColumnRole = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.DateTimePicker2 = New System.Windows.Forms.DateTimePicker()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -70,11 +60,33 @@ Partial Class FormMyTask
         Me.Column15 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column12 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column13 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DataGridViewTextBoxColumn7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column21 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FinanceNumberHistory = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column18 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column19 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column23 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column24 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column25 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column20 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Label2 = New System.Windows.Forms.Label()
+        Me.Column8 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.financeremarksmytask = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column7 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column14 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column10 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column11 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column22 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FinanceNumberMyTask = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column16 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column17 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column6 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column26 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column27 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ColumnRole = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.ToolStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
@@ -95,7 +107,7 @@ Partial Class FormMyTask
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RefreshToolStripButton, Me.ToolStripSeparator1, Me.ToolStripLabel1, Me.ToolStripTextBox1, Me.ToolStripButton1})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(389, 25)
+        Me.ToolStrip1.Size = New System.Drawing.Size(303, 25)
         Me.ToolStrip1.TabIndex = 1
         '
         'RefreshToolStripButton
@@ -226,120 +238,12 @@ Partial Class FormMyTask
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column8, Me.financeremarksmytask, Me.Column7, Me.Column3, Me.Column5, Me.Column2, Me.Column1, Me.Column14, Me.Column10, Me.Column11, Me.Column6, Me.Column16, Me.Column17, Me.ColumnRole})
+        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column8, Me.financeremarksmytask, Me.Column7, Me.Column3, Me.Column5, Me.Column2, Me.Column1, Me.Column14, Me.Column10, Me.Column11, Me.Column22, Me.FinanceNumberMyTask, Me.Column16, Me.Column17, Me.Column6, Me.Column26, Me.Column27, Me.ColumnRole})
         Me.DataGridView1.Location = New System.Drawing.Point(3, 40)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.DataGridView1.Size = New System.Drawing.Size(1102, 142)
         Me.DataGridView1.TabIndex = 1
-        '
-        'Column8
-        '
-        Me.Column8.DataPropertyName = "refnumber"
-        Me.Column8.HeaderText = "Reference Number"
-        Me.Column8.Name = "Column8"
-        Me.Column8.ReadOnly = True
-        Me.Column8.Width = 75
-        '
-        'financeremarksmytask
-        '
-        Me.financeremarksmytask.DataPropertyName = "financeremarks"
-        Me.financeremarksmytask.HeaderText = "Finance Remarks"
-        Me.financeremarksmytask.Name = "financeremarksmytask"
-        Me.financeremarksmytask.Visible = False
-        '
-        'Column7
-        '
-        Me.Column7.DataPropertyName = "statusname"
-        Me.Column7.HeaderText = "Status"
-        Me.Column7.Name = "Column7"
-        Me.Column7.ReadOnly = True
-        '
-        'Column3
-        '
-        Me.Column3.DataPropertyName = "receiveddate"
-        DataGridViewCellStyle1.Format = "dd-MMM-yyyy hh:mm:ss tt"
-        Me.Column3.DefaultCellStyle = DataGridViewCellStyle1
-        Me.Column3.HeaderText = "Received Date"
-        Me.Column3.Name = "Column3"
-        Me.Column3.ReadOnly = True
-        Me.Column3.Width = 150
-        '
-        'Column5
-        '
-        Me.Column5.DataPropertyName = "emailsubject"
-        DataGridViewCellStyle2.Format = "dd-MMM-yyyy"
-        Me.Column5.DefaultCellStyle = DataGridViewCellStyle2
-        Me.Column5.HeaderText = "Subject"
-        Me.Column5.Name = "Column5"
-        Me.Column5.ReadOnly = True
-        Me.Column5.Width = 300
-        '
-        'Column2
-        '
-        Me.Column2.DataPropertyName = "sender"
-        Me.Column2.HeaderText = "From"
-        Me.Column2.Name = "Column2"
-        Me.Column2.ReadOnly = True
-        '
-        'Column1
-        '
-        Me.Column1.DataPropertyName = "emailto"
-        Me.Column1.HeaderText = "To"
-        Me.Column1.Name = "Column1"
-        Me.Column1.ReadOnly = True
-        Me.Column1.Width = 200
-        '
-        'Column14
-        '
-        Me.Column14.DataPropertyName = "forwardto"
-        Me.Column14.HeaderText = "Forward To"
-        Me.Column14.Name = "Column14"
-        Me.Column14.ReadOnly = True
-        '
-        'Column10
-        '
-        Me.Column10.DataPropertyName = "stapprovername"
-        Me.Column10.HeaderText = "1st Approver"
-        Me.Column10.Name = "Column10"
-        Me.Column10.ReadOnly = True
-        '
-        'Column11
-        '
-        Me.Column11.DataPropertyName = "ndapprovername"
-        Me.Column11.HeaderText = "2nd Approver"
-        Me.Column11.Name = "Column11"
-        Me.Column11.ReadOnly = True
-        '
-        'Column6
-        '
-        Me.Column6.DataPropertyName = "financenumber"
-        Me.Column6.HeaderText = "Finance Number"
-        Me.Column6.Name = "Column6"
-        Me.Column6.ReadOnly = True
-        '
-        'Column16
-        '
-        Me.Column16.DataPropertyName = "vendorcodetext"
-        Me.Column16.HeaderText = "Vendor Code"
-        Me.Column16.Name = "Column16"
-        Me.Column16.ReadOnly = True
-        Me.Column16.Width = 70
-        '
-        'Column17
-        '
-        Me.Column17.DataPropertyName = "vendorname"
-        Me.Column17.HeaderText = "Vendor Name"
-        Me.Column17.Name = "Column17"
-        Me.Column17.ReadOnly = True
-        Me.Column17.Width = 200
-        '
-        'ColumnRole
-        '
-        Me.ColumnRole.DataPropertyName = "role"
-        Me.ColumnRole.HeaderText = "Role"
-        Me.ColumnRole.Name = "ColumnRole"
-        Me.ColumnRole.ReadOnly = True
         '
         'Label4
         '
@@ -387,7 +291,7 @@ Partial Class FormMyTask
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView2.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight
         Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView2.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column9, Me.financeremarkshistory, Me.DataGridViewTextBoxColumn1, Me.DataGridViewTextBoxColumn2, Me.DataGridViewTextBoxColumn3, Me.DataGridViewTextBoxColumn4, Me.Column4, Me.Column15, Me.Column12, Me.Column13, Me.DataGridViewTextBoxColumn7, Me.Column18, Me.Column19, Me.Column20})
+        Me.DataGridView2.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column9, Me.financeremarkshistory, Me.DataGridViewTextBoxColumn1, Me.DataGridViewTextBoxColumn2, Me.DataGridViewTextBoxColumn3, Me.DataGridViewTextBoxColumn4, Me.Column4, Me.Column15, Me.Column12, Me.Column13, Me.Column21, Me.FinanceNumberHistory, Me.Column18, Me.Column19, Me.Column23, Me.Column24, Me.Column25, Me.Column20})
         Me.DataGridView2.Location = New System.Drawing.Point(3, 34)
         Me.DataGridView2.Name = "DataGridView2"
         Me.DataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
@@ -419,18 +323,18 @@ Partial Class FormMyTask
         'DataGridViewTextBoxColumn2
         '
         Me.DataGridViewTextBoxColumn2.DataPropertyName = "receiveddate"
-        DataGridViewCellStyle3.Format = "dd-MMM-yyyy hh:mm:ss tt"
-        Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle5.Format = "dd-MMM-yyyy HH:mm:ss tt"
+        Me.DataGridViewTextBoxColumn2.DefaultCellStyle = DataGridViewCellStyle5
         Me.DataGridViewTextBoxColumn2.HeaderText = "Received Date"
         Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
         Me.DataGridViewTextBoxColumn2.ReadOnly = True
-        Me.DataGridViewTextBoxColumn2.Width = 150
+        Me.DataGridViewTextBoxColumn2.Width = 140
         '
         'DataGridViewTextBoxColumn3
         '
         Me.DataGridViewTextBoxColumn3.DataPropertyName = "emailsubject"
-        DataGridViewCellStyle4.Format = "dd-MMM-yyyy"
-        Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle4
+        DataGridViewCellStyle6.Format = "dd-MMM-yyyy"
+        Me.DataGridViewTextBoxColumn3.DefaultCellStyle = DataGridViewCellStyle6
         Me.DataGridViewTextBoxColumn3.HeaderText = "Subject"
         Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
         Me.DataGridViewTextBoxColumn3.ReadOnly = True
@@ -472,12 +376,22 @@ Partial Class FormMyTask
         Me.Column13.Name = "Column13"
         Me.Column13.ReadOnly = True
         '
-        'DataGridViewTextBoxColumn7
+        'Column21
         '
-        Me.DataGridViewTextBoxColumn7.DataPropertyName = "financenumber"
-        Me.DataGridViewTextBoxColumn7.HeaderText = "Finance Number"
-        Me.DataGridViewTextBoxColumn7.Name = "DataGridViewTextBoxColumn7"
-        Me.DataGridViewTextBoxColumn7.ReadOnly = True
+        Me.Column21.DataPropertyName = "latestupdateapproval"
+        DataGridViewCellStyle7.Format = "dd-MMM-yyyy HH:mm:ss tt"
+        Me.Column21.DefaultCellStyle = DataGridViewCellStyle7
+        Me.Column21.HeaderText = "Approval Date"
+        Me.Column21.Name = "Column21"
+        Me.Column21.ReadOnly = True
+        Me.Column21.Width = 140
+        '
+        'FinanceNumberHistory
+        '
+        Me.FinanceNumberHistory.DataPropertyName = "financenumber"
+        Me.FinanceNumberHistory.HeaderText = "Finance Number"
+        Me.FinanceNumberHistory.Name = "FinanceNumberHistory"
+        Me.FinanceNumberHistory.ReadOnly = True
         '
         'Column18
         '
@@ -492,6 +406,32 @@ Partial Class FormMyTask
         Me.Column19.HeaderText = "Vendor Name"
         Me.Column19.Name = "Column19"
         Me.Column19.ReadOnly = True
+        '
+        'Column23
+        '
+        Me.Column23.DataPropertyName = "invoicenumber"
+        Me.Column23.HeaderText = "Invoice Number"
+        Me.Column23.Name = "Column23"
+        Me.Column23.ReadOnly = True
+        '
+        'Column24
+        '
+        Me.Column24.DataPropertyName = "amount"
+        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle8.Format = "#,##0.00"
+        Me.Column24.DefaultCellStyle = DataGridViewCellStyle8
+        Me.Column24.HeaderText = "Amount"
+        Me.Column24.Name = "Column24"
+        Me.Column24.ReadOnly = True
+        Me.Column24.Width = 70
+        '
+        'Column25
+        '
+        Me.Column25.DataPropertyName = "crcy"
+        Me.Column25.HeaderText = "Crcy"
+        Me.Column25.Name = "Column25"
+        Me.Column25.ReadOnly = True
+        Me.Column25.Width = 50
         '
         'Column20
         '
@@ -509,6 +449,145 @@ Partial Class FormMyTask
         Me.Label2.Size = New System.Drawing.Size(79, 25)
         Me.Label2.TabIndex = 3
         Me.Label2.Text = "History"
+        '
+        'Column8
+        '
+        Me.Column8.DataPropertyName = "refnumber"
+        Me.Column8.HeaderText = "Reference Number"
+        Me.Column8.Name = "Column8"
+        Me.Column8.ReadOnly = True
+        Me.Column8.Width = 75
+        '
+        'financeremarksmytask
+        '
+        Me.financeremarksmytask.DataPropertyName = "financeremarks"
+        Me.financeremarksmytask.HeaderText = "Finance Remarks"
+        Me.financeremarksmytask.Name = "financeremarksmytask"
+        Me.financeremarksmytask.Visible = False
+        '
+        'Column7
+        '
+        Me.Column7.DataPropertyName = "statusname"
+        Me.Column7.HeaderText = "Status"
+        Me.Column7.Name = "Column7"
+        Me.Column7.ReadOnly = True
+        '
+        'Column3
+        '
+        Me.Column3.DataPropertyName = "receiveddate"
+        DataGridViewCellStyle1.Format = "dd-MMM-yyyy HH:mm:ss tt"
+        Me.Column3.DefaultCellStyle = DataGridViewCellStyle1
+        Me.Column3.HeaderText = "Received Date"
+        Me.Column3.Name = "Column3"
+        Me.Column3.ReadOnly = True
+        Me.Column3.Width = 140
+        '
+        'Column5
+        '
+        Me.Column5.DataPropertyName = "emailsubject"
+        DataGridViewCellStyle2.Format = "dd-MMM-yyyy"
+        Me.Column5.DefaultCellStyle = DataGridViewCellStyle2
+        Me.Column5.HeaderText = "Subject"
+        Me.Column5.Name = "Column5"
+        Me.Column5.ReadOnly = True
+        Me.Column5.Width = 300
+        '
+        'Column2
+        '
+        Me.Column2.DataPropertyName = "sender"
+        Me.Column2.HeaderText = "From"
+        Me.Column2.Name = "Column2"
+        Me.Column2.ReadOnly = True
+        '
+        'Column1
+        '
+        Me.Column1.DataPropertyName = "emailto"
+        Me.Column1.HeaderText = "To"
+        Me.Column1.Name = "Column1"
+        Me.Column1.ReadOnly = True
+        Me.Column1.Width = 200
+        '
+        'Column14
+        '
+        Me.Column14.DataPropertyName = "forwardto"
+        Me.Column14.HeaderText = "Forward To"
+        Me.Column14.Name = "Column14"
+        Me.Column14.ReadOnly = True
+        '
+        'Column10
+        '
+        Me.Column10.DataPropertyName = "stapprovername"
+        Me.Column10.HeaderText = "1st Approver"
+        Me.Column10.Name = "Column10"
+        Me.Column10.ReadOnly = True
+        '
+        'Column11
+        '
+        Me.Column11.DataPropertyName = "ndapprovername"
+        Me.Column11.HeaderText = "2nd Approver"
+        Me.Column11.Name = "Column11"
+        Me.Column11.ReadOnly = True
+        '
+        'Column22
+        '
+        Me.Column22.DataPropertyName = "latestupdateapproval"
+        DataGridViewCellStyle3.Format = "dd-MMM-yyyy HH:mm:ss tt"
+        Me.Column22.DefaultCellStyle = DataGridViewCellStyle3
+        Me.Column22.HeaderText = "Approval Date"
+        Me.Column22.Name = "Column22"
+        Me.Column22.ReadOnly = True
+        Me.Column22.Width = 140
+        '
+        'FinanceNumberMyTask
+        '
+        Me.FinanceNumberMyTask.DataPropertyName = "financenumber"
+        Me.FinanceNumberMyTask.HeaderText = "Finance Number"
+        Me.FinanceNumberMyTask.Name = "FinanceNumberMyTask"
+        Me.FinanceNumberMyTask.ReadOnly = True
+        '
+        'Column16
+        '
+        Me.Column16.DataPropertyName = "vendorcodetext"
+        Me.Column16.HeaderText = "Vendor Code"
+        Me.Column16.Name = "Column16"
+        Me.Column16.ReadOnly = True
+        Me.Column16.Width = 70
+        '
+        'Column17
+        '
+        Me.Column17.DataPropertyName = "vendorname"
+        Me.Column17.HeaderText = "Vendor Name"
+        Me.Column17.Name = "Column17"
+        Me.Column17.ReadOnly = True
+        Me.Column17.Width = 200
+        '
+        'Column6
+        '
+        Me.Column6.DataPropertyName = "invoicenumber"
+        Me.Column6.HeaderText = "Invoice Number"
+        Me.Column6.Name = "Column6"
+        '
+        'Column26
+        '
+        Me.Column26.DataPropertyName = "amount"
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight
+        DataGridViewCellStyle4.Format = "#,##0.00"
+        Me.Column26.DefaultCellStyle = DataGridViewCellStyle4
+        Me.Column26.HeaderText = "Amount"
+        Me.Column26.Name = "Column26"
+        '
+        'Column27
+        '
+        Me.Column27.DataPropertyName = "crcy"
+        Me.Column27.HeaderText = "Crcy"
+        Me.Column27.Name = "Column27"
+        '
+        'ColumnRole
+        '
+        Me.ColumnRole.DataPropertyName = "role"
+        Me.ColumnRole.HeaderText = "Role"
+        Me.ColumnRole.Name = "ColumnRole"
+        Me.ColumnRole.ReadOnly = True
         '
         'FormMyTask
         '
@@ -560,20 +639,6 @@ Partial Class FormMyTask
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents DateTimePicker1 As System.Windows.Forms.DateTimePicker
     Friend WithEvents ToolStripButton1 As System.Windows.Forms.ToolStripButton
-    Friend WithEvents Column8 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents financeremarksmytask As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Column7 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Column3 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Column5 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Column2 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Column1 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Column14 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Column10 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Column11 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Column6 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Column16 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Column17 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents ColumnRole As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column9 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents financeremarkshistory As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn1 As System.Windows.Forms.DataGridViewTextBoxColumn
@@ -584,8 +649,30 @@ Partial Class FormMyTask
     Friend WithEvents Column15 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column12 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column13 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn7 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column21 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents FinanceNumberHistory As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column18 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column19 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column23 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column24 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column25 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Column20 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column8 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents financeremarksmytask As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column7 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column3 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column5 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column2 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column1 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column14 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column10 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column11 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column22 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents FinanceNumberMyTask As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column16 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column17 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column6 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column26 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Column27 As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents ColumnRole As System.Windows.Forms.DataGridViewTextBoxColumn
 End Class

@@ -13,12 +13,22 @@ Public Class UCFinanceExpenses
     Private COABS As BindingSource
     Public DoImport As Boolean = False
     Public DS As DataSet
+    Private CurrencyBS As BindingSource
+    Public ExRate As Decimal
     Private Sub RadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton1.CheckedChanged, RadioButton2.CheckedChanged
         onPropertyChanged("DocType")
     End Sub
     Private Sub onPropertyChanged(PropertyName As String)
         RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(PropertyName))
     End Sub
+
+    Public Function getExrate() As Decimal
+        Dim mydrv As DataRowView = ComboBox1.SelectedItem
+        If Not (IsNothing(mydrv)) Then
+            ExRate = mydrv.Row.Item("nvalue")
+        End If
+        Return ExRate
+    End Function
 
     Public Property DocType As Integer
         Get
@@ -44,10 +54,12 @@ Public Class UCFinanceExpenses
         DataGridView1.ContextMenuStrip = Nothing
         RadioButton1.Enabled = False
         RadioButton2.Enabled = False
-        TextBox5.Enabled = False
+        'TextBox5.Enabled = False
+        TextBox5.ReadOnly = True
+        ComboBox1.Enabled = False
     End Sub
 
-    Public Sub BindingControl(ByRef drv As DataRowView, ByRef dtlbs As BindingSource, ByRef financetxbs As BindingSource, ByRef ApprovalTxBS As BindingSource, ByVal VendorBS As BindingSource, ByVal COABS As BindingSource, ByRef DS As DataSet, ByRef Parent As Object)
+    Public Sub BindingControl(ByRef drv As DataRowView, ByRef dtlbs As BindingSource, ByRef financetxbs As BindingSource, ByRef ApprovalTxBS As BindingSource, ByVal VendorBS As BindingSource, ByVal COABS As BindingSource, ByRef DS As DataSet, ByRef CurrencyBS As BindingSource, ByRef Parent As Object)
         Me.drv = drv
         Me.DtlBS = dtlbs
         Me.FinanceTxBS = financetxbs
@@ -55,6 +67,7 @@ Public Class UCFinanceExpenses
         Me.VendorBS = VendorBS
         Me.COABS = COABS
         Me.DS = DS
+        Me.CurrencyBS = CurrencyBS
         InitData()
         EnabledControl(drv.Row.Item("status"))
         EnableContextMenu()
@@ -62,11 +75,19 @@ Public Class UCFinanceExpenses
     End Sub
 
     Private Sub DataGridView1_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellDoubleClick
-        If Not IsNothing(DataGridView1.ContextMenuStrip) Then
-            If drv.Row.Item("status") = TaskStatusEnum.STATUS_NEW Or drv.Row.Item("status") = TaskStatusEnum.STATUS_FORWARD Or drv.Row.Item("status") = TaskStatusEnum.STATUS_RE_SUBMIT Then
-                showDialog(TxEnum.UpdateRecord)
-            End If
+        If Not IsNothing(FinanceTxBS.Current) Then
+            If Not IsNothing(DataGridView1.ContextMenuStrip) Then
+                If drv.Row.Item("status") = TaskStatusEnum.STATUS_NEW Or
+                    drv.Row.Item("status") = TaskStatusEnum.STATUS_FORWARD Or
+                    drv.Row.Item("status") = TaskStatusEnum.STATUS_RE_SUBMIT Or
+                    drv.Row.Item("status") = TaskStatusEnum.STATUS_REJECTEDBYM1 Or
+                    drv.Row.Item("status") = TaskStatusEnum.STATUS_REJECTEDBYM2 Or
+                    drv.Row.Item("status") = TaskStatusEnum.STATUS_REJECTEDBYFINANCE Then
 
+                    showDialog(TxEnum.UpdateRecord)
+                End If
+
+            End If
         End If
     End Sub
 
@@ -113,6 +134,12 @@ Public Class UCFinanceExpenses
         ErrorProvider1.SetError(BtnVendor, "")
         If TextBox9.TextLength = 0 Then
             ErrorProvider1.SetError(BtnVendor, "Please click button to select vendor.")
+            myret = False
+        End If
+
+        ErrorProvider1.SetError(ComboBox1, "")
+        If ComboBox1.SelectedIndex < 0 Then
+            ErrorProvider1.SetError(ComboBox1, "Please select currency from the list.")
             myret = False
         End If
 
@@ -173,7 +200,11 @@ Public Class UCFinanceExpenses
         TextBox7.DataBindings.Clear()
         TextBox8.DataBindings.Clear()
         TextBox9.DataBindings.Clear()
+        ComboBox1.DataBindings.Clear()
 
+        ComboBox1.DataSource = CurrencyBS
+        ComboBox1.DisplayMember = "paramname"
+        ComboBox1.ValueMember = "paramname"
 
         TextBox1.DataBindings.Add(New Binding("Text", drv, "sender", False, DataSourceUpdateMode.OnPropertyChanged))
         TextBox2.DataBindings.Add(New Binding("Text", drv, "receiveddate", True, DataSourceUpdateMode.OnPropertyChanged, "", "dd-MMM-yyyy hh:mm:ss tt"))
@@ -183,8 +214,10 @@ Public Class UCFinanceExpenses
         TextBox7.DataBindings.Add(New Binding("Text", drv, "emailto", False, DataSourceUpdateMode.OnPropertyChanged))
         TextBox8.DataBindings.Add(New Binding("Text", drv, "refnumber", False, DataSourceUpdateMode.OnPropertyChanged))
         TextBox9.DataBindings.Add(New Binding("Text", drv, "vendordesc", False, DataSourceUpdateMode.OnPropertyChanged))
+        ComboBox1.DataBindings.Add(New Binding("selectedvalue", drv, "crcy", False, DataSourceUpdateMode.OnPropertyChanged))
 
         Me.DataBindings.Add(New Binding("DocType", drv, "doctype", False, DataSourceUpdateMode.OnPropertyChanged))
+
 
         For Each drv As DataRowView In DtlBS.List
             ListBox1.Items.Add(drv.Row.Item("attachmentname"))
@@ -194,7 +227,7 @@ Public Class UCFinanceExpenses
         DataGridView1.DataSource = FinanceTxBS
         getTotal()
         WebBrowser1.Refresh()
-        WebBrowser1.DocumentText = drv.Row("emailbody")
+        WebBrowser1.DocumentText = "" & drv.Row("emailbody")
         If ListBox1.Items.Count > 0 Then
             ListBox1.SelectedIndex = 0
         End If
@@ -211,7 +244,9 @@ Public Class UCFinanceExpenses
     End Sub
 
     Public Sub EnabledControl(Status As FinanceExpenses.TaskStatusEnum)
-        TextBox5.Enabled = False
+        'TextBox5.Enabled = False
+        TextBox5.ReadOnly = True
+        ComboBox1.Enabled = False
         TextBoxSAP.Enabled = False
         RadioButton1.Enabled = False
         RadioButton2.Enabled = False
@@ -220,7 +255,9 @@ Public Class UCFinanceExpenses
         BtnVendor.Enabled = False
         Select Case Status
             Case TaskStatusEnum.STATUS_NEW, TaskStatusEnum.STATUS_FORWARD, TaskStatusEnum.STATUS_REJECTEDBYFINANCE, TaskStatusEnum.STATUS_REJECTEDBYM1, TaskStatusEnum.STATUS_REJECTEDBYM2
-                TextBox5.Enabled = True
+                'TextBox5.Enabled = True
+                TextBox5.ReadOnly = False
+                ComboBox1.Enabled = True
                 RadioButton1.Enabled = True
                 RadioButton2.Enabled = True
                 DataGridView1.ContextMenuStrip = ContextMenuStrip1
@@ -331,7 +368,12 @@ Public Class UCFinanceExpenses
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles BtnVendor.Click
 
-        If drv.Row.Item("status") = TaskStatusEnum.STATUS_NEW Or drv.Row.Item("status") = TaskStatusEnum.STATUS_FORWARD Or drv.Row.Item("status") = TaskStatusEnum.STATUS_RE_SUBMIT Then
+        If drv.Row.Item("status") = TaskStatusEnum.STATUS_NEW Or drv.Row.Item("status") = TaskStatusEnum.STATUS_FORWARD Or
+            drv.Row.Item("status") = TaskStatusEnum.STATUS_RE_SUBMIT Or
+            drv.Row.Item("status") = TaskStatusEnum.STATUS_REJECTEDBYFINANCE Or
+            drv.Row.Item("status") = TaskStatusEnum.STATUS_REJECTEDBYM1 Or
+            drv.Row.Item("status") = TaskStatusEnum.STATUS_REJECTEDBYM2 Then
+
             Dim helperbs As New BindingSource
             Dim mycontroller As New UserController
             helperbs = VendorBS
@@ -360,6 +402,7 @@ Public Class UCFinanceExpenses
 
     End Sub
 
-
-
+    Private Sub ComboBox1_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles ComboBox1.SelectionChangeCommitted
+        getExrate()
+    End Sub
 End Class
